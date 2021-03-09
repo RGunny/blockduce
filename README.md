@@ -9,17 +9,27 @@
 | 최주아 | 팀원 | Frontend, Tech Leader            |
 | 황영준 | 팀원 | Backend, CI/CD                   |
 
+---
 
 # 주제
 
+---
+
 # 프로젝트 명
+
+---
 
 # 기능
 
+---
+
 # 기술 스택
+
+---
 
 # Convention
 
+## Git Convention
 ## Git flow 규약
 
 ### 우아한 형제들 기술 블로그
@@ -135,3 +145,90 @@
 ### Option (작업중 최신화)
 
 ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/68abae8f-0f00-4ccc-ac62-c1191a744ca5/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/68abae8f-0f00-4ccc-ac62-c1191a744ca5/Untitled.png)
+
+---
+
+## JIRA Convention
+
+![https://user-images.githubusercontent.com/70404643/110276541-acb34e00-8016-11eb-9ea3-b079e84405f2.png](https://user-images.githubusercontent.com/70404643/110276541-acb34e00-8016-11eb-9ea3-b079e84405f2.png)
+
+### 🚗스프린트
+
+- 각 스프린트는 `1주일`을 기준으로 진행한다.
+- 각 스프린트 기준으로 일인당 40 Point의 스토리 포인트가 부여된다.
+    - 하루에 8포인트 ( 8시간 ) * 5 = 40 Point
+
+### 🚓이슈등록
+
+- 이슈 등록은 개인이 JIRA Convention에 맞추어 등록한다.
+- 이슈 등록 후 해당 이슈에 본인 파트의 팀원을 등록한다.
+
+### 🚕이슈관리
+
+- 최초 이슈를 할당 받으면 담당자는 `스토리포인트`를 부여한다.
+- 또한 해당 이슈의 **우선순위**를 설정한다.
+- 작업 들어가기 전 **할일 --> 진행중진행 완료하면 --> 완료**
+상태를 최신화한다.
+- **설명**란에 최대한 자세히 해당 이슈에 있어서 **`담당자`가 작성**한다.
+- 모든 이슈 관련 문의는 **댓글기능을 통해 이뤄지며** SNS/전화는 지향한다.
+
+![https://user-images.githubusercontent.com/70404643/104996677-a6b7dc80-5a6b-11eb-9c4b-53823cc69716.png](https://user-images.githubusercontent.com/70404643/104996677-a6b7dc80-5a6b-11eb-9c4b-53823cc69716.png)
+
+### 🚌작업유형
+
+- 에픽
+    - <img src="[https://user-images.githubusercontent.com/69910544/105794699-e3855580-5fce-11eb-881d-a199b7efa7cd.png](https://user-images.githubusercontent.com/69910544/105794699-e3855580-5fce-11eb-881d-a199b7efa7cd.png)" alt="epic" width="30px"/> <b>`Epic`</b>
+    - 큰 단위의 업무(여러 User Story, Task 등을 묶은 단위)
+    - 매주 월요일 스프린트를 들어가기전에 생성할 Epic에 있어서 이야기한다. **(필요한 Epic 조사)**
+    - 논의한 Epic을 기본으로 해당 Epic에 담당자를 지정하여 생성한다.
+- 스토리
+    - <img src="[https://user-images.githubusercontent.com/69910544/105803455-d96c5280-5fe0-11eb-9cb0-984818a82667.png](https://user-images.githubusercontent.com/69910544/105803455-d96c5280-5fe0-11eb-9cb0-984818a82667.png)" alt="epic" width="30px"/> <b>`Story`</b>
+- 해당 Epic의 하위 단위 작업으로 직접적인 개발과 기능 구현을 기본으로 한다.
+    - **ex ) 최종 고객에게 가치를 제공하는 기능**
+    - 작성 방법 : “I as WHO want to do WHAT, so that WHY”
+        - Tip) User story의 크기는 sprint내에 완료 가능한 단위로 분할 필요
+        - 예) 사용자 관리 개발
+- 부작업
+    - <img src="[https://user-images.githubusercontent.com/69910544/105795094-9c4b9480-5fcf-11eb-8606-1fed5403adcf.png](https://user-images.githubusercontent.com/69910544/105795094-9c4b9480-5fcf-11eb-8606-1fed5403adcf.png)" alt="epic" width="30px"/> <b>`Sub-task`</b>
+    - **Story, Task를 더 작은 단위로 나눈 업무**
+        - 즉, 모든 Sub-Task가 끝나야 해당 업무 종료
+        - 예) 사용자 관리(UI) 개발, 사용자관리(Service) 개발
+- 작업
+    - <img src="[https://user-images.githubusercontent.com/69910544/105795183-b8e7cc80-5fcf-11eb-9b2e-884daef16071.png](https://user-images.githubusercontent.com/69910544/105795183-b8e7cc80-5fcf-11eb-9b2e-884daef16071.png)" alt="epic" width="30px"/> <b>`Task`</b>
+    - 해당 스토리가 필요하기 위한 작업으로 일반적으로 기술적, 관리적 업무를 지칭한다.
+    - **ex ) User Story외의 기술적, 관리적 업무, 서류작업**
+        - 예) 설계, 서버 설치, 클라우드 도입 등
+    - 추가기능 ) 시간설정
+    - 
+
+        ![https://user-images.githubusercontent.com/70404643/105811931-ad58cd80-5ff0-11eb-84a0-45aa9cb3d019.png](https://user-images.githubusercontent.com/70404643/105811931-ad58cd80-5ff0-11eb-84a0-45aa9cb3d019.png)
+
+    - **작업 > 상세보기 > 더 많은 조치 > 작업로그 > 작업한 시간**
+        - 이용하여 작업 시간 적어주시길 바랍니다.
+
+참고로, JIRA에서는 Story와 Task를 같은 레벨로 구분하지만, 일반적으로 Story를 더 작게 나눈것을 Task라고 정의하기도 함
+
+<img src="[https://miro.medium.com/max/1220/1*ysJsrjiqP8gWzhuSGv6MOg.png](https://miro.medium.com/max/1220/1*ysJsrjiqP8gWzhuSGv6MOg.png)" alt="Image for post" style="zoom:50%;" />
+
+### 🚑추가 기능 ) 이슈 연결 관리
+
+<img src="[https://user-images.githubusercontent.com/70404643/105857713-e3687280-602d-11eb-85c4-2c5406e029f5.png](https://user-images.githubusercontent.com/70404643/105857713-e3687280-602d-11eb-85c4-2c5406e029f5.png)" alt="image" style="zoom:50%;" />
+
+### cause vs block
+
+- `A causes B`: A가 B의 원인이다.
+    - 예시) 파티를 준비해야해서, 요리를 한다.
+- `A blocks B`: A를 끝내야 B를 할 수 있다.
+    - 예시) 손을 씻고, 요리를 한다.
+
+### clone vs duplicate
+
+- `clone`: 복사, 기존 이슈를 복사하고 싶을 때 clone 사용
+- `duplicate`: 중복, 실수로 같은 이슈를 2개 이상 올렸을 때 duplicate 로 처리
+
+### etc
+
+지라 이슈 링킹에서는 하나의 관계에 `자동태`와 `수동태`로 상관 관계를 정할 수 있다.
+
+- 분리 : (`split to`, `split from`)
+- 연관 : `relates to`
