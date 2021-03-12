@@ -71,11 +71,11 @@
 
 ---
 
- 
+
 
 ![How%20to%20install%20Hyperledger%20a7699f815fca4f45bd0a073497fdee35/Untitled%2014.png](How%20to%20install%20Hyperledger%20a7699f815fca4f45bd0a073497fdee35/Untitled%2014.png)
 
-실행하고 난 후 화면입니다. 
+실행하고 난 후 화면입니다.
 
 언어를 "한국어"로 선택하고 `"Ubuntu 설치"` 진행!
 
@@ -113,7 +113,7 @@
 
 ![How%20to%20install%20Hyperledger%20a7699f815fca4f45bd0a073497fdee35/Untitled%2023.png](How%20to%20install%20Hyperledger%20a7699f815fca4f45bd0a073497fdee35/Untitled%2023.png)
 
-설치 완료! 
+설치 완료!
 
 로그인 해야하는 분들은 초기에 설정하셨던 비밀번호 입력후 로그인 해주시면 됩니다.
 

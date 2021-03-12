@@ -1,6 +1,7 @@
 # 특화 Sub2_B107
 
 ## 역할
+
 | 이름   | 직책 | 역할                             |
 | ------ | ---- | -------------------------------- |
 | 황호연 | 팀장 | Backend, Project Manager         |
@@ -30,6 +31,7 @@
 # Convention
 
 ## Git Convention
+
 ## Git flow 규약
 
 ### 우아한 형제들 기술 블로그
@@ -66,33 +68,33 @@
 2. 나의 레포(origin)에서 나의 컴퓨터(local)에 git clone 을 받는다
 3. 로컬에서 upstream을 추가해준다.
 
-    > $ git remote add upstream [https://lab.ssafy.com/s04-webmobile2-sub3/s04p13b204.git](https://lab.ssafy.com/s04-webmobile2-sub3/s04p13b204.git)
+   > $ git remote add upstream [https://lab.ssafy.com/s04-webmobile2-sub3/s04p13b204.git](https://lab.ssafy.com/s04-webmobile2-sub3/s04p13b204.git)
 
-    > $ git remote [-](https://lab.ssafy.com/s04-webmobile2-sub2/s04p12b204.git)v 로 확인
+   > $ git remote [-](https://lab.ssafy.com/s04-webmobile2-sub2/s04p12b204.git)v 로 확인
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b36e72b0-2051-46a3-851f-a74f7ffa751e/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b36e72b0-2051-46a3-851f-a74f7ffa751e/Untitled.png)
+   ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b36e72b0-2051-46a3-851f-a74f7ffa751e/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b36e72b0-2051-46a3-851f-a74f7ffa751e/Untitled.png)
 
 4. 로컬에서 upstream/feature 자신이 작업할 feature-{작업내용} 를 생성한다. (track은 upstream/feature
 
-    project에 develop에 new branch 형성
+   project에 develop에 new branch 형성
 
-    이후 git fetch —all 로 받아온 후 아래 적용 -v
+   이후 git fetch —all 로 받아온 후 아래 적용 -v
 
-    > $ git checkout -b feature-{작업내용} --track upstream/feature
+   > $ git checkout -b feature-{작업내용} --track upstream/feature
 
 ### 브랜치 작업하기
 
 1. 해당 브랜치에서 해당 내용을 작업하고 add 한다
 
-    > $ git add .
+   > $ git add .
 
 2. commit 한다(양식에 맞춰서)
 
-    > $ git commit -m “이슈번호 [feat] : BE - 로그인 기능 추가”
+   > $ git commit -m “이슈번호 [feat] : BE - 로그인 기능 추가”
 
     - 아래와 같이 사용
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4fb8bbe-79f9-4fd0-9a4e-30a8e9e9de55/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4fb8bbe-79f9-4fd0-9a4e-30a8e9e9de55/Untitled.png)
+   ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4fb8bbe-79f9-4fd0-9a4e-30a8e9e9de55/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4fb8bbe-79f9-4fd0-9a4e-30a8e9e9de55/Untitled.png)
 
     ```css
     feat       : 새로운 기능 추가
@@ -106,41 +108,42 @@
 
 3. 필요하면 rebase로 커밋을 줄인다 아래는 2개 합친 것(선택사항)
 
-    > $ git rebase -i HEAD~2
+   > $ git rebase -i HEAD~2
 
 4. fetch로 최신화 시켜준다
 
-    > $ git fetch --all 로 local을 r최신화 시켜준다
+   > $ git fetch --all 로 local을 r최신화 시켜준다
 
 5. upstream레포의 해당 브랜치의 최신 작업 내용을 땡겨서 rebase한다.(dev로 합칠경우)
 
-    > $ git pull --rebase upstream develop
+   > $ git pull --rebase upstream develop
 
     - 오류발생시!!!
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cc97f4c7-fb8b-4bb0-8b16-e67403abc3a6/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cc97f4c7-fb8b-4bb0-8b16-e67403abc3a6/Untitled.png)
+   ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cc97f4c7-fb8b-4bb0-8b16-e67403abc3a6/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cc97f4c7-fb8b-4bb0-8b16-e67403abc3a6/Untitled.png)
 
     - git status 찍으면 아래와 같이
 
-        Unmerged가 있음(local에서 하나하나 해결해야함)
+      Unmerged가 있음(local에서 하나하나 해결해야함)
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8f06d20-dd5f-42fc-8d48-12ac286bebb6/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8f06d20-dd5f-42fc-8d48-12ac286bebb6/Untitled.png)
+   ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8f06d20-dd5f-42fc-8d48-12ac286bebb6/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8f06d20-dd5f-42fc-8d48-12ac286bebb6/Untitled.png)
 
     - git rebase —continue를 하면 다시 리베이스 진행
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/01e8d7a5-80a8-4a45-bf73-a8ba5dc01134/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/01e8d7a5-80a8-4a45-bf73-a8ba5dc01134/Untitled.png)
+   ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/01e8d7a5-80a8-4a45-bf73-a8ba5dc01134/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/01e8d7a5-80a8-4a45-bf73-a8ba5dc01134/Untitled.png)
 
     - commit이 불필요하게 여러개 있으면
     - git rebase -i HEAD~{갯수}
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d3c7dc8-bda0-4762-bdb5-d16bca6eb46a/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d3c7dc8-bda0-4762-bdb5-d16bca6eb46a/Untitled.png)
+   ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d3c7dc8-bda0-4762-bdb5-d16bca6eb46a/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d3c7dc8-bda0-4762-bdb5-d16bca6eb46a/Untitled.png)
 
 6. origin레포로 push 한다.c
 
-    > $ git push origin 작업브랜치
+   > $ git push origin 작업브랜치
 
 1. Fork뜬 나의 origin 브랜치를 upstream develop에 merge하는 Pull Request를 생성합니다.
-2. 같은 feature를 개발하는 동료에게 리뷰 승인을 받은 후 자신의 Pull Request를 merge합니다. 만약 혼자 feature를 개발한다면 1~2명의 동료에게 리뷰 승인을 받은 후 Pull Request를 merge합니다.
+2. 같은 feature를 개발하는 동료에게 리뷰 승인을 받은 후 자신의 Pull Request를 merge합니다. 만약 혼자 feature를 개발한다면 1~2명의 동료에게 리뷰 승인을 받은 후 Pull
+   Request를 merge합니다.
 
 ### Option (작업중 최신화)
 
@@ -168,7 +171,7 @@
 - 최초 이슈를 할당 받으면 담당자는 `스토리포인트`를 부여한다.
 - 또한 해당 이슈의 **우선순위**를 설정한다.
 - 작업 들어가기 전 **할일 --> 진행중진행 완료하면 --> 완료**
-상태를 최신화한다.
+  상태를 최신화한다.
 - **설명**란에 최대한 자세히 해당 이슈에 있어서 **`담당자`가 작성**한다.
 - 모든 이슈 관련 문의는 **댓글기능을 통해 이뤄지며** SNS/전화는 지향한다.
 
@@ -199,9 +202,9 @@
     - **ex ) User Story외의 기술적, 관리적 업무, 서류작업**
         - 예) 설계, 서버 설치, 클라우드 도입 등
     - 추가기능 ) 시간설정
-    - 
+    -
 
-        ![https://user-images.githubusercontent.com/70404643/105811931-ad58cd80-5ff0-11eb-84a0-45aa9cb3d019.png](https://user-images.githubusercontent.com/70404643/105811931-ad58cd80-5ff0-11eb-84a0-45aa9cb3d019.png)
+    ![https://user-images.githubusercontent.com/70404643/105811931-ad58cd80-5ff0-11eb-84a0-45aa9cb3d019.png](https://user-images.githubusercontent.com/70404643/105811931-ad58cd80-5ff0-11eb-84a0-45aa9cb3d019.png)
 
     - **작업 > 상세보기 > 더 많은 조치 > 작업로그 > 작업한 시간**
         - 이용하여 작업 시간 적어주시길 바랍니다.
