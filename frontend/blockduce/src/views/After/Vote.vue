@@ -1,7 +1,7 @@
 <template>
   <div class="main">
-    <!-- <Navbar/>
-    <Profile @onClickHeart="onClickHeart"/> -->
+    <Navbar/>
+    <!-- <Profile @onClickHeart="onClickHeart"/> -->
     <div>
 
     ㅤ
@@ -25,13 +25,13 @@
 </template>
 
 <script>
-// import Navbar from '@/components/Navbar.vue'
+import Navbar from '@/components/Navbar.vue'
 // import Profile from '@/components/vote/Profile.vue'
 
 
 export default {
   components: {
-    // Navbar,
+    Navbar,
     // Profile,
   },
   data:() => ({
