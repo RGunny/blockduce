@@ -20,11 +20,22 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.6.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
     compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java:8.0.21'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // AWS S3
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.934')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
 }
 
 test {
