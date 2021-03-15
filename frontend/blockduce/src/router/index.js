@@ -2,8 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // import Main from '../views/Main.vue'
 import Vote from '../views/After/Vote.vue'
+import Now from '../views/After/Now.vue'
 // import Wallet from '../views/After/Wallet.vue'
-// import Now from '../views/After/Now.vue'
 // import Blockduce from '../views/After/Blockduce.vue'
 
 Vue.use(VueRouter)
@@ -19,16 +19,17 @@ const routes = [
     name: 'Vote',
     component: Vote
   },
+  {
+    path: '/after/now',
+    name: 'Now',
+    component: Now
+  },
   // {
   //   path: '/after/wallet',
   //   name: 'Wallet',
   //   component: Wallet
   // },
-  // {
-  //   path: '/after/now',
-  //   name: 'Now',
-  //   component: Now
-  // },
+
   // {
   //   path: '/after/blockduce',
   //   name: 'Blockduce',
