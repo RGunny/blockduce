@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <Navbar/>
-    <!-- <Profile @onClickHeart="onClickHeart"/> -->
+    <Profile @onClickHeart="onClickHeart"/>
     <div>
 
     ㅤ
@@ -26,13 +26,13 @@
 
 <script>
 import Navbar from '@/components/Navbar.vue'
-// import Profile from '@/components/vote/Profile.vue'
+import Profile from '@/components/vote/Profile.vue'
 
 
 export default {
   components: {
     Navbar,
-    // Profile,
+    Profile,
   },
   data:() => ({
         active: 0,
@@ -47,10 +47,10 @@ export default {
 </script>
 
 <style>
-/* .main {
+.main {
   width: 100%;
   height: 100%;
-} */
+}
 
 .footer {
   position: sticky;
