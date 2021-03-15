@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Main from '../views/Main.vue'
+import Main from '../views/Main.vue'
 import Vote from '../views/After/Vote.vue'
 import Now from '../views/After/Now.vue'
 // import Wallet from '../views/After/Wallet.vue'
@@ -9,11 +9,11 @@ import Now from '../views/After/Now.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Main',
-  //   component: Main
-  // },
+  {
+    path: '/',
+    name: 'Main',
+    component: Main
+  },
   {
     path: '/after/vote',
     name: 'Vote',
