@@ -32,7 +32,9 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java:8.0.21'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
+    implementation 'com.google.code.gson:gson:2.8.2'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
     // AWS S3
     implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.934')
     implementation 'com.amazonaws:aws-java-sdk-s3'

@@ -30,6 +30,12 @@ const routes = [
     name: 'Now',
     component: Now
   },
+  {
+    path:"/kakaologin",
+    name:"Klogin",
+
+    component:() => import("../views/kakaologin.vue")
+  }
   // {
   //   path: '/after/wallet',
   //   name: 'Wallet',
@@ -42,7 +48,7 @@ const routes = [
   //   component: Blockduce
   // },
   
-]
+];
 
 const router = new VueRouter({
   mode: 'history',
