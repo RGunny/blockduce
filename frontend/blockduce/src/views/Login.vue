@@ -71,13 +71,13 @@ export default {
 }
 
 .purplebutton1 {
-  width: 15rem;
   /* margin-left: 200px;   */
   margin: 0 auto;
+  text-align: -webkit-center;
 }
 
 .purplebutton2 {
-  
+  width: 15rem;
 }
 
 </style>
