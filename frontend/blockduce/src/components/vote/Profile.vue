@@ -64,28 +64,21 @@ export default {
         ,
         {
           image: "6.jpg",
-          name: "이주희",
-          agency: "마루기획",
-          age: 19,
-          click: 0,      
-        }
-        ,
-        {
-          image: "7.jpg",
           name: "서범석",
           agency: "개인 연습생",
           age: 22,
           click: 0,      
         }
         ,
-          {
-          image: "8.jpg",
+        {
+          image: "7.jpg",
           name: "김민지",
           agency: "플레디스",
           age: 18,
           click: 0,      
         }
         ,
+  
       ]
     }
   },
