@@ -2,16 +2,15 @@ package com.special.blockduce.member.service;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.special.blockduce.member.domain.Member;
 import com.special.blockduce.member.dto.MemberForm;
 import org.springframework.stereotype.Service;
-import java.net.URL;
+
 import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
 @Service
 public class MemberService {
@@ -104,8 +103,7 @@ public class MemberService {
     }
 
     public void join(MemberForm form) {
-        Member member = new Member();
-
+        Member member = Member.builder().build();
         member.setName(form.getMemberName());
         member.setEmail(form.getEmail());
         member.setPassword(form.getPassword());
