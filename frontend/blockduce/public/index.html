@@ -6,6 +6,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script>
+      // SDK를 초기화 합니다. 사용할 앱의 JavaScript 키를 설정해 주세요.
+      Kakao.init('15ca27f9fa4414f8f78e163d6216c875');
+
+      // SDK 초기화 여부를 판단합니다.
+      console.log(Kakao.isInitialized());
+  </script>
   </head>
   <body>
     <noscript>

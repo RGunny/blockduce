@@ -20,11 +20,30 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-devtools'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.6.2'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
     compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     runtimeOnly 'com.h2database:h2'
+    runtimeOnly 'mysql:mysql-connector-java:8.0.21'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.google.code.gson:gson:2.8.2'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation group: 'org.javassist', name: 'javassist', version: '3.15.0-GA'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+    // AWS S3
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.934')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'org.projectlombok:lombok'
 }
 
 test {
