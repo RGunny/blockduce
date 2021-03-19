@@ -8,13 +8,13 @@ server:
 ## Database
 spring:
   datasource:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://blockduce.c0pmibo6dwxp.ap-northeast-2.rds.amazonaws.com:3306/blockduce?serverTimezone=UTC&characterEncoding=UTF-8
-      username: root
-      password: j4b107blockduce!!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://blockduce.c0pmibo6dwxp.ap-northeast-2.rds.amazonaws.com:3306/blockduce?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: j4b107blockduce!!
 
   jpa:
-#    generate-ddl: true
+    # generate-ddl: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     #    hiberanate:
