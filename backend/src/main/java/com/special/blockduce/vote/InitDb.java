@@ -40,11 +40,11 @@ public class InitDb {
             em.persist(candidate4);
             Candidate candidate5 = createCandidate("윤은철", 24, "위", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/5.jpg");
             em.persist(candidate5);
-            Candidate candidate6 = createCandidate("이주희", 19, "마루기획", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/6.jpg");
+            Candidate candidate6 = createCandidate("박성준", 19, "마루기획", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/6.jpg");
             em.persist(candidate6);
             Candidate candidate7 = createCandidate("서범석", 22, "개인연습생", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/7jpg");
             em.persist(candidate7);
-            Candidate candidate8 = createCandidate("김민지", 18, "플레디스", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/8.jpg");
+            Candidate candidate8 = createCandidate("오현정", 18, "플레디스", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/8.jpg");
             em.persist(candidate8);
             Candidate candidate9 = createCandidate("이수민", 20, "개인연습생", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/9.jpg");
             em.persist(candidate9);
