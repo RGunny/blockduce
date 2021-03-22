@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../views/Main.vue'
 import Login from '../views/Login.vue'
+import Join from '../views/Join.vue'
 import Vote from '../views/After/Vote.vue'
 import Now from '../views/After/Now.vue'
 // import Wallet from '../views/After/Wallet.vue'
@@ -19,6 +20,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/join',
+    name: 'Join',
+    component: Join
   },
   {
     path: '/after/vote',
