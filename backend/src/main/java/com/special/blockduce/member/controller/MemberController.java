@@ -2,14 +2,11 @@ package com.special.blockduce.member.controller;
 
 import com.special.blockduce.member.dto.MemberForm;
 import lombok.RequiredArgsConstructor;
-import org.aspectj.lang.reflect.MemberSignature;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.special.blockduce.member.service.*;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 
 @CrossOrigin(origins = "*")
