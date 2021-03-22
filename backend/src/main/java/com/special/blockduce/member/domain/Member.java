@@ -2,10 +2,12 @@ package com.special.blockduce.member.domain;
 
 import com.special.blockduce.config.UserRole;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 @Getter
@@ -55,5 +57,8 @@ public class Member {
         this.img = img;
         this.point = point;
         this.coin = coin;
+    }
+
+    public Member(String email, String s, List<GrantedAuthority> authorityList) {
     }
 }
