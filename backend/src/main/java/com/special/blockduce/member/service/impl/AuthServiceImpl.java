@@ -1,6 +1,8 @@
 package com.special.blockduce.member.service.impl;
 
 import com.special.blockduce.config.UserRole;
+import com.special.blockduce.exceptions.EntityNotFoundException;
+import com.special.blockduce.exceptions.ErrorCode;
 import com.special.blockduce.member.domain.Member;
 import com.special.blockduce.member.domain.Salt;
 import com.special.blockduce.member.domain.request.SignupMemberRequest;
@@ -10,12 +12,14 @@ import com.special.blockduce.member.service.EmailService;
 import com.special.blockduce.utils.RedisUtil;
 import com.special.blockduce.utils.SaltUtil;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     final String REDIS_CHANGE_PASSWORD_PREFIX="CPW";
     private MemberRepository memberRepository;
@@ -25,6 +29,10 @@ public class AuthServiceImpl implements AuthService {
 
     public AuthServiceImpl (MemberRepository memberRepository){
         this.memberRepository = memberRepository;
+    }
+
+    public Member findMemberByName(String name){
+        return memberRepository.findMemberByName(name).orElseThrow(() ->new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
     Member getMemberEmail(String email){return null;}
@@ -60,7 +68,7 @@ public class AuthServiceImpl implements AuthService {
 
     /*로그인*/
     public Member loginMember(String id, String password)throws Exception{
-        Member memeber = memberRepository.findMemberByname(id);
+        Member memeber = memberRepository.findMemberByEmail(id);
         if(memeber == null) throw new Exception("멤버가 조회 되지 않습니다.");
         String salt = memeber.getSalt().getSalt();
         password = SaltUtil.encodePassword(salt,password);
@@ -82,7 +90,7 @@ public class AuthServiceImpl implements AuthService {
     /*이메일 가져오기*/
     public void verifyEmail(String key) throws NotFoundException {
         String memberId = redisUtil.getData(key);
-        Member member = memberRepository.findMemberByname(memberId);
+        Member member = memberRepository.findMemberByEmail(key);
         if(member==null) throw new NotFoundException("멤버가 조회되지않음");
         modifyUserRole(member, UserRole.USER);
         redisUtil.deleteData(key);
@@ -96,7 +104,7 @@ public class AuthServiceImpl implements AuthService {
 
     /*이름으로 member 찾기*/
     public Member findByMembername(String username) throws NotFoundException {
-        Member member = memberRepository.findMemberByname(username);
+        Member member = findMemberByName(username);
         if(member == null) throw new NotFoundException("멤버가 조회되지 않음");
         return member;
     }

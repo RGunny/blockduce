@@ -58,7 +58,4 @@ public class Member {
         this.point = point;
         this.coin = coin;
     }
-
-    public Member(String email, String s, List<GrantedAuthority> authorityList) {
-    }
 }

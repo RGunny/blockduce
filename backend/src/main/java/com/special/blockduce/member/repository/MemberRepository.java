@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface MemberRepository extends CrudRepository<Member,Long> {
-    Member findMemberByname(String username);
-    Member findUserByEmail(String email);
+    Optional<Member> findMemberByName(String username);
+    Member findMemberByEmail(String email);
     boolean existsByEmail(String email);
 }
