@@ -8,4 +8,5 @@ import java.util.Optional;
 public interface MemberRepository extends CrudRepository<Member,Long> {
     Member findMemberByname(String username);
     Member findUserByEmail(String email);
+    boolean existsByEmail(String email);
 }
