@@ -51,11 +51,15 @@ public class Member {
     private Salt salt;
 
     @Builder
-    public Member(@NotBlank @Email String email, @NotBlank String name, String img, Long point, Long coin) {
+    public Member(Long id, @NotBlank String password, @NotBlank @Email String email, @NotBlank String name, String img, Long point, Long coin, UserRole role, Salt salt) {
+        this.id = id;
+        this.password = password;
         this.email = email;
         this.name = name;
         this.img = img;
         this.point = point;
         this.coin = coin;
+        this.role = role;
+        this.salt = salt;
     }
 }

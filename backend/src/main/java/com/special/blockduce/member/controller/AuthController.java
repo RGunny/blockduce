@@ -119,7 +119,7 @@ public class AuthController {
     public Response verify(@RequestBody VerifyEmailRequest verifyEmailRequest, HttpServletRequest req, HttpServletResponse res) {
         Response response;
         try {
-            Member member = authService.findByMembername(verifyEmailRequest.getUsername());
+            Member member = authService.findMemberByName(verifyEmailRequest.getUsername());
             authService.sendVerificationMail(member);
             response = new Response("success", "성공적으로 인증메일을 보냈습니다.", null);
         } catch (Exception exception) {
@@ -167,7 +167,7 @@ public class AuthController {
     public Response requestChangePassword(@RequestBody SendChangePasswordRequest sendChangePasswordRequest) {
         Response response;
         try {
-            Member member = authService.findByMembername(sendChangePasswordRequest.getName());
+            Member member = authService.findMemberByName(sendChangePasswordRequest.getName());
             if (!member.getEmail().equals(sendChangePasswordRequest.getEmail())) throw new NoSuchFieldException("");
             authService.requestChangePassword(member);
             response = new Response("success", "성공적으로 사용자의 비밀번호 변경요청을 수행했습니다.", null);
@@ -186,7 +186,7 @@ public class AuthController {
     public Response changePassword(@RequestBody ChangePasswordRequest changePasswordRequest) {
         Response response;
         try {
-            Member member = authService.findByMembername(changePasswordRequest.getEmail());
+            Member member = authService.findMemberByName(changePasswordRequest.getEmail());
             authService.changePassword(member, changePasswordRequest.getPassword());
             response = new Response("success", "성공적으로 사용자의 비밀번호를 변경했습니다.", null);
         } catch (Exception e) {

@@ -35,6 +35,10 @@ public class AuthServiceImpl implements AuthService {
         return memberRepository.findMemberByName(name).orElseThrow(() ->new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
+    public Member findMemberByEmail(String email){
+        return memberRepository.findMemberByEmail(email).orElseThrow(()->new EntityNotFoundException(ErrorCode.EMAIL_NOT_FOUND));
+    }
+
     Member getMemberEmail(String email){return null;}
 
     /*회원가입*/
@@ -53,9 +57,9 @@ public class AuthServiceImpl implements AuthService {
                 .email(signupMemberRequest.getEmail())
                 .img(signupMemberRequest.getProfileImageUrl())
                 .name(signupMemberRequest.getName())
+                .salt(new Salt(salt))
+                .password(SaltUtil.encodePassword(salt,password))
                 .build();
-        member.setSalt(new Salt(salt));
-        member.setPassword(SaltUtil.encodePassword(salt,password));
         memberRepository.save(member);
 
         return true;
@@ -68,7 +72,7 @@ public class AuthServiceImpl implements AuthService {
 
     /*로그인*/
     public Member loginMember(String id, String password)throws Exception{
-        Member memeber = memberRepository.findMemberByEmail(id);
+        Member memeber = findMemberByEmail(id);
         if(memeber == null) throw new Exception("멤버가 조회 되지 않습니다.");
         String salt = memeber.getSalt().getSalt();
         password = SaltUtil.encodePassword(salt,password);
@@ -90,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
     /*이메일 가져오기*/
     public void verifyEmail(String key) throws NotFoundException {
         String memberId = redisUtil.getData(key);
-        Member member = memberRepository.findMemberByEmail(key);
+        Member member = findMemberByEmail(key);
         if(member==null) throw new NotFoundException("멤버가 조회되지않음");
         modifyUserRole(member, UserRole.USER);
         redisUtil.deleteData(key);
@@ -102,12 +106,6 @@ public class AuthServiceImpl implements AuthService {
         memberRepository.save(member);
     }
 
-    /*이름으로 member 찾기*/
-    public Member findByMembername(String username) throws NotFoundException {
-        Member member = findMemberByName(username);
-        if(member == null) throw new NotFoundException("멤버가 조회되지 않음");
-        return member;
-    }
 
     /*비밀번호 가져오기*/
     public boolean isPasswordUuidValidate(String key){

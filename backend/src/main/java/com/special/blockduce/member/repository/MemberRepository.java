@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface MemberRepository extends CrudRepository<Member,Long> {
     Optional<Member> findMemberByName(String username);
-    Member findMemberByEmail(String email);
+    Optional<Member> findMemberByEmail(String email);
     boolean existsByEmail(String email);
 }

@@ -12,7 +12,6 @@ public interface AuthService {
 
     Member loginMember(String id, String password) throws Exception;
 
-    Member findByMembername(String username) throws NotFoundException;
 
     void verifyEmail(String key) throws NotFoundException;
 
@@ -25,4 +24,6 @@ public interface AuthService {
     void changePassword(Member member, String password) throws NotFoundException;
 
     void requestChangePassword(Member member) throws NotFoundException;
+
+    Member findMemberByName(String name);
 }
