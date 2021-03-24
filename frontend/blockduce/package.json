@@ -15,8 +15,11 @@
     "cors": "^2.8.5",
     "sweetalert2": "^9.17.2",
     "vue": "^2.6.12",
+    "vue-cookie": "^1.1.4",
+    "vue-cookies": "^1.7.4",
     "vue-router": "^3.5.1",
-    "vuesax": "^4.0.1-alpha.25"
+    "vuesax": "^4.0.1-alpha.25",
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
