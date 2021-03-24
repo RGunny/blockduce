@@ -40,13 +40,18 @@ spring:
 #        show_sql: true
         format_sql: true
         default_batch_fetch_size: 100
+#jwt
 jwt:
   secret: c2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQtc2lsdmVybmluZS10ZWNoLXNwcmluZy1ib290LWp3dC10dXRvcmlhbC1zZWNyZXQK
-
+#logging
 logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
+
+#file
+file:
+  path: src/main/resource/blockduce/
 
 # AWS S3
 cloud:
