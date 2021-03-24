@@ -1,6 +1,6 @@
 <template>
   <div class="center">
-    <div class="profile black" v-for="(profile, idx) in profiles" :key="idx">
+    <div class="profile black">
       <div>
         <img class="image" :src="require(`@/assets/${profile.image}`)" alt="">
       </div>
@@ -9,91 +9,60 @@
         <div class="description">{{ profile.agency }}</div>
         <div class="description">{{ profile.age }}</div>
       </div>
-      <div class="heart blackheart" @click="onClickHeart">
-        ♥
+      <div class="input">
+        <!-- <vs-input
+        @keyup="onKeyUp"
+        style="width:50px;"
+        label-placeholder="단위: 십만 원"
+        v-model="value"
+      /> -->
+      <!-- <label for="range-1">Example range with min and max</label> -->
+    <b-form-input id="range-1" v-model="value" type="range" min="0" max="5"
+        @change="onKeyUp"
+        style="width:100px;"
+        ></b-form-input>
+    <div class="mt-2"> {{ value * 100000 }} 원</div>
       </div>
+
+      <!-- <div class="heart blackheart" @click="onClickHeart">
+        ♥
+      </div> -->
     </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  props:{
+    profile:Object,
+  },
   data() {
     return {
-      profiles: [
-        {
-          image: "1.jpg",
-          name: "최주아",
-          agency: "YG",
-          age: 18,
-          click: 0,       
-        }
-        ,
-        {
-          image: "2.jpg",
-          name: "류건희",
-          agency: "JYP",
-          age: 21,
-          click: 0,       
-        }
-        ,
-        {
-          image: "3.jpg",
-          name: "박상우",
-          agency: "SM",
-          age: 19,
-          click: 0,       
-        }
-        ,
-        {
-          image: "4.jpg",
-          name: "이아영",
-          agency: "CUBE",
-          age: 15,
-          click: 0,      
-        }
-        ,
-        {
-          image: "5.jpg",
-          name: "윤은철",
-          agency: "위",
-          age: 24,
-          click: 0,      
-        }
-        ,
-        {
-          image: "6.jpg",
-          name: "서범석",
-          agency: "개인 연습생",
-          age: 22,
-          click: 0,      
-        }
-        ,
-        {
-          image: "7.jpg",
-          name: "김민지",
-          agency: "플레디스",
-          age: 18,
-          click: 0,      
-        }
-        ,
-  
-      ]
+      value:'',
+
     }
   },
   methods:{
-    onClickHeart(e){
-      // console.log(e);
-      // console.log(e.target.parentNode.classList);
-      e.target.parentNode.classList.toggle('red');
-      e.target.parentNode.classList.toggle('purple');
-      e.target.classList.toggle('blackheart');
-      e.target.classList.toggle('purpleheart');
-      
-      this.$emit('onClickHeart')
-
+    onKeyUp(){
+      this.$emit('onChange',this.value, this.profile);
     }
+    // onClickHeart(e){
+    //   // console.log(e);
+    //   // console.log(e.target.parentNode.classList);
+
+
+    //   e.target.parentNode.classList.toggle('red');
+    //   e.target.parentNode.classList.toggle('purple');
+    //   e.target.classList.toggle('blackheart');
+    //   e.target.classList.toggle('purpleheart');
+      
+      
+    //   this.$emit('onClickHeart')
+
+    // },
+    // inputMoney(profile) {
+
+    // }
   }
 }
 </script>
@@ -147,7 +116,15 @@ export default {
 }
 
 .center {
-  
+    
+}
+
+.input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-left: 50px;
 }
 
 
