@@ -1,11 +1,13 @@
 <template>
+
 <div>
   
   <div class="global-nav-links">
     <a href="" class="global-nav-item"></a>
     <a href="" class="global-nav-item"></a>
     <a href="" class="global-nav-item"></a>
-    <router-link class="global-nav-item" to="/login">Login</router-link>
+    <a v-if="isCookie" v-on:click.prevent="deleteCookie"><button>로그아웃</button></a>  
+    <a v-else  href="/login"><button>login</button></a>
   </div>
     <img class="blockduce" src="@/assets/blockduce.jpg" alt="">
     <section class="scroll-section" id="scroll-section-0">
@@ -70,22 +72,57 @@
   </footer>
 
 </div>
+
+
+
+<!-- 
+        <div v-if="this.$cookies.get(accesstoken)">
+          <div @click="onClickLogout">로그아웃</div>
+        </div>
+
+  <router-link v-else to="/login">Login</router-link> -->
+
+
+  
 </template>
 
 <script>
-export default {
+// import { mapGetters } from 'vuex';
+// import VueCookies from 'vue-cookies';
 
-  data () {
-  return {
-    sceneInfo : [],
+export default {
+    data() {
+    return {
+      isCookie: null,
+          sceneInfo : [],
     yOffset: 0,
     prevScrollHeight: 0,
-    currentScene: 0,
-
-  }
-},
-  methods: {
-    setData() {
+    currentScene: 0
+    };
+  },
+    mounted(){
+    this.setData();
+    this.setLayout();
+  },
+    created() {
+    this.isCookie = document.cookie;
+        window.addEventListener('resize', this.setLayout);
+    window.addEventListener('scroll', () => {
+      this.yOffset = window.pageYOffset;
+      this.scrollLoop();
+      });
+  },
+    computed: {
+    // ...mapGetters(['getAccessToken']),
+  },
+    methods: {
+    deleteCookie() {
+      this.$cookie.delete("accesstoken");
+      this.isCookie = null;
+      alert("로그아웃 되었습니다.");
+      this.$router.push("/")
+    },
+        setData() {
       this.sceneInfo = [
          {
         // 0
@@ -149,20 +186,14 @@ export default {
       console.log(this.currentScene);
     }
   },
-  mounted(){
-    this.setData();
-    this.setLayout();
-  },
-  created(){
-    window.addEventListener('resize', this.setLayout);
-    window.addEventListener('scroll', () => {
-      this.yOffset = window.pageYOffset;
-      this.scrollLoop();
-      });
-
-  }
-
-
+//   methods: {
+//         intercepter() {
+//       if (this.$store.getters.getAccessToken == null) {
+//         alert('로그인이 필수 입니다.');
+//         this.$router.push('/');
+//       }
+//     },
+// }
 }
 </script>
 

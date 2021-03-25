@@ -31,9 +31,17 @@
   </div>
 </template>
 <script>
-
+// import { mapGetters } from 'vuex';
 export default {
+
   methods: {
+    //     intercepter() {
+    //   if (this.$store.getters.getAccessToken == null) {
+    //     alert('로그인이 필수 입니다.');
+    //     this.$router.push('/');
+    //   }
+    // },
+
     login() {
       window.location.replace(
         "https://kauth.kakao.com/oauth/authorize?client_id=360325f103f39664cd6c418590ff659c&redirect_uri=http://localhost:3000/kakaologin&response_type=code"

@@ -21,6 +21,9 @@ public class Member {
     @Column(name = "member_id")
     private Long id; // pk
 
+    @Column(name = "kakao_id")
+    private String kid;
+
     @NotBlank
     private String password;
 
@@ -49,9 +52,10 @@ public class Member {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "salt_id")
     private Salt salt;
+    
 
     @Builder
-    public Member(Long id, @NotBlank String password, @NotBlank @Email String email, @NotBlank String name, String img, Long point, Long coin, UserRole role, Salt salt) {
+    public Member(Long id, @NotBlank String password, @NotBlank @Email String email, @NotBlank String name, String img, Long point, Long coin, UserRole role, Salt salt,@NotBlank String kid) {
         this.id = id;
         this.password = password;
         this.email = email;
@@ -61,5 +65,6 @@ public class Member {
         this.coin = coin;
         this.role = role;
         this.salt = salt;
+        this.kid = kid;
     }
 }
