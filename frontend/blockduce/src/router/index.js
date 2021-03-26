@@ -1,16 +1,50 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Now from '../views/After/Now.vue'
+import VueMaterial from 'vue-material'
+import 'vue-material/dist/vue-material.min.css'
+import 'vue-material/dist/theme/default.css' // This line here
+import VueToastr from "vue-toastr"
+
+import Home from './../views/Home.vue'
+import store from '../store'
+
 import Main from '../views/Main.vue'
 import Login from '../views/Login.vue'
 import Join from '../views/Join.vue'
 import Vote from '../views/After/Vote.vue'
-import Now from '../views/After/Now.vue'
 // import Wallet from '../views/After/Wallet.vue'
 // import Blockduce from '../views/After/Blockduce.vue'
 
+Vue.use(VueMaterial)
+Vue.use(VueToastr, {
+  defaultPosition: "toast-top-left",
+  defaultTimeout: 3000,
+  defaultProgressBar: false,
+  defaultProgressBarValue: 0,
+})
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/home',
+    name: 'home',
+    component: Home,
+    beforeEnter: (to, from, next) => {
+      store.state.room && store.state.username ? next('/chat') : next()
+    }
+  },
+  {
+    path: '/chat',
+    name: 'chat',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ './../views/Chat.vue'),
+    beforeEnter: (to, from, next) => {
+      !store.state.room && !store.state.username ? next('/') : next()
+    }
+  },
   {
     path: '/',
     name: 'Main',
