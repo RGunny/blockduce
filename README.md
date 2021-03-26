@@ -33,9 +33,9 @@
 
     - 비대면으로 이뤄지는 모든 환경은 오해를 하기 쉬운 환경이므로 문제가 생기면 항상 사전에 미리미리 말하기!
 
-  - ### [Git Convention🧐]([docs/Git Convention.md · master · s04-blockchain-sub3 / BLOCKDUCE_Final · GitLab (ssafy.com)](https://lab.ssafy.com/s04-blockchain-sub3/s04p23b107/blob/master/docs/Git Convention.md))
+  - ### [Git Convention🧐](docs/Git Convention.md)
 
-  - ### [JIRA Convention🤓]([docs/JIRA Convention.md · master · s04-blockchain-sub3 / BLOCKDUCE_Final · GitLab (ssafy.com)](https://lab.ssafy.com/s04-blockchain-sub3/s04p23b107/blob/master/docs/JIRA Convention.md))
+  - ### [JIRA Convention🤓](docs/JIRA Convention.md) 
 
 ---
 
@@ -71,6 +71,7 @@
   </details>
 
 
+
   <details>
       <summary>Back 자세히 살펴보기 🔥</summary>
       <ul>
@@ -81,6 +82,7 @@
           <li>E2C</li>
       </ul>
   </details>
+
 
 
   <br>
