@@ -1,25 +1,42 @@
 {
   "name": "blockduce",
   "version": "0.1.0",
+  "description": "Real-time voting BLOCKDUCE system using blockchain and real-time streaming service",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --open --port 3000",
+    "serve": "vue-cli-service serve",
+    "run:server": "node ./server/index.js",
+    "debug:server": "node --inspect=0.0.0.0:9229 ./server/index.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "body-parser": "^1.18.3",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "http": "0.0.0",
+    "node-static": "^0.7.11",
+    "path": "^0.12.7",
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0",
+    "socket.io-redis": "^5.2.0",
     "sweetalert2": "^9.17.2",
     "vue": "^2.6.12",
     "vue-cookie": "^1.1.4",
     "vue-cookies": "^1.7.4",
+    "vue-material": "^1.0.0-beta-10.2",
+    "vue-resource": "^1.5.1",
     "vue-router": "^3.5.1",
+    "vue-socket.io": "^3.0.5",
+    "vue-toastr": "^2.1.2",
     "vuesax": "^4.0.1-alpha.25",
-    "vuex": "^3.6.2"
+    "vuex": "^3.0.1",
+    "webrtc-adapter": "^7.5.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
@@ -29,6 +46,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "sass-loader": "^7.0.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
