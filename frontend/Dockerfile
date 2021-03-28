@@ -14,6 +14,13 @@ RUN export VUE_APP_SOCKET_HOST=${VUE_APP_SOCKET_HOST} VUE_APP_SOCKET_PORT=${VUE_
 CMD ["npm", "run", "run:server"]
 
 #######################################
+FROM node:14.15.0 as builder
+WORKDIR /app
+COPY ./package.json ./
+RUN npm install
+COPY ./ ./
+RUN npm build
+
 FROM nginx
 EXPOSE 3000
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
