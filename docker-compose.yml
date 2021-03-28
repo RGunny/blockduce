@@ -4,20 +4,24 @@ services:
     build:
       dockerfile: Dockerfile
       context: ./frontend
-    container_name: frontend
+    container_name: app_frontend
     volumes:
       - /app/node_modules
       - ./frontend:/app
     stdin_open: true
+
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./nginx
     ports:
-      - 3000:3000
+      - 80:80
 
   backend:
     build:
       dockerfile: Dockerfile
       context: ./backend
-    container_name: backend
+    container_name: app_backend
     volumes:
       - ./backend:/app
-    ports:
-      - 8080:8080
