@@ -1,5 +1,5 @@
 <template>
-  <div v-cloak>
+  <div>
     <div>회원가입</div>
     <div class="line"></div>
 
@@ -105,7 +105,4 @@ export default {
   }
 
 
-[v-cloak] {
-    display: none;
-}
 </style>

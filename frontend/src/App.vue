@@ -1,14 +1,7 @@
 <template>
   <div id="app">
-    <div id="nav">
-    </div>
-    <!-- <tool-bar></tool-bar> -->
-
-  <transition name="page">
-  <router-view></router-view>
-  </transition>
-  <!-- <spinner :loading="LoadingStatus"></spinner> -->
-  
+    <div id="nav"></div>
+    <router-view />
   </div>
 </template>
 
@@ -23,6 +16,7 @@
   text-align: center;
   color: #2c3e50;
   width: 100%;
+  height: 100vh;
   margin: 0 auto;
 }
 
