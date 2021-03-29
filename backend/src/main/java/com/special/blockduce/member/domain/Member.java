@@ -27,9 +27,6 @@ public class Member {
     @Column(name = "private_key")
     private String key;
 
-    @Column(name = "member_wallet")
-    private String wallet;
-
     @Column(name = "member_account")
     private String account;
 
@@ -81,7 +78,7 @@ public class Member {
     @Builder
     public Member(Long id, @NotBlank String password, @NotBlank @Email String email, @NotBlank String name,
                   Long point, Long coin, UserRole role, Salt salt,@NotBlank String kid,String account,
-                  @NotBlank Boolean ismem,@NotBlank String intro,@NotBlank String nickname, @NotBlank String wallet,
+                  @NotBlank Boolean ismem,@NotBlank String intro,@NotBlank String nickname,
                   @NotBlank String img, String key) {
         this.id = id;
         this.password = password;
@@ -95,7 +92,6 @@ public class Member {
         this.ismem = ismem;
         this.intro = intro;
         this.nickname = nickname;
-        this.wallet = wallet;
         this.img = img;
         this.account = account;
         this.key=key;

@@ -1,10 +1,16 @@
 <template>
   <div id="app">
-    <div id="nav"></div>
-    <router-view />
+    <div id="nav">
+    </div>
+    <!-- <tool-bar></tool-bar> -->
+
+  <transition name="page">
+  <router-view></router-view>
+  </transition>
+  <!-- <spinner :loading="LoadingStatus"></spinner> -->
+  
   </div>
 </template>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;900&display=swap');
 #app {
