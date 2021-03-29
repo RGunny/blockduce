@@ -175,7 +175,7 @@ public class MemberService {
                         name(member.get().getName()).
                         nickname(member.get().getNickname()).
                         intro(member.get().getIntro()).
-                        wallet(member.get().getWallet()).
+                        wallet(member.get().getAccount()).
                         eth(member.get().getEth()).
                         dbc(member.get().getDbc()).
                         ismem(member.get().getIsmem()).
