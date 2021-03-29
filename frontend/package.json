@@ -4,7 +4,7 @@
   "description": "Real-time voting BLOCKDUCE system using blockchain and real-time streaming service",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port 3000",
+    "serve": "vue-cli-service serve --open --port 3000",
     "run:server": "node ./server/index.js",
     "debug:server": "node --inspect=0.0.0.0:9229 ./server/index.js",
     "build": "vue-cli-service build",
