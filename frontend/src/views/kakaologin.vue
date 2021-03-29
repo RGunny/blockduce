@@ -12,6 +12,13 @@
      <div class="outer">
        <div class="inner">
 
+<div id="app"> 
+
+    <div class="img">
+          <img v-bind:src="form.img"/>
+    </div>
+</div>
+
         <vs-input
                   type="text"
                   v-text="form.name"
@@ -32,8 +39,15 @@
                   disabled>
         </vs-input>
 
+        <vs-input class="interval" type="nickname" v-model="form.nickname" placeholder="닉네임">
+          
+        </vs-input>
 
-        <vs-input class="interval" type="password" v-model="form.password" placeholder="Password">
+        <vs-input class="interval" type="intro" v-model="form.intro" placeholder="자기소개">
+          
+        </vs-input>
+
+        <vs-input class="interval" type="password" v-model="form.password" placeholder="비밀번호">
           <template v-if="validPassword" #message-success>
             안전한 비밀번호입니다!
           </template>
@@ -43,7 +57,7 @@
           </template>
         </vs-input>
 
-        <vs-input class="interval" type="password" v-model="form.passwordValid" placeholder="ConfirmPassword">
+        <vs-input class="interval" type="password" v-model="form.passwordValid" placeholder="비밀번호 확인">
           <template v-if="!same" #message-danger>
             비밀번호가 일치하지 않습니다.
           </template>
@@ -80,6 +94,10 @@ export default {
         name: "",
         kid: "",
         token:"",
+        ismem:"",
+        img:"",
+        nickname:"",
+        intro:""
       },
 
       show: true,
@@ -133,11 +151,12 @@ export default {
           console.log("kid: "+res.data.kid);
           this.form.email = res.data.email;
           this.form.name = res.data.name;
-          this.form.password = res.data.password;
-          if (this.form.password == undefined) { 
+          this.form.ismem = res.data.ismem;
+          this.form.kid = res.data.kid; //카카오 아이디 넣어줌
+          this.form.img = res.data.img;//이미지 넣어줌
+          if (this.form.ismem == undefined) { 
             alert(" 회원가입을 진행하여 소셜계정과 연결해주세요");
-            this.$router.push("/kakaologin");
-            this.form.kid = res.data.kid; //카카오 아이디 넣어줌
+            // this.$router.push("/kakaologin");
           } else { 
             this.login();
           }
@@ -145,7 +164,9 @@ export default {
     },
     onSubmit(event) {
       event.preventDefault();
-      
+      this.form.ismem=true;
+      console.log("한마디: "+this.form.intro);
+      console.log("닉네임: "+this.form.nickname);
       // alert(JSON.stringify(this.form));
       axios.post("api/members/join", this.form).then((res) => {
         console.log(res.status);
@@ -157,3 +178,10 @@ export default {
 }
 
 </script>
+<style >
+.img{
+  max-height: 10;
+  max-width: 10;
+  object-fit: cover;
+}
+</style>

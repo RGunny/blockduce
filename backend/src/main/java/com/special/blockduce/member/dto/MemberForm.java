@@ -1,5 +1,6 @@
 package com.special.blockduce.member.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -13,27 +14,34 @@ public class MemberForm {
     private String img;
     private String jwt;
     private String kid;
+    private String account;
+    private Double eth;
+    private Double dbc;
+    private Boolean ismem;
+    private String nickname;
+    private String intro;
+    private String wallet;
+    private String key;
 
 
-    public MemberForm(String kid) {
-        this.kid = kid;
-
-    }
-    public MemberForm( String email, String name) {
+    @Builder
+    public MemberForm(Long id,String email,String password,String name,String img,String jwt,
+                      String kid, String account,Double eth,Double dbc,Boolean ismem,String nickname,
+                      String intro,String wallet,String key) {
+        this.id = id;
         this.email = email;
-        this.name = name;
-    }
-
-    public MemberForm( String kid,String email, String name) {
-        this.kid = kid;
-        this.email = email;
-        this.name = name;
-    }
-
-    public MemberForm(String kid, String email, String name, String password) {
-        this.kid = kid;
-        this.email = email;
-        this.name = name;
         this.password = password;
+        this.name = name;
+        this.img = img;
+        this.jwt = jwt;
+        this.kid = kid;
+        this.account = account;
+        this.eth = eth;
+        this.dbc = dbc;
+        this.ismem = ismem;
+        this.nickname = nickname;
+        this.intro = intro;
+        this.wallet = wallet;
+        this.key = key;
     }
 }

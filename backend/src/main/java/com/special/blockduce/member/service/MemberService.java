@@ -5,9 +5,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.special.blockduce.Response;
 import com.special.blockduce.member.domain.Member;
+import com.special.blockduce.member.domain.Salt;
 import com.special.blockduce.member.dto.MemberForm;
 import com.special.blockduce.member.dto.ProfileDto;
 import com.special.blockduce.member.repository.MemberRepository;
+import com.special.blockduce.utils.SaltUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -109,7 +111,23 @@ public class MemberService {
     }
 
     public void join(MemberForm form) {
-        Member member = Member.builder().email(form.getEmail()).name(form.getName()).password(form.getPassword()).kid(form.getKid()).build();
+
+        String password = form.getPassword();
+        String account = form.getAccount();
+        String salt = SaltUtil.genSalt();
+
+        Member member = Member.builder().
+                email(form.getEmail()).
+                name(form.getName()).
+                password(SaltUtil.encodePassword(salt,password)).
+                kid(form.getKid()).
+                ismem(form.getIsmem()).
+                nickname(form.getNickname()).
+                intro(form.getIntro()).
+                img(form.getImg()).
+                account(SaltUtil.encodePassword(salt,account)).
+                key(form.getKey()).
+                build();
 
         System.out.println("member = " + member);
         System.out.println("member = " + member.getClass());
@@ -119,17 +137,71 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberForm findById(ProfileDto userinfo) throws Exception {
+    public MemberForm findByKid(ProfileDto userinfo) {
 
         Optional<Member> member = memberRepository.findOptionalByKid(userinfo.getId());
 
         MemberForm memf;
         if(member.isPresent()){ //계정이 있을 경우
-            memf = new MemberForm(userinfo.getId(),userinfo.getEmail(),userinfo.getName(),member.get().getPassword());
+            memf =  MemberForm.builder().
+                    kid(userinfo.getId()).
+                    email(userinfo.getEmail()).
+                    name(userinfo.getName()).
+                    ismem(member.get().getIsmem()).
+                    build();
         }else{
-            memf = new MemberForm(userinfo.getId(),userinfo.getEmail(),userinfo.getName()); //계정이 없을 경우
+            memf =  MemberForm.builder().
+                    kid(userinfo.getId()).
+                    email(userinfo.getEmail()).
+                    name(userinfo.getName()).
+                    build();
         }
+        return memf;
+    }
 
+
+
+    public MemberForm findById(Long memberId, MemberForm form) {
+// findById 사용 상황
+// 1. 맴버 정보 조회 (form에 eth,dbc null로 전달) 2. id+eth or dbc 넣기
+        Optional<Member> member = memberRepository.findOptionalById(memberId);
+
+        MemberForm memf =new MemberForm();
+
+        if(form.getEth()==null && form.getDbc()==null) {  //맴버 정보 조회하는경우
+            if (member.isPresent()) { //계정이 있을 경우
+                memf = MemberForm.builder().
+                        img(member.get().getImg()).
+                        name(member.get().getName()).
+                        nickname(member.get().getNickname()).
+                        intro(member.get().getIntro()).
+                        wallet(member.get().getWallet()).
+                        eth(member.get().getEth()).
+                        dbc(member.get().getDbc()).
+                        ismem(member.get().getIsmem()).
+                        build();
+            } else {
+                memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
+            }
+        }else if(form.getEth()!=null && form.getDbc()==null){ //eth 넣기
+
+            if (member.isPresent()) { //계정이 있을 경우
+                memf = MemberForm.builder().
+                        eth(member.get().getEth()).
+                        build();
+            } else {
+                memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
+            }
+        }else if(form.getEth()==null && form.getDbc()!=null){//dbc 넣기
+            if (member.isPresent()) { //계정이 있을 경우
+                memf = MemberForm.builder().
+                        dbc(member.get().getDbc()).
+                        build();
+            } else {
+                memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
+            }
+        }
         return memf;
     }
 }
+

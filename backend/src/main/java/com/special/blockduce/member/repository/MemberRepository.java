@@ -14,4 +14,6 @@ public interface MemberRepository extends CrudRepository<Member,Long> {
     Optional<Member> findMemberByEmail(String email);
     Optional<Member> findOptionalByKid(String id);
     boolean existsByEmail(String email);
+
+    Optional<Member> findOptionalById(Long memberId);
 }

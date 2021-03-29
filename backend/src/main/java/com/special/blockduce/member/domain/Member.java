@@ -24,6 +24,24 @@ public class Member {
     @Column(name = "kakao_id")
     private String kid;
 
+    @Column(name = "private_key")
+    private String key;
+
+    @Column(name = "member_wallet")
+    private String wallet;
+
+    @Column(name = "member_account")
+    private String account;
+
+    @Column(name = "member_eth")
+    private Double eth;
+
+    @Column(name = "member_dbc")
+    private Double dbc;
+
+    @Column(name = "is_ourmember")
+    private Boolean ismem;
+
     @NotBlank
     private String password;
 
@@ -35,9 +53,15 @@ public class Member {
     @Column(name = "member_name")
     private String name;
 
-//    @ColumnDefault("images/default-image.png")
+    //    @ColumnDefault("images/default-image.png")
     @Column(name = "member_img")
     private String img;
+
+    @Column(name = "nickname")
+    private String nickname;
+
+    @Column(name = "intro")
+    private String intro;
 
     @Column(name = "member_point")
     private Long point;
@@ -52,19 +76,28 @@ public class Member {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "salt_id")
     private Salt salt;
-    
+
 
     @Builder
-    public Member(Long id, @NotBlank String password, @NotBlank @Email String email, @NotBlank String name, String img, Long point, Long coin, UserRole role, Salt salt,@NotBlank String kid) {
+    public Member(Long id, @NotBlank String password, @NotBlank @Email String email, @NotBlank String name,
+                  Long point, Long coin, UserRole role, Salt salt,@NotBlank String kid,String account,
+                  @NotBlank Boolean ismem,@NotBlank String intro,@NotBlank String nickname, @NotBlank String wallet,
+                  @NotBlank String img, String key) {
         this.id = id;
         this.password = password;
         this.email = email;
         this.name = name;
-        this.img = img;
         this.point = point;
         this.coin = coin;
         this.role = role;
         this.salt = salt;
         this.kid = kid;
+        this.ismem = ismem;
+        this.intro = intro;
+        this.nickname = nickname;
+        this.wallet = wallet;
+        this.img = img;
+        this.account = account;
+        this.key=key;
     }
 }
