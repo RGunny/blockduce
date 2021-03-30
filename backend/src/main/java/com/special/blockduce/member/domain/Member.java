@@ -75,11 +75,19 @@ public class Member {
     private Salt salt;
 
 
+    public void updateEth(Double eth) {
+        this.eth = eth;
+    }
+
+    public void updateDbc(Double dbc) {
+        this.dbc = dbc;
+    }
+
     @Builder
     public Member(Long id, @NotBlank String password, @NotBlank @Email String email, @NotBlank String name,
                   Long point, Long coin, UserRole role, Salt salt,@NotBlank String kid,String account,
                   @NotBlank Boolean ismem,@NotBlank String intro,@NotBlank String nickname,
-                  @NotBlank String img, String key) {
+                  @NotBlank String img, String key,Double eth,Double dbc) {
         this.id = id;
         this.password = password;
         this.email = email;
@@ -95,5 +103,7 @@ public class Member {
         this.img = img;
         this.account = account;
         this.key=key;
+        this.eth=eth;
+        this.dbc=dbc;
     }
 }

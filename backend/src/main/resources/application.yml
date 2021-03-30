@@ -30,7 +30,7 @@ spring:
     password: j4b107blockduce!!
 
   jpa:
-    generate-ddl: true
+#    generate-ddl: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
     #    hiberanate:
