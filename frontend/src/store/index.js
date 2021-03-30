@@ -37,9 +37,9 @@ export default new Vuex.Store({
   },
   actions: {
     joinRoom({ commit }, data) {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(function (resolve, reject) {
         try {
-          const { body } = await Vue.http.post(`${url}/auth/login`, data)
+          const { body } = Vue.http.post(`${url}/auth/login`, data)
           if (body.code === 400 || body.code === 401 || body.code === 500) {
             reject({ message: body.message })
           }
@@ -54,9 +54,9 @@ export default new Vuex.Store({
       commit(STORE_ACTIONS.changeRoom, room)
     },
     setRooms({ commit }) {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(function (resolve, reject) {
         try {
-          // const rooms = await Vue.http.get(`http://${url}/rooms`)
+          // const rooms = Vue.http.get(`http://${url}/rooms`)
           const rooms = [{
               id: 1,
               name: 'GENERAL'
@@ -76,9 +76,9 @@ export default new Vuex.Store({
       })
     },
     leaveChat({ commit }, username) {
-      return new Promise(async (resolve, reject) => {
+      return new Promise(function (resolve, reject) {
         try {
-          const { body : { code } } = await Vue.http.post(`${url}/auth/logout`, { username })
+          const { body : { code } } = Vue.http.post(`${url}/auth/logout`, { username })
           if (code !== 200) reject()
           commit(STORE_ACTIONS.leaveChat)
           resolve()

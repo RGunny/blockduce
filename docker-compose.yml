@@ -9,6 +9,8 @@ services:
       - /app/node_modules
       - ./frontend:/app
     stdin_open: true
+    ports:
+      - 3000:3000
 
   nginx:
     restart: always
