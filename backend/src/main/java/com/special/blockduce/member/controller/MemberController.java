@@ -83,7 +83,7 @@ public class MemberController {
      * */
     @GetMapping("/members/{memberId}")
     public MemberForm memberInfo(@PathVariable("memberId") Long memberId){
-
+        System.out.println("들어왔니?");
         MemberForm form = new MemberForm();
         MemberForm member = memberService.findById(memberId,form);
 
@@ -96,7 +96,7 @@ public class MemberController {
      * */
     @PutMapping("/members/{memberId}")
     public MemberForm replaceMember(@PathVariable("memberId") Long memberId,@RequestBody MemberForm form){
-
+        System.out.println("왜안됨?"+form.getEth());
         //변경까지하고 member로 받는다
         MemberForm member = memberService.findById(memberId,form);
 

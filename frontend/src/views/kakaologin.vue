@@ -1,9 +1,8 @@
 <template>
-  <div v-cloak >
+  <div >
 
     <div>회원가입</div>
     <div class="line"></div>
-
       <b-form
               class="form"
               @submit="onSubmit"
@@ -17,7 +16,6 @@
     <div class="img">
           <img v-bind:src="form.img"/>
     </div>
-</div>
 
         <vs-input
                   type="text"
@@ -66,6 +64,8 @@
         <vs-button type="submit" class="intervalForButton" color="#7d33ff" flat>
           회원가입
         </vs-button>
+</div>
+
        </div>
     </div>
     </b-form>
@@ -97,7 +97,8 @@ export default {
         ismem:"",
         img:"",
         nickname:"",
-        intro:""
+        intro:"",
+        flag:""
       },
 
       show: true,
@@ -127,9 +128,11 @@ export default {
 //   // getAccessToken: this.form.token
 // },
   methods: {
-    create() {
+    create() {  //여기서 토큰 받았을때 
+    if(this.flag==undefined){
       this.codes = this.$route.query.code;
       this.getToken();
+    }
     },
     login() { //서비스의 회원임 -> 토큰 받아서 로그인
       axios.post("api/members/login", this.form).then((res) => {
@@ -154,9 +157,10 @@ export default {
           this.form.ismem = res.data.ismem;
           this.form.kid = res.data.kid; //카카오 아이디 넣어줌
           this.form.img = res.data.img;//이미지 넣어줌
-          if (this.form.ismem == undefined) { 
+          this.flag=1;
+          if (this.form.ismem == undefined) {
             alert(" 회원가입을 진행하여 소셜계정과 연결해주세요");
-            // this.$router.push("/kakaologin");
+            //this.$router.push("/kakaologin");
           } else { 
             this.login();
           }
@@ -179,9 +183,5 @@ export default {
 
 </script>
 <style >
-.img{
-  max-height: 10;
-  max-width: 10;
-  object-fit: cover;
-}
+
 </style>
