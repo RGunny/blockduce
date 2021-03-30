@@ -44,7 +44,7 @@ export default {
 
     login() {
       window.location.replace(
-        "https://kauth.kakao.com/oauth/authorize?client_id=360325f103f39664cd6c418590ff659c&redirect_uri=http://j4b107.ssafy.p.io:3000/kakaologin&response_type=code"
+        "https://kauth.kakao.com/oauth/authorize?client_id=360325f103f39664cd6c418590ff659c&redirect_uri=http://j4b107.p.ssafy.io:3000/kakaologin&response_type=code"
       );
     },
   },
