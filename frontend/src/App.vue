@@ -1,14 +1,12 @@
 <template>
   <div id="app">
-    <div id="nav">
-    </div>
+    <div id="nav"></div>
     <!-- <tool-bar></tool-bar> -->
 
-  <transition name="page">
-  <router-view></router-view>
-  </transition>
-  <!-- <spinner :loading="LoadingStatus"></spinner> -->
-  
+    <transition name="page">
+      <router-view></router-view>
+    </transition>
+    <!-- <spinner :loading="LoadingStatus"></spinner> -->
   </div>
 </template>
 <style>
@@ -39,9 +37,7 @@
   color: #42b983;
 } */
 
-
 [v-cloak] {
-    display: none;
+  display: none;
 }
-
 </style>

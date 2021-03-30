@@ -14,6 +14,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css';
 import Vuesax from 'vuesax';
 
 import 'vuesax/dist/vuesax.css';
+import vuetify from './plugins/vuetify';
 
 console.log(
   `Browser ${adapter.browserDetails.browser} - version ${adapter.browserDetails.version}`
@@ -43,5 +44,6 @@ Vue.use(VueResource);
 new Vue({
   router,
   store,
-  render: (h) => h(App),
+  vuetify,
+  render: (h) => h(App)
 }).$mount('#app');
