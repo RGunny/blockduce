@@ -1,4 +1,4 @@
-package com.special.blockduce.vote;
+package com.special.blockduce.candidate;
 
 import com.special.blockduce.candidate.domain.Candidate;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class InitDb {
             em.persist(candidate5);
             Candidate candidate6 = createCandidate("박성준", 19, "마루기획", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/6.jpg");
             em.persist(candidate6);
-            Candidate candidate7 = createCandidate("서범석", 22, "개인연습생", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/7jpg");
+            Candidate candidate7 = createCandidate("서범석", 22, "개인연습생", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/7.jpg");
             em.persist(candidate7);
             Candidate candidate8 = createCandidate("오현정", 18, "플레디스", "https://blockduce-image.s3.ap-northeast-2.amazonaws.com/8.jpg");
             em.persist(candidate8);
