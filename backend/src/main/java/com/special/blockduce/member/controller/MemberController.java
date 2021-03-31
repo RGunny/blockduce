@@ -29,7 +29,6 @@ public class MemberController {
     //인가코드를 통한 프로필로 우리 사이트 회원인지 검사(벡에서) 회원 아니면 회원가입으로 회원이면 억세스 토큰받고 홈으로
     @GetMapping("/members/klogin")
     public MemberForm klogin(@RequestParam String authorize_code) {
-
         String access_token = memberService.getAccessToken(authorize_code); //인가 코드를 이용해 사용자코드 받아오기
         System.out.println("억세스 토큰 확인: "+access_token);
         ProfileDto userinfo = memberService.getUserInfo(access_token); //사용자 코드를 이용해 유저 프로필 받아오기
@@ -70,12 +69,20 @@ public class MemberController {
      * 로그인 성공시 사용자 정보를 기반으로 JWTToken을 생성하여 반환.
      * */
     @PostMapping("/members/login")  // post - 양식 작성 후 회원가입하기 클릭 시 json으로 받아올거 ->세션에 저장된 member_id + 프로필 양식에 넣은 값
-    public ResponseEntity<String> login(@RequestBody MemberForm form){
+    public ResponseEntity<MemberForm> login(@RequestBody MemberForm form){
+        MemberForm memf;
+        System.out.println("로그인시 받아오는거 : "+form.getEmail());
 
+        MemberForm member = memberService.findByEmail(form.getEmail());
         String token = jwtService.create(form);  //jwt토근에는 dto 전달 -> db 건드리는거 아니니까 어짜피
         logger.trace("로그인 토큰정보 : {}", token); //logger에 기록
 
-        return new ResponseEntity<>(token, HttpStatus.OK); //이건 컨트롤러에서 해당 뷰를 보여주는 것이 아니라 redirect 오른쪽 주소로 url 요청 다시하는거(새로고침)
+        memf = MemberForm.builder().
+                id(member.getId()).
+                token(token).
+                build();
+
+        return new ResponseEntity<>(memf, HttpStatus.OK); //이건 컨트롤러에서 해당 뷰를 보여주는 것이 아니라 redirect 오른쪽 주소로 url 요청 다시하는거(새로고침)
     }
 
     /**

@@ -98,7 +98,8 @@ export default {
         img:"",
         nickname:"",
         intro:"",
-        flag:""
+        flag:"",
+        id:""
       },
 
       show: true,
@@ -136,11 +137,17 @@ export default {
     },
     login() { //서비스의 회원임 -> 토큰 받아서 로그인
       axios.post("api/members/login", this.form).then((res) => {
-        console.log("토큰: "+res.data);
-        if (res.data != null) {
-          document.cookie = `accessToken=${res.data}`;
+        console.log("로그인 시 토큰: "+res.data.token);
+        console.log("로그인 시 아이디: "+res.data.id);
+
+        this.form.token = res.data.token;
+        this.form.id = res.data.id;
+
+        if (res.data.token != null) {
+          localStorage.setItem('token', res.data.token);
+          localStorage.setItem('id', res.data.id);
           // this.$cookie.set("accesstoken", res.data, 60 * 60 * 12);
-          axios.defaults.headers.common["x-access-token"] = res.data;
+          // axios.defaults.headers.common["x-access-token"] = res.data.token; 이 부분 보완
           // this.form.token = res.data;
           this.$router.push("/");
         }
@@ -161,10 +168,24 @@ export default {
           if (this.form.ismem == undefined) {
             alert(" 회원가입을 진행하여 소셜계정과 연결해주세요");
             //this.$router.push("/kakaologin");
-          } else { 
+          } else {
             this.login();
           }
         });
+
+      // axios
+      //   .get("http://j4b107.p.ssafy.io:8080/api/members/klogin?authorize_code=" + this.codes)
+      //   .then((res) => {
+      //     console.log("res : " + res);
+      //     console.log("res.status : " + res.status);
+      //     console.log("res.statusText : " + res.statusText);
+      //     console.log("res.headers : " + res.headers);
+      //     console.log("res.config : " + res.config);
+      //     console.log("res.data : " + res.data);
+      //     console.log("kid: "+res.data.kid);
+      //     console.log("res.data.email : " + res.data.email);
+      //     console.log("res.data.name : " + res.data.name);
+      //   });
     },
     onSubmit(event) {
       event.preventDefault();

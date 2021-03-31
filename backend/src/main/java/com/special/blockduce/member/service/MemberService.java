@@ -213,5 +213,18 @@ public class MemberService {
         }
         return memf;
     }
+
+    public MemberForm findByEmail(String email) {
+        MemberForm memf;
+        Member mem = Member.builder().ismem(false).build();
+        // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
+        Member member = memberRepository.findOptionalByEmail(email).orElse(mem);
+
+        memf = MemberForm.builder().
+                id(member.getId()).
+                build();
+
+        return memf;
+    }
 }
 

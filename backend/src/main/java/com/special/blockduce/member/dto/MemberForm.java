@@ -12,7 +12,7 @@ public class MemberForm {
     private String password;
     private String name;
     private String img;
-    private String jwt;
+    private String token;
     private String kid;
     private String account;
     private Double eth;
@@ -23,9 +23,8 @@ public class MemberForm {
     private String wallet;
     private String key;
 
-
     @Builder
-    public MemberForm(Long id,String email,String password,String name,String img,String jwt,
+    public MemberForm(Long id,String email,String password,String name,String img,String token,
                       String kid, String account,Double eth,Double dbc,Boolean ismem,String nickname,
                       String intro,String wallet,String key) {
         this.id = id;
@@ -33,7 +32,7 @@ public class MemberForm {
         this.password = password;
         this.name = name;
         this.img = img;
-        this.jwt = jwt;
+        this.token = token;
         this.kid = kid;
         this.account = account;
         this.eth = eth;
