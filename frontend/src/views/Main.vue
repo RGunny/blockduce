@@ -6,7 +6,7 @@
     <a href="" class="global-nav-item"></a>
     <a href="" class="global-nav-item"></a>
     <a href="" class="global-nav-item"></a>
-    <a v-if="isCookie" v-on:click.prevent="deleteCookie"><button>로그아웃</button></a>  
+    <a v-if="isToken" v-on:click.prevent="deleteToken"><button>로그아웃</button></a>  
     <a v-else  href="/login"><button>login</button></a>
   </div>
     <img class="blockduce" src="@/assets/blockduce.jpg" alt="">
@@ -90,10 +90,11 @@
 // import { mapGetters } from 'vuex';
 // import VueCookies from 'vue-cookies';
 
+
 export default {
     data() {
     return {
-      isCookie: null,
+      isToken: null,
           sceneInfo : [],
     yOffset: 0,
     prevScrollHeight: 0,
@@ -105,8 +106,8 @@ export default {
     this.setLayout();
   },
     created() {
-    this.isCookie = document.cookie;
-        window.addEventListener('resize', this.setLayout);
+    this.isToken = localStorage.getItem("token");
+    window.addEventListener('resize', this.setLayout);
     window.addEventListener('scroll', () => {
       this.yOffset = window.pageYOffset;
       this.scrollLoop();
@@ -116,11 +117,10 @@ export default {
     // ...mapGetters(['getAccessToken']),
   },
     methods: {
-    deleteCookie() {
-      this.$cookie.delete("accesstoken");
-      this.isCookie = null;
+    deleteToken() {
+      localStorage.clear();
+      window.location.reload();
       alert("로그아웃 되었습니다.");
-      this.$router.push("/")
     },
         setData() {
       this.sceneInfo = [
