@@ -20,6 +20,7 @@ public class SwaggerConfiguration {
     @Bean
     public Docket swaggerAPI() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .host("j4b107.p.ssafy.io")
                 .apiInfo(this.swaggerInfo())
                 .select()
                 .apis(RequestHandlerSelectors.any())
