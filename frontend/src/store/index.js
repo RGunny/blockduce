@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 import accountStore from '@/store/modules/accountStore'
 
@@ -22,7 +22,7 @@ export default new Vuex.Store({
     room: undefined,
     username: undefined,
     status: STATUS_OPTIONS.available,
-    rooms: []
+    rooms: [],
   },
   getters: {
     config: state => ({ headers: { jwt : state.authToken}}),
@@ -39,27 +39,30 @@ export default new Vuex.Store({
       state.users = users
     },
     joinRoom(state, { room, username }) {
-      state.room = room
-      state.username = username
+      state.room = room;
+      state.username = username;
     },
     changeRoom(state, room) {
-      state.room = room
+      state.room = room;
     },
     setRooms(state, rooms) {
-      state.rooms = rooms
+      state.rooms = rooms;
     },
     leaveChat(state) {
-      state.room = undefined
-      state.username = undefined
+      state.room = undefined;
+      state.username = undefined;
     },
     changeStatus(state) {
-      let nextStatus
-      if (state.status === STATUS_OPTIONS.available) nextStatus = STATUS_OPTIONS.absent
-      if (state.status === STATUS_OPTIONS.absent) nextStatus = STATUS_OPTIONS.unavailable
-      if (state.status === STATUS_OPTIONS.unavailable) nextStatus = STATUS_OPTIONS.available
+      let nextStatus;
+      if (state.status === STATUS_OPTIONS.available)
+        nextStatus = STATUS_OPTIONS.absent;
+      if (state.status === STATUS_OPTIONS.absent)
+        nextStatus = STATUS_OPTIONS.unavailable;
+      if (state.status === STATUS_OPTIONS.unavailable)
+        nextStatus = STATUS_OPTIONS.available;
 
-      state.status = nextStatus
-    }
+      state.status = nextStatus;
+    },
   },
   actions: {
     fetchGenres({ commit }) {
@@ -122,62 +125,77 @@ export default new Vuex.Store({
           router.push({ name: 'Login' })
     },
     joinRoom({ commit }, data) {
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         try {
+<<<<<<< HEAD
           const { body } = Vue.http.post(`${url}/auth/login`, data)
           console.log('body', body)
           const { room } = Vue.http.post(`${url}/auth/room`,data)
           console.log('data', data)
           console.log('room', room)
+=======
+          const { body } = Vue.http.post(`${url}/auth/login`, data);
+>>>>>>> a040ef1 (나중에 삭제하세요)
           if (body.code === 400 || body.code === 401 || body.code === 500) {
-            reject({ message: body.message })
+            reject({ message: body.message });
           }
+<<<<<<< HEAD
           commit(STORE_ACTIONS.joinRoom, data)
           resolve(console.log('success'))
           
+=======
+          commit(STORE_ACTIONS.joinRoom, data);
+          resolve();
+>>>>>>> a040ef1 (나중에 삭제하세요)
         } catch (error) {
-          reject(error)
+          reject(error);
         }
-      })
+      });
     },
     changeRoom({ commit }, room) {
-      commit(STORE_ACTIONS.changeRoom, room)
+      commit(STORE_ACTIONS.changeRoom, room);
     },
     setRooms({ commit }) {
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         try {
-          // const rooms = Vue.http.get(`http://${url}/rooms`)
-          const rooms = [{
+          // const rooms =  Vue.http.get(`http://${url}/rooms`)
+          const rooms = [
+            {
               id: 1,
-              name: 'GENERAL'
-            }, {
-              id: 2,
-              name: 'SPORTS'
-            },{
-              id: 3,
-              name: 'GAMES'
+              name: 'GENERAL',
             },
-          ]
-          commit(STORE_ACTIONS.setRooms, rooms)
-          resolve(rooms)
+            {
+              id: 2,
+              name: 'SPORTS',
+            },
+            {
+              id: 3,
+              name: 'GAMES',
+            },
+          ];
+          commit(STORE_ACTIONS.setRooms, rooms);
+          resolve(rooms);
         } catch (error) {
-          reject(error)
+          reject(error);
         }
-      })
+      });
     },
     leaveChat({ commit }, username) {
-      return new Promise(function (resolve, reject) {
+      return new Promise(function(resolve, reject) {
         try {
-          const { body : { code } } = Vue.http.post(`${url}/auth/logout`, { username })
-          if (code !== 200) reject()
-          commit(STORE_ACTIONS.leaveChat)
-          resolve()
+          const {
+            body: { code },
+          } = Vue.http.post(`${url}/auth/logout`, { username });
+          if (code !== 200) reject();
+          commit(STORE_ACTIONS.leaveChat);
+          resolve();
         } catch (error) {
-          reject(error)
+          reject(error);
         }
-      })
+      });
     },
     changeStatus({ commit }) {
+<<<<<<< HEAD
       commit(STORE_ACTIONS.changeStatus)
     }
   },
@@ -186,3 +204,9 @@ export default new Vuex.Store({
     accountStore: accountStore,
   }
 })
+=======
+      commit(STORE_ACTIONS.changeStatus);
+    },
+  },
+});
+>>>>>>> a040ef1 (나중에 삭제하세요)

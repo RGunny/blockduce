@@ -29,8 +29,73 @@
       href="https://fonts.googleapis.com/css?family=Montserrat&display=swap"
       rel="stylesheet"
     />
-
     <div class="grey-bg container-fluid">
+      <section id="stats-subtitle">
+        <div class="row">
+          <div class="col-12 mt-3 mb-1">
+            <h4 class="text-uppercase">Ethereum & Token</h4>
+            <p>Statistics on ethereum and tokens</p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xl-6 col-md-12">
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body cleartfix">
+                  <div class="media align-items-stretch">
+                    <div class="align-self-center">
+                      <h1 class="mr-2">{{ DBCbalance }} DBC</h1>
+                    </div>
+                    <div class="media-body">
+                      <h4 class="content_infospan">Total DBC</h4>
+                      <vs-button
+                        transparent
+                        :active="active == 1"
+                        @click="[(active = 1), GetERCBalance()]"
+                      >
+                        refresh
+                      </vs-button>
+                    </div>
+
+                    <div class="align-self-center_icon">
+                      <i class="icon-heart danger font-large-2"> </i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-xl-6 col-md-12">
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body cleartfix">
+                  <div class="media align-items-stretch">
+                    <div class="align-self-center">
+                      <h1 class="mr-2">{{ ETHbalance }} ETH</h1>
+                    </div>
+                    <div class="media-body">
+                      <h4 class="content_infospan">Total Ethereum</h4>
+                      <vs-button
+                        transparent
+                        :active="active == 1"
+                        @click="[(active = 1), GetBalance()]"
+                      >
+                        refresh
+                      </vs-button>
+                    </div>
+
+                    <div class="align-self-center_icon">
+                      <i class="icon-wallet success font-large-2"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
       <section id="minimal-statistics">
         <div class="row">
           <div class="col-12 mt-3 mb-1">
@@ -51,7 +116,7 @@
                     </div>
                     <div class="media-body text-right">
                       <h3>278</h3>
-                      <span>투표 횟수</span>
+                      <span class="content_infospan"> 투표 횟수</span>
                     </div>
                   </div>
                 </div>
@@ -69,8 +134,8 @@
                       ></i>
                     </div>
                     <div class="media-body text-right">
-                      <h3>156</h3>
-                      <span>투표한 양</span>
+                      <h3>5</h3>
+                      <span class="content_infospan">DBC받은 횟수</span>
                     </div>
                   </div>
                 </div>
@@ -86,8 +151,8 @@
                       <i class="icon-graph success font-large-2 float-left"></i>
                     </div>
                     <div class="media-body text-right">
-                      <h3>64.89 %</h3>
-                      <span>DBC받은 횟수</span>
+                      <h3>150,000 DBC</h3>
+                      <span class="content_infospan">투표한 양</span>
                     </div>
                   </div>
                 </div>
@@ -101,12 +166,12 @@
                   <div class="media d-flex">
                     <div class="align-self-center">
                       <i
-                        class="icon-pointer danger font-large-2 float-left"
+                        class="icon-book-open primary font-large-2 float-left"
                       ></i>
                     </div>
                     <div class="media-body text-right">
-                      <h3>423</h3>
-                      <span>DBC받은 양</span>
+                      <h3>300,000 DBC</h3>
+                      <span class="content_infospan">DBC받은 양</span>
                     </div>
                   </div>
                 </div>
@@ -122,8 +187,8 @@
                 <div class="card-body">
                   <div class="media d-flex">
                     <div class="media-body text-left">
-                      <h3 class="danger">278</h3>
-                      <span>ETH받은 횟수</span>
+                      <h3>278</h3>
+                      <span class="content_infospan">ETH받은 횟수</span>
                     </div>
                     <div class="align-self-center">
                       <i
@@ -141,11 +206,11 @@
                 <div class="card-body">
                   <div class="media d-flex">
                     <div class="media-body text-left">
-                      <h3 class="success">156</h3>
-                      <span>ETH받은 양</span>
+                      <h3>3 ETH</h3>
+                      <span class="content_infospan">ETH받은 양</span>
                     </div>
                     <div class="align-self-center">
-                      <i class="icon-user success font-large-2 float-right"></i>
+                      <i class="icon-cup success font-large-2 float-right"></i>
                     </div>
                   </div>
                 </div>
@@ -159,8 +224,8 @@
                 <div class="card-body">
                   <div class="media d-flex">
                     <div class="media-body text-left">
-                      <h3 class="warning">64.89 %</h3>
-                      <span>굿즈 구매 횟수</span>
+                      <h3>3</h3>
+                      <span class="content_infospan">굿즈 구매 횟수</span>
                     </div>
                     <div class="align-self-center">
                       <i
@@ -178,198 +243,13 @@
                 <div class="card-body">
                   <div class="media d-flex">
                     <div class="media-body text-left">
-                      <h3 class="primary">423</h3>
-                      <span>방문 수</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i
-                        class="icon-support primary font-large-2 float-right"
-                      ></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- <div class="row">
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="primary">278</h3>
-                      <span>New Posts</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i
-                        class="icon-book-open primary font-large-2 float-right"
-                      ></i>
-                    </div>
-                  </div>
-                  <div class="progress mt-1 mb-0" style="height: 7px;">
-                    <div
-                      class="progress-bar bg-primary"
-                      role="progressbar"
-                      style="width: 80%"
-                      aria-valuenow="80"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="warning">156</h3>
-                      <span>New Comments</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i
-                        class="icon-bubbles warning font-large-2 float-right"
-                      ></i>
-                    </div>
-                  </div>
-                  <div class="progress mt-1 mb-0" style="height: 7px;">
-                    <div
-                      class="progress-bar bg-warning"
-                      role="progressbar"
-                      style="width: 35%"
-                      aria-valuenow="35"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="success">64.89 %</h3>
-                      <span>Bounce Rate</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i class="icon-cup success font-large-2 float-right"></i>
-                    </div>
-                  </div>
-                  <div class="progress mt-1 mb-0" style="height: 7px;">
-                    <div
-                      class="progress-bar bg-success"
-                      role="progressbar"
-                      style="width: 60%"
-                      aria-valuenow="60"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3 class="danger">423</h3>
-                      <span>Total Visits</span>
+                      <h3>423</h3>
+                      <span class="content_infospan">방문 수</span>
                     </div>
                     <div class="align-self-center">
                       <i
                         class="icon-direction danger font-large-2 float-right"
                       ></i>
-                    </div>
-                  </div>
-                  <div class="progress mt-1 mb-0" style="height: 7px;">
-                    <div
-                      class="progress-bar bg-danger"
-                      role="progressbar"
-                      style="width: 40%"
-                      aria-valuenow="40"
-                      aria-valuemin="0"
-                      aria-valuemax="100"
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
-      </section>
-
-      <section id="stats-subtitle">
-        <div class="row">
-          <div class="col-12 mt-3 mb-1">
-            <h4 class="text-uppercase">Ethereum & Token</h4>
-            <p>Statistics on ethereum and tokens</p>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="col-xl-6 col-md-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body cleartfix">
-                  <div class="media align-items-stretch">
-                    <div class="align-self-center">
-                      <h1 class="mr-2">{{ DBCbalance }}</h1>
-                    </div>
-                    <div class="media-body">
-                      <h4>Total DBC</h4>
-                      <span>DroptheBitCoin</span>
-                    </div>
-                    <vs-button
-                      transparent
-                      :active="active == 1"
-                      @click="[(active = 1), GetERCBalance()]"
-                    >
-                      refresh
-                    </vs-button>
-                    <div class="align-self-center">
-                      <i class="icon-heart danger font-large-2"> </i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xl-6 col-md-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body cleartfix">
-                  <div class="media align-items-stretch">
-                    <div class="align-self-center">
-                      <h1 class="mr-2">{{ ETHbalance }}</h1>
-                    </div>
-                    <div class="media-body">
-                      <h4>Total Ethereum</h4>
-                      <span>Ethereum</span>
-                    </div>
-                    <vs-button
-                      transparent
-                      :active="active == 1"
-                      @click="[(active = 1), GetBalance()]"
-                    >
-                      refresh
-                    </vs-button>
-                    <div class="align-self-center">
-                      <i class="icon-wallet success font-large-2"></i>
                     </div>
                   </div>
                 </div>
@@ -386,14 +266,17 @@
 <script>
 let web3;
 import * as Web3 from 'web3';
+import axios from 'axios';
 import DBCabi from './DBCabi.json';
+const userId = localStorage.getItem('id');
 
 export default {
   data() {
     return {
       active: 0,
-      DBCbalance: 0,
-      ETHbalance: 0,
+      DBCbalance: '0 DBC',
+      ETHbalance: '0 ETH',
+      account: '',
     };
   },
   created() {
@@ -410,40 +293,63 @@ export default {
         )
       );
     }
+    axios
+      .get('http://j4b107.p.ssafy.io/api/members/' + userId + '')
+      .then((response) => {
+        this.account = response.data.wallet;
+        this.DBCbalance = response.data.dbc;
+        this.ETHbalance = response.data.eth;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   methods: {
     GetBalance: function() {
-      var getbalance;
-      var account = '0x9DFD19acAc0c523D19F9B50B4640a0dD74E092E6';
+      var account = this.account;
+      this.ETHbalance = 0;
       web3.eth.getBalance(account, (error, wei) => {
         if (!error) {
-          getbalance = web3.utils.fromWei(wei, 'ether');
-          this.ETHbalance = getbalance + ' ETH';
+          this.ETHbalance = web3.utils.fromWei(wei, 'ether');
+          axios
+            .put('http://j4b107.p.ssafy.io/api/members/' + userId, {
+              id: userId,
+              eth: this.ETHbalance,
+            })
+            .then((response) => {
+              console.log(response.status);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         }
       });
       this.active = 0;
     },
     GetERCBalance: function() {
-      var account = '0x9DFD19acAc0c523D19F9B50B4640a0dD74E092E6';
+      var account = this.account;
       var contractAddress = '0x9864bb32e02b1fae9eb875f7b169c5400b15efec';
       var TokenABI = DBCabi;
       var DBCcontract = new web3.eth.Contract(TokenABI, contractAddress);
-      console.log(DBCcontract);
       let DBCtoken;
+      this.DBCbalance = 0;
       DBCcontract.methods
         .balanceOf(account)
         .call()
         .then((result) => {
           DBCtoken = result / 100000;
-          this.DBCbalance = DBCtoken + ' DBC';
-          console.log(DBCtoken);
-        });
-      DBCcontract.methods
-        .totalSupply()
-        .call()
-        .then((result) => {
-          result = result / 100000;
-          console.log(result);
+          this.DBCbalance = DBCtoken;
+          axios
+            .put('http://j4b107.p.ssafy.io/api/members/' + userId, {
+              id: userId,
+              dbc: this.DBCbalance,
+            })
+            .then((response) => {
+              console.log(response.status);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         });
       this.active = 0;
     },
@@ -452,7 +358,34 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+  font-family: 'account_font';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+.container {
+  overflow: auto;
+}
+.text-uppercase {
+  font-family: 'account_font';
+  font-size: xxx-large;
+}
+.content_infospan {
+  font-family: 'account_font';
+  font-size: x-large;
+}
 .grey-bg {
   background-color: #f5f7fa;
+}
+.align-self-center {
+  width: 60%;
+}
+.align-self-center_icon {
+  width: 30%;
+}
+.media-body {
+  width: 60%;
 }
 </style>

@@ -3,7 +3,6 @@
     <div>
       <myAlert />
     </div>
-    <div><account_head /></div>
     <div>
       <myAccount />
     </div>
@@ -14,12 +13,10 @@
 <script>
 import myAccount from '@/components/myAccount/myAccount.vue';
 import myAlert from '@/components/myAccount/myAlert.vue';
-import account_head from '@/components/myAccount/account_head.vue';
 import account_content from '@/components/myAccount/account_content.vue';
 
 export default {
   components: {
-    account_head,
     account_content,
     myAccount,
     myAlert,
@@ -30,5 +27,6 @@ export default {
 <style>
 .AccountContainer {
   background-color: #310f19;
+  overflow: auto;
 }
 </style>
