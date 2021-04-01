@@ -40,11 +40,16 @@ export default new Vuex.Store({
       return new Promise(function (resolve, reject) {
         try {
           const { body } = Vue.http.post(`${url}/auth/login`, data)
+          console.log('body', body)
+          const { room } = Vue.http.post(`${url}/auth/room`,data)
+          console.log('data', data)
+          console.log('room', room)
           if (body.code === 400 || body.code === 401 || body.code === 500) {
             reject({ message: body.message })
           }
           commit(STORE_ACTIONS.joinRoom, data)
-          resolve()
+          resolve(console.log('success'))
+          
         } catch (error) {
           reject(error)
         }

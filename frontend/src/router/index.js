@@ -6,19 +6,30 @@ import 'vue-material/dist/vue-material.min.css';
 import 'vue-material/dist/theme/default.css'; // This line here
 import VueToastr from 'vue-toastr';
 
-import Home from './../views/Home.vue';
-import store from '../store';
+//webRTC
+import Home from '@/views/Home.vue';
+import store from '@/store';
 
-import Main from '../views/Main.vue';
-import Login from '../views/Login.vue';
-import Join from '../views/Join.vue';
-import Vote from '../views/After/Vote.vue';
+//Main
+import Main from '@/views/Main.vue';
+
+//accounts
+import Login from '@/views/accounts/Login.vue';
+import Join from '@/views/accounts/Join.vue';
+import Klogin from '@/views/accounts/kakaologin.vue';
+
+//Vote
+import Vote from '@/views/After/Vote.vue';
 // import Wallet from '../views/After/Wallet.vue'
 // import Blockduce from '../views/After/Blockduce.vue'
 
-import Account from '../views/Account.vue';
-import Election from '../views/Election.vue';
-import Information from '../views/Information.vue';
+//Blockchain
+import Account from '@/views/Account.vue';
+import Election from '@/views/Election.vue';
+import Information from '@/views/Information.vue';
+
+//pagenotfound
+import PageNotFound from '@/views/PageNotFound'
 
 Vue.use(VueMaterial);
 Vue.use(VueToastr, {
@@ -50,11 +61,13 @@ const routes = [
       !store.state.room && !store.state.username ? next('/') : next();
     },
   },
+  //Main
   {
     path: '/',
     name: 'Main',
     component: Main,
   },
+  //accounts
   {
     path: '/login',
     name: 'Login',
@@ -66,6 +79,15 @@ const routes = [
     component: Join,
   },
   {
+    path: '/kakaologin',
+    name: 'Klogin',
+
+    component: Klogin,
+  },
+
+  
+  //Vote
+  {
     path: '/after/vote',
     name: 'Vote',
     component: Vote,
@@ -75,6 +97,7 @@ const routes = [
     name: 'Now',
     component: Now,
   },
+  //Blockchain
   {
     path: '/account',
     name: 'account',
@@ -90,12 +113,7 @@ const routes = [
     name: 'information',
     component: Information,
   },
-  {
-    path: '/kakaologin',
-    name: 'Klogin',
-
-    component: () => import('../views/kakaologin.vue'),
-  },
+ 
   // {
   //   path: '/after/wallet',
   //   name: 'Wallet',
@@ -107,12 +125,47 @@ const routes = [
   //   name: 'Blockduce',
   //   component: Blockduce
   // },
+
+    // 404 Pages
+    {
+      path: '*',
+      name: 'PageNotFound',
+      component: PageNotFound
+  
+    }
 ];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 });
+
+// router.beforeEach((to, from, next) => {
+//   const publicPages = ['Login', 'Join', 'Klogin'] // Login 안해도 됨
+//   const authPages = ['Login', 'Join', 'Klogin'] // Login 되어있으면 안됨
+//   // const pubicPages = ['Login', 'Signup'] // Login 안해도 됨
+//   // const authPages = ['Login', 'Signup'] // Login 되어있으면 안됨
+//   const authRequired = !publicPages.includes(to.name) // 로그인 해야하는 페이지면 true 반환
+//   const unauthRequired = authPages.includes(to.name)
+//   const isLoggedIn = Vue.$cookies.isKey('auth-token')
+
+//   if (unauthRequired && isLoggedIn){
+//     next('/')
+//   }
+  
+//   if (authRequired && !isLoggedIn) {
+//     next({ name: 'Login' })
+//   } else {
+//     next()
+//   }
+// })
 
 export default router;

@@ -13,17 +13,18 @@ userRouter.post('/login', (req, res) => {
     const newUser = req.body
     if (!newUser.username) return res.send({ code: 400, message: 'Data is required' })
     console.log(`Login user ${newUser.username}`)
-
+    
     ChatRedis
         .getUser(newUser.username, config.KEY)
         .then(user => {
             if (!user) {
                 ChatRedis.addUser(newUser.username, config.KEY, newUser)
                 console.log(`User ${newUser.username} logged`)
-                return res.send({ code: 200, message: 'Logged in succesfully' })
+                //return res.send({ code: 200, message: 'Logged in succesfully' })
+                return newUser
             }
 
-            console.log(`User ${newUser.username} already exists`)
+            console.log(`User ${newUser.username} already exists!!`)
             return res.send({ code: 401, message: 'Username already exists' })
         })
 })
