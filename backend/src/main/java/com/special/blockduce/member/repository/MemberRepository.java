@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface MemberRepository extends CrudRepository<Member,Long> {
     Optional<Member> findMemberByName(String username);
     Optional<Member> findMemberByEmail(String email);
+    Optional<Member> findMemberByid(Long id);
     Optional<Member> findOptionalByKid(String id);
     boolean existsByEmail(String email);
 
