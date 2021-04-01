@@ -1,17 +1,17 @@
-# FROM node:8.6 as build
+FROM node:8.6 as build
 
-# WORKDIR /videochat
-# COPY package.json /videochat/
-# RUN npm install
+WORKDIR /videochat
+COPY package.json /videochat/
+RUN npm install
 
-# COPY ./ /videochat
+COPY ./ /videochat
 
-# ARG VUE_APP_SOCKET_HOST=NOT_SET
-# ARG VUE_APP_SOCKET_PORT=NOT_SET
+ARG VUE_APP_SOCKET_HOST=NOT_SET
+ARG VUE_APP_SOCKET_PORT=NOT_SET
 
-# RUN export VUE_APP_SOCKET_HOST=${VUE_APP_SOCKET_HOST} VUE_APP_SOCKET_PORT=${VUE_APP_SOCKET_PORT} && npm run build
+RUN export VUE_APP_SOCKET_HOST=${VUE_APP_SOCKET_HOST} VUE_APP_SOCKET_PORT=${VUE_APP_SOCKET_PORT} && npm run build
 
-# CMD ["npm", "run", "run:server"]
+CMD ["npm", "run", "run:server"]
 
 #######################################
 FROM node:14.15.0 as builder
