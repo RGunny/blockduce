@@ -1,12 +1,12 @@
 package com.special.blockduce.candidate.controller;
 
-import com.special.blockduce.candidate.domain.Candidate;
 import com.special.blockduce.candidate.dto.ReadCandidatesResponse;
 import com.special.blockduce.candidate.service.CandidateService;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +19,7 @@ public class CandidateController {
 
     @Data
     @AllArgsConstructor
-    static class Result<T>{
+    static class Result<T> {
         private T data;
     }
 
