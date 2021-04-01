@@ -8,9 +8,9 @@
       </div>
       <div :class="'rank top'+(idx+1)" v-for="(person, idx) in top6" :key="idx">
         {{ idx + 1 }}등
-        <img class="photo photoblock" :src="person.img_url"/>
+        <img class="photo photoblock" :src="person.candidateImg"/>
         <div class="name">
-          {{ person.name }}
+          {{ person.candidateName }}
         </div>
       </div>
     </div>
@@ -19,6 +19,7 @@
 
 <script>
 import Navbar from '@/components/Navbar.vue'
+import axios from 'axios'
 
 export default {
   components: {
@@ -28,11 +29,11 @@ export default {
   data() {
     return {
 
-      top6: [
+      candidates: [
         {
           img_url: require("@/assets/1.jpg"),
           name: '최주아',
-          nov: 1235154354,
+          nov: 1235154300,
         },
         {
           img_url: require("@/assets/2.jpg"),
@@ -57,12 +58,50 @@ export default {
         {
           img_url: require("@/assets/6.jpg"),
           name: '강다니엘',
-          nov: 1235154349
+          nov: 1235154999
+        },
+        {
+          img_url: require("@/assets/7.jpg"),
+          name: '배진영',
+          nov: 1235153000
         },
 
-      ]
+      ],
+
+      top6 : [],
+      candidates2: []
     }
-  }
+  },
+
+  mounted() {
+
+    axios.get('http://j4b107.p.ssafy.io/api/candidates')
+    .then((response) => {
+    this.candidates2 = response.data.data
+
+    this.candidates2.sort(function(a, b) {
+      return parseFloat(b.age) - parseFloat(a.age)
+    })
+
+    for (let index = 0; index < 6; index++) {
+      this.top6.push(this.candidates2[index]) 
+    }
+
+    console.log(this.top6)
+
+    
+    })
+    .catch((err) => {
+      console.log(err);
+      })
+
+  
+  
+
+
+  
+
+    },
 
 
 }
