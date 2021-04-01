@@ -1,12 +1,14 @@
 package com.special.blockduce.member.domain;
 
 import com.special.blockduce.config.UserRole;
+import com.special.blockduce.transaction.domain.DBC;
+import com.special.blockduce.transaction.domain.ETH;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -20,6 +22,14 @@ public class Member {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id; // pk
+
+    // Member와 ETH는 일대다 관계
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<ETH> ethTransactions = new ArrayList<>();
+
+    // Member와 DBC는 일대다 관계
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<DBC> dbcTransactions = new ArrayList<>();
 
     @Column(name = "kakao_id")
     private String kid;

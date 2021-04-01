@@ -1,16 +1,16 @@
 package com.special.blockduce.candidate.repository;
 
 import com.special.blockduce.candidate.domain.Candidate;
-import com.special.blockduce.candidate.dto.ReadCandidatesResponse;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
+import java.util.Optional;
 
-public interface CandidateRepository extends JpaRepository<Candidate, Long> {
+public interface CandidateRepository extends CrudRepository<Candidate, Long> {
 
-    @Query("select new com.special.blockduce.candidate.dto.ReadCandidatesResponse(c.id, c.name, c.age, c.agency, c.img) " +
-            " from Candidate c")
-    List<ReadCandidatesResponse> findReadCandidatesResponse();
+    Optional<Candidate> findCandidateByid(Long id);
+
+
 
 }

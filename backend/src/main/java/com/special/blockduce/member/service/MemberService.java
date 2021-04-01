@@ -10,6 +10,7 @@ import com.special.blockduce.member.dto.MemberForm;
 import com.special.blockduce.member.dto.ProfileDto;
 import com.special.blockduce.member.repository.MemberRepository;
 import com.special.blockduce.utils.SaltUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,10 +20,10 @@ import java.net.URL;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class MemberService {
 
-    @Autowired
-    private MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     public String getAccessToken(String authorize_code) {
         String access_Token = "";
@@ -111,6 +112,7 @@ public class MemberService {
         return userInfo;
     }
 
+    @Transactional
     public void join(MemberForm form) {
 
         String password = form.getPassword();
@@ -186,6 +188,7 @@ public class MemberService {
                         wallet(member.getAccount()).
                         eth(member.getEth()).
                         dbc(member.getDbc()).
+                        key(member.getKey()).
                         ismem(member.getIsmem()).
                         build();
             } else {
