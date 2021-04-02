@@ -12,6 +12,7 @@ public interface AuthService {
 
     Member loginMember(String id, String password) throws Exception;
 
+    boolean existsByEmail(String email);
 
     void verifyEmail(String key) throws NotFoundException;
 

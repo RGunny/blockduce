@@ -1,4 +1,4 @@
-package com.special.blockduce.property;
+package com.special.blockduce.image.property;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

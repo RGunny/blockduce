@@ -12,14 +12,12 @@ import com.special.blockduce.member.service.EmailService;
 import com.special.blockduce.utils.RedisUtil;
 import com.special.blockduce.utils.SaltUtil;
 import javassist.NotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     final String REDIS_CHANGE_PASSWORD_PREFIX="CPW";
     private MemberRepository memberRepository;
@@ -45,14 +43,16 @@ public class AuthServiceImpl implements AuthService {
     @Transactional
     public boolean signUpMember(SignupMemberRequest signupMemberRequest){
 
-        if (existsByEmail(signupMemberRequest.getEmail())){
-            return false;
-        }
+//        if (existsByEmail(signupMemberRequest.getEmail())){
+//            return false;
+//        }
+
         String password = signupMemberRequest.getPassword();
         String salt = SaltUtil.genSalt();
         if(signupMemberRequest.getProfileImageUrl() == "" || signupMemberRequest.getProfileImageUrl()==null){
-            signupMemberRequest.setProfileImageUrl("image/default-image.png");
+            signupMemberRequest.setProfileImageUrl("https://blockduce-image.s3.ap-northeast-2.amazonaws.com/default-img.png");
         }
+
         Member member = Member.builder()
                 .email(signupMemberRequest.getEmail())
                 .img(signupMemberRequest.getProfileImageUrl())
