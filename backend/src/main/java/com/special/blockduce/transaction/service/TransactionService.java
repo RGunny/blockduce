@@ -10,6 +10,7 @@ import com.special.blockduce.transaction.dto.DbcEthDto;
 import com.special.blockduce.transaction.repository.DbcRepository;
 import com.special.blockduce.transaction.repository.EthRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -119,5 +120,26 @@ public class TransactionService {
         }
         return dbcDto;
     }
+
+    public int countTransactionById(Long memberId) {
+        return dbcRepository.countById(memberId);
+    }
+
+    public String findKeyByid(Long memberId) {
+
+        Optional<Member> member = memberRepository.findMemberByid(memberId);
+        System.out.println("member의 키 찾아왔니? :"+member.get().getKey());
+
+        String key ="키키키키키";
+        if(member.isPresent()){ //계정이 있을 경우
+            key =  member.get().getKey();
+        }
+        return key;
+    }
+//
+//    public HttpStatus countTotalDbcById(Long memberId) {
+//        return dbcRepository.countById(memberId);
+//    }
+
 
 }
