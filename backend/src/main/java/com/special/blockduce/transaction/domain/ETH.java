@@ -53,11 +53,11 @@ public class ETH {
     private Long gasUsed;
 
     @Column(name = "time_stamp")
-    private Long timeStamp;
+    private String timeStamp;
 
     @Builder
     public ETH(Long id, String senderAccount,Long senderId, String receiverAccount, String blockHash,Long value,
-               Long transactionFee,Long gasUsed,Long timeStamp,Long receiverId,Long blockNumber
+               Long transactionFee,Long gasUsed,String timeStamp,Long receiverId,Long blockNumber
     ) {
         this.id = id;
         this.member = Member.builder().
