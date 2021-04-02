@@ -97,9 +97,8 @@ public class MemberController {
         return member;
     }
 
-
     /**
-     * 해당 memberId에 이더리움 저장 + DBC 저장
+     * 해당 memberId에 이더리움 저장 or DBC 저장
      * */
     @PutMapping("/members/{memberId}")
     public MemberForm replaceMember(@PathVariable("memberId") Long memberId,@RequestBody MemberForm form){
