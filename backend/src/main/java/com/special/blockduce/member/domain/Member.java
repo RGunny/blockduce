@@ -70,12 +70,6 @@ public class Member {
     @Column(name = "intro")
     private String intro;
 
-    @Column(name = "member_point")
-    private Long point;
-
-    @Column(name = "member_coin")
-    private Long coin;
-
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.ROLE_NOT_PERMITTED;
@@ -95,15 +89,13 @@ public class Member {
 
     @Builder
     public Member(Long id, @NotBlank String password, @NotBlank @Email String email, @NotBlank String name,
-                  Long point, Long coin, UserRole role, Salt salt,@NotBlank String kid,String account,
+                  UserRole role, Salt salt,@NotBlank String kid,String account,
                   @NotBlank Boolean ismem,@NotBlank String intro,@NotBlank String nickname,
                   @NotBlank String img, String key,Double eth,Double dbc) {
         this.id = id;
         this.password = password;
         this.email = email;
         this.name = name;
-        this.point = point;
-        this.coin = coin;
         this.role = role;
         this.salt = salt;
         this.kid = kid;
