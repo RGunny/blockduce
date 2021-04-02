@@ -17,12 +17,12 @@ public class DbcEthDto {
     private Long value;
     private Long transactionFee;
     private Long gasUsed;
-    private Long timeStamp;
+    private String timeStamp;
     private Long isDbcEth;
 
     @Builder
     public DbcEthDto(Long id,Long senderId,Long receiverId,String blockHash,Long value,
-                      Long transactionFee, Long gasUsed,Long timeStamp,String senderAccount,
+                      Long transactionFee, Long gasUsed,String timeStamp,String senderAccount,
                   String receiverAccount,Long isDbcEth,Long blockNumber) {
         this.id = id;
         this.senderId = senderId;
