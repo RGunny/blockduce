@@ -17,6 +17,12 @@ import Main from '@/views/Main.vue';
 import Login from '@/views/accounts/Login.vue';
 import Join from '@/views/accounts/Join.vue';
 import Klogin from '@/views/accounts/kakaologin.vue';
+import SignupEmail from '@/views/accounts/SignupEmail'
+import SignupSuccessful from '@/views/accounts/SignupSuccessful'
+import PasswordFind from '@/views/accounts/PasswordFind'
+import PasswordFindEmail from '@/views/accounts/PasswordFindEmail'
+import PasswordChange from '@/views/accounts/PasswordChange'
+import PasswordChangeSuccessful from '@/views/accounts/PasswordChangeSuccessful'
 
 //Vote
 import Vote from '@/views/After/Vote.vue';
@@ -83,6 +89,37 @@ const routes = [
     name: 'Klogin',
 
     component: Klogin,
+  },
+  {
+    path: '/join/email',
+    name: 'SignupEmail',
+    component: SignupEmail
+  },
+  {
+    path: '/join/success',
+    name: 'SignupSuccessful',
+    component: SignupSuccessful
+  },
+  {
+    path: '/password',
+    name: 'PasswordFind',
+    component: PasswordFind
+  },
+  {
+    path: '/password/email',
+    name: 'PasswordFindEmail',
+    component: PasswordFindEmail
+  },
+  {
+    path: '/password/change',
+    name: 'PasswordChange',
+    component: PasswordChange
+  },
+  
+  {
+    path: '/password/success',
+    name: 'PasswordChangeSuccessful',
+    component: PasswordChangeSuccessful
   },
 
   
