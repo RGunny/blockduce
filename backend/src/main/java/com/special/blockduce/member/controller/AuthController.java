@@ -1,6 +1,7 @@
 package com.special.blockduce.member.controller;
 
 import com.special.blockduce.Response;
+import com.special.blockduce.image.service.ImageService;
 import com.special.blockduce.member.domain.Member;
 import com.special.blockduce.member.domain.request.*;
 import com.special.blockduce.member.domain.response.LoginMemberResponse;
@@ -9,6 +10,7 @@ import com.special.blockduce.utils.CookieUtil;
 import com.special.blockduce.utils.JwtUtil;
 import com.special.blockduce.utils.RedisUtil;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,22 +34,18 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/auth")
+@RequiredArgsConstructor
 public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @Value("${file.path}")
     String localFilePath;
 
-    private AuthService authService;
-    private JwtUtil jwtUtil;
-    private CookieUtil cookieUtil;
-    private RedisUtil redisUtil;
+    private final AuthService authService;
+    private final JwtUtil jwtUtil;
+    private final CookieUtil cookieUtil;
+    private final RedisUtil redisUtil;
+    private final ImageService imageService;
 
-    public AuthController(AuthService authService, JwtUtil jwtUtil, CookieUtil cookieUtil, RedisUtil redisUtil) {
-        this.authService = authService;
-        this.jwtUtil = jwtUtil;
-        this.cookieUtil = cookieUtil;
-        this.redisUtil = redisUtil;
-    }
 
     @PostMapping("/signup")
     @ApiOperation(
@@ -55,24 +53,27 @@ public class AuthController {
             notes = "회원가입시 SignupMemberRequest의 데이터 타입으로 입력받아 가입을 진행한다.",
             response = Response.class
     )
-    public Object signUpMember(@RequestPart(value = "file",required = false)MultipartFile image, @RequestPart ("member") SignupMemberRequest signupMemberRequest) {
+    public Object signUpMember(@RequestPart(required = false) MultipartFile image, SignupMemberRequest signupMemberRequest) {
         ResponseEntity<Response> responseEntity = null;
+
+        if (authService.existsByEmail(signupMemberRequest.getEmail())){
+            final Response result = new Response("success","중복된 회원 이메일 발견", "duplicated email exception");
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
+        
+
         //유저 대표 이미지 저장
         if(image != null){
-            UUID uuid = UUID.randomUUID();
-            long time = System.currentTimeMillis();
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.KOREA);
-            String filename = uuid + "-" + formatter.format(time) + image.getOriginalFilename();
-            Path filePath = Paths.get(localFilePath + filename);
             try {
-                Files.write(filePath, image.getBytes());
-                signupMemberRequest.setProfileImageUrl("images/"+filename);
+                String imgName = imageService.createImage(image);
+                signupMemberRequest.setProfileImageUrl(imgName);
             }
             catch (IOException e){
                 final Response result = new Response("success","회원가입 이미지 저장 중 오류 발생", e.getMessage());
                 return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
             }
         }//파일 저장 끝
+
         try{
             authService.signUpMember(signupMemberRequest);
             final Response result = new Response("success","회원가입 성공",null);
@@ -82,6 +83,7 @@ public class AuthController {
             responseEntity = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
         return responseEntity;
+
     }
 
     @PostMapping("/login")
