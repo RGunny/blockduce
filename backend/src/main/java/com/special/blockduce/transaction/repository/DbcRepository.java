@@ -5,5 +5,7 @@ import com.special.blockduce.transaction.domain.DBC;
 import org.springframework.data.repository.CrudRepository;
 
 public interface DbcRepository extends CrudRepository<DBC,Long> {
+    int countById(Long memberId);
 
+//    int countBySenderId(Long memberId);
 }
