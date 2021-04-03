@@ -41,8 +41,13 @@ const accountStore = {
             clearInterval(timerInterval)
           }
         })
-      axios.post(SERVER.URL + info.location, info.data)
+      axios.post(SERVER.URL + info.location,  {
+        headers: {
+          'Content-Type' : 'multipart/form-data'
+        }
+      },info.data)
         .then(() => {
+          console.log('info.data', info.data)
           // console.log("SUCCESS", res.data)
           console.log(commit)
           router.push({ name: 'SignupEmail', params: {signupEmail: info.data} })
@@ -68,6 +73,9 @@ const accountStore = {
     },
     // Login
     postAuthData2({ commit }, info) {
+      console.log('data', info.data)
+      console.log('URL', SERVER.URL)
+      console.log('location', info.location)
       axios.post(SERVER.URL + info.location, info.data)
         .then(res => {
           commit('SET_TOKEN', res.data, { root: true })

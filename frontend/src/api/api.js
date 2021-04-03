@@ -1,5 +1,5 @@
 export default {
-    URL: 'https://localhost:8080/api',
+    URL: 'http://localhost:8080/api',
     ROUTES: {
  
       // accounts
@@ -8,7 +8,7 @@ export default {
       social: '/auth/social',
       login: '/auth/login',
       password: '/auth/password',
-      changepassword: '/auth/resetPassword/update',
+      changepassword: '/auth/password',
          
     }
   }
