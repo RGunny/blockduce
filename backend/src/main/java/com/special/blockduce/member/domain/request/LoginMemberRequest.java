@@ -6,11 +6,11 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LoginMemberRequest {
-    private String userEmail;
+    private String email;
     private String password;
 
-    public LoginMemberRequest(String userEmail, String password) {
-        this.userEmail = userEmail;
+    public LoginMemberRequest(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 }
