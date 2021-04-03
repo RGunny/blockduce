@@ -55,7 +55,8 @@ public class AuthController {
     )
     public Object signUpMember(@RequestPart(required = false) MultipartFile image, SignupMemberRequest signupMemberRequest) {
         ResponseEntity<Response> responseEntity = null;
-
+        System.out.println(signupMemberRequest.getEmail());
+        System.out.println("-----------------------------------------------");
         if (authService.existsByEmail(signupMemberRequest.getEmail())){
             final Response result = new Response("success","중복된 회원 이메일 발견", "duplicated email exception");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
@@ -94,7 +95,7 @@ public class AuthController {
     )
     public Object login(@Valid @RequestBody LoginMemberRequest user, HttpServletRequest request,HttpServletResponse response) {
         try {
-            final Member member = authService.loginMember(user.getUserEmail(), user.getPassword());
+            final Member member = authService.loginMember(user.getEmail(), user.getPassword());
             final String token = jwtUtil.generateToken(member);
             final String refreshJwt = jwtUtil.generateRefreshToken(member);
 
