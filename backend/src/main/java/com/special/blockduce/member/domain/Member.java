@@ -1,6 +1,7 @@
 package com.special.blockduce.member.domain;
 
 import com.special.blockduce.config.UserRole;
+import com.special.blockduce.member.dto.MemberAccountDto;
 import com.special.blockduce.transaction.domain.DBC;
 import com.special.blockduce.transaction.domain.ETH;
 import lombok.*;
@@ -34,17 +35,6 @@ public class Member {
     @Column(name = "kakao_id")
     private String kid;
 
-    @Column(name = "private_key")
-    private String key;
-
-    @Column(name = "member_account")
-    private String account;
-
-    @Column(name = "member_eth")
-    private Double eth;
-
-    @Column(name = "member_dbc")
-    private Double dbc;
 
     @Column(name = "is_ourmember")
     private Boolean ismem;
@@ -70,6 +60,10 @@ public class Member {
     @Column(name = "intro")
     private String intro;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 88d5297 (S04P22B107-119 [hotfix] : 테이블 분리)
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.ROLE_NOT_PERMITTED;
@@ -78,20 +72,17 @@ public class Member {
     @JoinColumn(name = "salt_id")
     private Salt salt;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id")
+    private Account account;
 
-    public void updateEth(Double eth) {
-        this.eth = eth;
-    }
-
-    public void updateDbc(Double dbc) {
-        this.dbc = dbc;
-    }
 
     @Builder
     public Member(Long id, @NotBlank String password, @NotBlank @Email String email, @NotBlank String name,
-                  UserRole role, Salt salt,@NotBlank String kid,String account,
+                   UserRole role, Salt salt,@NotBlank String kid,
                   @NotBlank Boolean ismem,@NotBlank String intro,@NotBlank String nickname,
-                  @NotBlank String img, String key,Double eth,Double dbc) {
+                  @NotBlank String img,String key1,String account1, Double dbc1,Double eth1) {
+
         this.id = id;
         this.password = password;
         this.email = email;
@@ -103,9 +94,11 @@ public class Member {
         this.intro = intro;
         this.nickname = nickname;
         this.img = img;
-        this.account = account;
-        this.key=key;
-        this.eth=eth;
-        this.dbc=dbc;
+        this.account = Account.builder().
+                key(key1).
+                account(account1).
+                dbc(dbc1).
+                eth(eth1).
+                build();
     }
 }
