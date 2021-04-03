@@ -65,13 +65,12 @@
 
       <div class="input-with-label">
         <input
-          v-model="signupData.passwordConfirm"
+          v-model="passwordConfirm"
           type="password"
           id="password-confirm"
           v-bind:class="{
             error: error.passwordConfirm,
-            complete:
-              !error.passwordConfirm && signupData.passwordConfirm.length !== 0,
+            complete: !error.passwordConfirm && passwordConfirm.length !== 0,
           }"
           placeholder="비밀번호를 다시 입력해주세요."
           class="inputs"
@@ -109,9 +108,9 @@ export default {
       signupData: {
         email: '',
         password: '',
-        passwordConfirm: '',
         name: '',
       },
+      passwordConfirm: '',
       error: {
         email: false,
         name: false,
@@ -177,7 +176,7 @@ export default {
         this.signupData.password.length >= 8 &&
         this.validPassword(this.signupData.password)
       ) {
-        if (this.signupData.password !== this.signupData.passwordConfirm)
+        if (this.signupData.password !== this.passwordConfirm)
           this.error.passwordConfirm = '비밀번호가 일치하지 않아요.';
         else this.error.passwordConfirm = false;
       }
@@ -187,7 +186,7 @@ export default {
         this.signupData.name.length > 0 &&
         this.signupData.email.length > 0 &&
         this.signupData.password.length > 0 &&
-        this.signupData.passwordConfirm.length > 0
+        this.passwordConfirm.length > 0
       ) {
         let isSubmit = true;
         Object.values(this.error).map((v) => {
