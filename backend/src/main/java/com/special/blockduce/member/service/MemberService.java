@@ -115,21 +115,21 @@ public class MemberService {
     @Transactional
     public void join(MemberForm form) {
 
-        String password = form.getPassword();
-        String account = form.getAccount();
         String salt = SaltUtil.genSalt();
 
         Member member = Member.builder().
                 email(form.getEmail()).
                 name(form.getName()).
-                password(SaltUtil.encodePassword(salt,password)).
+                password(SaltUtil.encodePassword(salt,form.getPassword())).
                 kid(form.getKid()).
                 ismem(form.getIsmem()).
                 nickname(form.getNickname()).
                 intro(form.getIntro()).
                 img(form.getImg()).
-//                account(SaltUtil.encodePassword(salt,account)).
-                key(form.getKey()).
+                account1(SaltUtil.encodePassword(salt,form.getAccount())).
+                key1(SaltUtil.encodePassword(salt,form.getKey())).
+                dbc1(form.getDbc()).
+                eth1(form.getEth()).
                 build();
 
         System.out.println("member = " + member);
@@ -185,10 +185,10 @@ public class MemberService {
                         name(member.getName()).
                         nickname(member.getNickname()).
                         intro(member.getIntro()).
-                        wallet(member.getAccount()).
-                        eth(member.getEth()).
-                        dbc(member.getDbc()).
-                        key(member.getKey()).
+                        account(member.getAccount().getAccount()).  // 맴버가 어카운트 아이디를 가지고 있을까? 일단 일대일 관계
+                        eth(member.getAccount().getEth()).
+                        dbc(member.getAccount().getDbc()).
+                        key(member.getAccount().getKey()).
                         ismem(member.getIsmem()).
                         build();
             } else {
@@ -199,7 +199,7 @@ public class MemberService {
             System.out.println("3");
             if (member.getIsmem()==true) { //계정이 있을 경우
                 System.out.println("4");
-                member.updateEth(form.getEth());
+                member.getAccount().updateEth(form.getEth());
             } else {
                 System.out.println("5");
                 memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
@@ -208,7 +208,7 @@ public class MemberService {
             System.out.println("6");
             if (member.getIsmem()==true) { //계정이 있을 경우
                 System.out.println("7");
-                member.updateDbc(form.getDbc());
+                member.getAccount().updateDbc(form.getDbc());
             } else {
                 System.out.println("8");
                 memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악

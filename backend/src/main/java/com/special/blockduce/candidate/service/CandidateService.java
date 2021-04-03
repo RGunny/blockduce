@@ -37,10 +37,10 @@ public class CandidateService {
                 agency(form.getAgency()).
                 img(form.getImg()).
                 name(form.getName()).
-                account(form.getAccount()).
-                dbc(form.getDbc()).
+                account1(form.getAccount()).
+                dbc1(form.getDbc()).
                 intro(form.getIntro()).
-                key(SaltUtil.encodePassword(salt,key)).
+                key1(SaltUtil.encodePassword(salt,key)).
                 build();
 
         candidateRepository.save(candidate);
