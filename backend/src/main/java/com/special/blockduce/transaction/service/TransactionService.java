@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -42,7 +43,7 @@ public class TransactionService {
                     value(form.getValue()).  //보낸양 eth or dbc
                     transactionFee(form.getTransactionFee()).  //만들때 사용한 가스비
                     gasUsed(form.getGasUsed()).
-                    timeStamp(form.getTimeStamp()).
+                    localDateTime(LocalDateTime.now()).
                     blockNumber(form.getBlockNumber()).
                     build();
 
@@ -75,7 +76,7 @@ public class TransactionService {
                     value(form.getValue()).
                     transactionFee(form.getTransactionFee()).
                     gasUsed(form.getGasUsed()).
-                    timeStamp(form.getTimeStamp()).
+                    localDateTime(LocalDateTime.now()).
                     blockNumber(form.getBlockNumber()).
                     build();
 
