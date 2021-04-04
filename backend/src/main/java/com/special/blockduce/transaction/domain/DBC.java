@@ -8,11 +8,11 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class DBC {
     @Id
@@ -51,12 +51,12 @@ public class DBC {
     @Column(name = "gas_used")
     private Long gasUsed;
 
-    @Column(name = "time_stamp")
-    private String timeStamp;
+    @Column(name = "local_date_time")
+    private LocalDateTime localDateTime;
 
     @Builder
     public DBC(Long id, String senderAccount,Long senderId, String receiverAccount, String blockHash,Long value,
-               Long transactionFee,Long gasUsed,String timeStamp,Long receiverId,Long blockNumber
+               Long transactionFee,Long gasUsed,LocalDateTime localDateTime,Long receiverId,Long blockNumber
                   ) {
         this.id = id;
         this.member = Member.builder().
@@ -67,7 +67,7 @@ public class DBC {
         this.value = value;
         this.transactionFee = transactionFee;
         this.gasUsed = gasUsed;
-        this.timeStamp = timeStamp;
+        this.localDateTime = localDateTime;
         this.blockNumber = blockNumber;
         this.senderAccount = senderAccount;
         this.receiverAccount = receiverAccount;

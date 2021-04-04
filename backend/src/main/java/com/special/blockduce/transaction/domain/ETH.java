@@ -1,18 +1,14 @@
 package com.special.blockduce.transaction.domain;
 import com.special.blockduce.candidate.domain.Candidate;
-import com.special.blockduce.config.UserRole;
 import com.special.blockduce.member.domain.Member;
-import com.special.blockduce.member.domain.Salt;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @NoArgsConstructor
 public class ETH {
 
@@ -53,11 +49,11 @@ public class ETH {
     private Long gasUsed;
 
     @Column(name = "time_stamp")
-    private String timeStamp;
+    private LocalDateTime localDateTime;
 
     @Builder
-    public ETH(Long id, String senderAccount,Long senderId, String receiverAccount, String blockHash,Long value,
-               Long transactionFee,Long gasUsed,String timeStamp,Long receiverId,Long blockNumber
+    public ETH(Long id, String senderAccount, Long senderId, String receiverAccount, String blockHash, Long value,
+               Long transactionFee, Long gasUsed, LocalDateTime localDateTime, Long receiverId, Long blockNumber
     ) {
         this.id = id;
         this.member = Member.builder().
@@ -68,7 +64,7 @@ public class ETH {
         this.value = value;
         this.transactionFee = transactionFee;
         this.gasUsed = gasUsed;
-        this.timeStamp = timeStamp;
+        this.localDateTime = localDateTime;
         this.blockNumber = blockNumber;
         this.senderAccount = senderAccount;
         this.receiverAccount = receiverAccount;
