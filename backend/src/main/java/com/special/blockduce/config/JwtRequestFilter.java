@@ -43,18 +43,18 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         final Cookie jwtToken = cookieUtil.getCookie(httpServletRequest,JwtUtil.ACCESS_TOKEN_NAME);
 
-        String username = null;
+        String email = null;
         String jwt = null;
         String refreshJwt = null;
-        String refreshUname = null;
+        String refreshEmail = null;
 
         try{
             if(jwtToken != null){
                 jwt = jwtToken.getValue();
-                username = jwtUtil.getUsername(jwt);
+                email = jwtUtil.getUsername(jwt);
             }
-            if(username!=null){
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if(email!=null){
+                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
                 if(jwtUtil.validateToken(jwt,userDetails)){
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
@@ -73,16 +73,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         try{
             if(refreshJwt != null){
-                refreshUname = redisUtil.getData(refreshJwt);
+                refreshEmail = redisUtil.getData(refreshJwt);
 
-                if(refreshUname.equals(jwtUtil.getUsername(refreshJwt))){
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(refreshUname);
+                if(refreshEmail.equals(jwtUtil.getUsername(refreshJwt))){
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(refreshEmail);
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
                     usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
                     Member member = new Member();
-                    member.setName(refreshUname);
+                    member.setName(refreshEmail);
                     String newToken =jwtUtil.generateToken(member);
 
                     Cookie newAccessToken = cookieUtil.createCookie(JwtUtil.ACCESS_TOKEN_NAME,newToken);

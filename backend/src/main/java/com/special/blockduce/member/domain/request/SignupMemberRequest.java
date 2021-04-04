@@ -41,4 +41,13 @@ public class SignupMemberRequest {
         this.password = password;
         this.profileImageUrl = profileImageUrl;
     }
+
+    public SignupMemberRequest() {
+    }
+
+    public SignupMemberRequest(@Email String email, @NotNull @Pattern(regexp = "/^[가-힣]+$/") String name, @NotNull @Pattern(regexp = "/^(?=.*[a-zA-Z])((?=.*\\d)|(?=.*\\W)).{6,20}$/") String password) {
+        this.email = email;
+        this.name = name;
+        this.password = password;
+    }
 }

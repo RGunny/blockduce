@@ -60,10 +60,6 @@ public class Member {
     @Column(name = "intro")
     private String intro;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 88d5297 (S04P22B107-119 [hotfix] : 테이블 분리)
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.ROLE_NOT_PERMITTED;

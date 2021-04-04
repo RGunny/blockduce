@@ -19,18 +19,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.mail.Multipart;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
-import java.util.Locale;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/auth")
@@ -55,32 +48,34 @@ public class AuthController {
     )
     public Object signUpMember(@RequestPart(required = false) MultipartFile image, SignupMemberRequest signupMemberRequest) {
         ResponseEntity<Response> responseEntity = null;
+
         System.out.println(signupMemberRequest.getEmail());
-        System.out.println("-----------------------------------------------");
-        if (authService.existsByEmail(signupMemberRequest.getEmail())){
-            final Response result = new Response("success","중복된 회원 이메일 발견", "duplicated email exception");
+        System.out.println(signupMemberRequest.getName());
+        System.out.println(signupMemberRequest.getPassword());
+
+        if (authService.existsByEmail(signupMemberRequest.getEmail())) {
+            final Response result = new Response("success", "중복된 회원 이메일 발견", "duplicated email exception");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
-        
+
 
         //유저 대표 이미지 저장
-        if(image != null){
+        if (image != null) {
             try {
                 String imgName = imageService.createImage(image);
                 signupMemberRequest.setProfileImageUrl(imgName);
-            }
-            catch (IOException e){
-                final Response result = new Response("success","회원가입 이미지 저장 중 오류 발생", e.getMessage());
+            } catch (IOException e) {
+                final Response result = new Response("success", "회원가입 이미지 저장 중 오류 발생", e.getMessage());
                 return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
             }
         }//파일 저장 끝
 
-        try{
+        try {
             authService.signUpMember(signupMemberRequest);
-            final Response result = new Response("success","회원가입 성공",null);
-            responseEntity = new ResponseEntity<>(result,HttpStatus.OK);
-        }catch (Exception e){
-            final Response result = new Response("error","회원가입 중 오류 발생",e.getMessage());
+            final Response result = new Response("success", "회원가입 성공", null);
+            responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
+        } catch (Exception e) {
+            final Response result = new Response("error", "회원가입 중 오류 발생", e.getMessage());
             responseEntity = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
         return responseEntity;
@@ -93,7 +88,7 @@ public class AuthController {
             notes = "post로 LoginMemberRequest 형태의 데이터를 받아서 로그인 처리와 토큰을 발급해줍니다.",
             response = Response.class
     )
-    public Object login(@Valid @RequestBody LoginMemberRequest user, HttpServletRequest request,HttpServletResponse response) {
+    public Object login(@Valid @RequestBody LoginMemberRequest user, HttpServletRequest request, HttpServletResponse response) {
         try {
             final Member member = authService.loginMember(user.getEmail(), user.getPassword());
             final String token = jwtUtil.generateToken(member);
@@ -107,9 +102,9 @@ public class AuthController {
             response.addCookie(accessToken);
             response.addCookie(refreshToken);
 
-            return new ResponseEntity<>(new Response("success","로그인에 성공했습니다.", LoginMemberResponse.of(member,accessToken.getValue())),HttpStatus.OK);
+            return new ResponseEntity<>(new Response("success", "로그인에 성공했습니다.", LoginMemberResponse.of(member, accessToken.getValue())), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(new Response("error","로그인이 실패하였습니다. 아이디 / 비밀번호 확인해주세요",e.getMessage()),HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(new Response("error", "로그인이 실패하였습니다. 아이디 / 비밀번호 확인해주세요", e.getMessage()), HttpStatus.UNAUTHORIZED);
         }
     }
 
