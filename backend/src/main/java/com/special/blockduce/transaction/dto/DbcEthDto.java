@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @RequiredArgsConstructor
 public class DbcEthDto {
@@ -17,12 +19,12 @@ public class DbcEthDto {
     private Long value;
     private Long transactionFee;
     private Long gasUsed;
-    private String timeStamp;
+    private LocalDateTime localDateTime;
     private Long isDbcEth;
 
     @Builder
     public DbcEthDto(Long id,Long senderId,Long receiverId,String blockHash,Long value,
-                      Long transactionFee, Long gasUsed,String timeStamp,String senderAccount,
+                      Long transactionFee, Long gasUsed,LocalDateTime localDateTime,String senderAccount,
                   String receiverAccount,Long isDbcEth,Long blockNumber) {
         this.id = id;
         this.senderId = senderId;
@@ -33,7 +35,7 @@ public class DbcEthDto {
         this.value = value;
         this.transactionFee = transactionFee;
         this.gasUsed = gasUsed;
-        this.timeStamp = timeStamp;
+        this.localDateTime = localDateTime;
         this.isDbcEth = isDbcEth;
         this.blockNumber = blockNumber;
     }
