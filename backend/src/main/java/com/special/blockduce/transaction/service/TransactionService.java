@@ -30,15 +30,29 @@ public class TransactionService {
     @Transactional
     public void create(DbcEthDto form) {
 
-        DbcEthDto senderaccount = findMemberByid(form.getSenderId());
-        DbcEthDto receiveraccount = findCandidateByid(form.getReceiverId());
+        Member sender = findMemberByid(form.getSenderId());
+        Candidate receiver = findCandidateByid(form.getReceiverId());
+
+        DbcEthDto senderAccount =  DbcEthDto.builder().
+                   senderAccount(sender.getAccount().getAccount()).
+                   build();
+
+        DbcEthDto receiverAccount =  DbcEthDto.builder().
+                receiverAccount(receiver.getAccount().getAccount()).
+                build();
+        /**
+         * 후보자에게 투표했을경우
+         * 회원의 dbc를 후보자에게 전송
+         * dbc테이블에서 + 맴버의 아이디가 senderId에 있는게 투표 트렌젝션
+         * 구동확인
+         */
 
         if(form.getIsDbcEth()==1) {
             DBC dbc = DBC.builder().
                     senderId(form.getSenderId()).
                     receiverId(form.getReceiverId()).
-                    senderAccount(senderaccount.getSenderAccount()).
-                    receiverAccount(receiveraccount.getReceiverAccount()).
+                    senderAccount(senderAccount.getSenderAccount()).
+                    receiverAccount(receiverAccount.getReceiverAccount()).
                     blockHash(form.getBlockHash()).
                     value(form.getValue()).  //보낸양 eth or dbc
                     transactionFee(form.getTransactionFee()).  //만들때 사용한 가스비
@@ -62,16 +76,28 @@ public class TransactionService {
             Candidate can = new Candidate();
             Candidate candi = candidateRepository.findCandidateByid(form.getReceiverId()).orElse(can);
             if(candi.getId()!=null){ //계정이 있을 경우
-                candi.updateDbc(candi.getAccount().getDbc()+ form.getValue());
+
+                candi.getAccount().updateDbc(candi.getAccount().getDbc()+ form.getValue());
+
             }
         }
+
+        /**
+         * 굿즈 구매에 eth 를 사용했을 경우
+         * 회원의 eth를 관리자에게 전송
+         * eth 테이블에서 + 관라자의 아이디가 receiverId에 있으면 굿즈 구매 트렌젝션
+         * 구동확인
+         */
+
 
         else if(form.getIsDbcEth()==0){
             ETH eth = ETH.builder().
                     senderId(form.getSenderId()).
                     receiverId(form.getReceiverId()).
-                    senderAccount(senderaccount.getSenderAccount()).
-                    receiverAccount(receiveraccount.getReceiverAccount()).
+
+                    senderAccount(senderAccount.getSenderAccount()).
+                    receiverAccount(receiverAccount.getReceiverAccount()).
+
                     blockHash(form.getBlockHash()).
                     value(form.getValue()).
                     transactionFee(form.getTransactionFee()).
@@ -85,45 +111,58 @@ public class TransactionService {
             //맴버 찾아서 dto처리
             Member mem = new Member();
             // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
-            Member member = memberRepository.findMemberByid(form.getId()).orElse(mem);
+
+            Member member = memberRepository.findMemberByid(form.getSenderId()).orElse(mem);
             if(member.getId()!=null){ //계정이 있을 경우
                 member.getAccount().updateEth(member.getAccount().getEth() - form.getValue());
             }
+
+            Candidate can = new Candidate();
+            Candidate candi = candidateRepository.findCandidateByid(form.getReceiverId()).orElse(can);
+            if(candi.getId()!=null){ //계정이 있을 경우
+                candi.getAccount().updateEth(candi.getAccount().getEth()+ form.getValue());
+
+            }
+
         }
     }
 
     // server receiver의 id로 각 member와 candidate를 찯아온다 (account를 얻기위해해)
    @Transactional
-    public DbcEthDto findMemberByid(Long id) {
 
-        Optional<Member> member = memberRepository.findMemberByid(id);
-       System.out.println("member의 어카운트 찾아왔니? :"+member.get().getAccount().getAccount());
-       DbcEthDto dbcDto = new DbcEthDto();
-        if(member.isPresent()){ //계정이 있을 경우
-            dbcDto =  DbcEthDto.builder().
-                    senderAccount(member.get().getAccount().getAccount()).
-                    build();
-        }
-        return dbcDto;
+    public Member findMemberByid(Long id) {
+
+       //맴버 찾아서 dto처리
+       Member mem = new Member();
+       // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
+       Member member = memberRepository.findMemberByid(id).orElse(mem);
+
+       if(member.getId()!=null){ //계정이 있을 경우
+           return member;
+       }
+        return mem;  //계정이 없을 경우 예외처리 or 빈객체
     }
 
     @Transactional
-    public DbcEthDto findCandidateByid(Long id) {
+    public Candidate findCandidateByid(Long id) {
 
-        Optional<Candidate> candidate = candidateRepository.findCandidateByid(id);
-        System.out.println("candidate 어카운트 찾아왔니? :"+candidate.get().getAccount().getAccount());
+        //맴버 찾아서 dto처리
+        Candidate candi = new Candidate();
+        // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
+        Candidate candidate = candidateRepository.findCandidateByid(id).orElse(candi);
 
-        DbcEthDto dbcDto = new DbcEthDto();
-        if(candidate.isPresent()){ //계정이 있을 경우
-            dbcDto =  DbcEthDto.builder().
-                    receiverAccount(candidate.get().getAccount().getAccount()).
-                    build();
+        if(candidate.getId()!=null){ //계정이 있을 경우
+            return candidate;
+
         }
-        return dbcDto;
+        return candi;  //계정이 없을 경우 예외처리 or 빈객체
+
     }
 
-    public int countTransactionById(Long memberId) {
-        return dbcRepository.countById(memberId);
+    public int countDbcTransactionByMember(Long memberId) {
+        Member member = findMemberByid(memberId);
+        return dbcRepository.countByMember(member);
+
     }
 
     public String findKeyByid(Long memberId) {
@@ -137,6 +176,125 @@ public class TransactionService {
         }
         return key;
     }
+
+
+    public Double countTotalSendDbcById(Long memberId) {
+        return dbcRepository.countTotalSendDbcById(memberId);
+    }
+
+    public Integer receiveDbcTransactionsById(Long memberId) {
+        return dbcRepository.receiveDbcTransactionsById(memberId);
+    }
+    @Transactional
+    public void createRewardDbc(DbcEthDto form) {
+
+        Candidate sender = findCandidateByid(form.getSenderId());  //여기선 보내는 사람 후보자테이블(관리자) 받는 사람 맴버테이블(회원)
+        Member receiver = findMemberByid(form.getReceiverId());
+
+        DbcEthDto senderAccount =  DbcEthDto.builder().
+                senderAccount(sender.getAccount().getAccount()).
+                build();
+
+        DbcEthDto receiverAccount =  DbcEthDto.builder().
+                receiverAccount(receiver.getAccount().getAccount()).
+                build();
+
+        /**
+         * qr코드 영상 시청 등의 보상으로 dbc를 보상받은경우
+         * 관리자의 dbc를 회원에게 전송
+         * dbc 테이블에서 + 관라자의 아이디가 senderId에 있으면 dbc 보상 트렌젝션
+         * 동작 확인
+         */
+        if(form.getIsDbcEth()==1) {
+            DBC rewarddbc = DBC.builder().
+                    receiverId(form.getSenderId()).    //db에 receiver sender 반대로 기록됨에 주의
+                    senderId(form.getReceiverId()).
+                    senderAccount(senderAccount.getSenderAccount()).
+                    receiverAccount(receiverAccount.getReceiverAccount()).
+                    blockHash(form.getBlockHash()).
+                    value(form.getValue()).  //보낸양 eth or dbc
+                    transactionFee(form.getTransactionFee()).  //만들때 사용한 가스비
+                    gasUsed(form.getGasUsed()).
+                    localDateTime(form.getLocalDateTime()).
+                    blockNumber(form.getBlockNumber()).
+                    build();
+
+            dbcRepository.save(rewarddbc);
+
+            //맴버 찾아서 dto처리
+            Candidate candi = new Candidate();
+            // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
+            Candidate s_admin = candidateRepository.findCandidateByid(form.getSenderId()).orElse(candi);
+            System.out.println("candidate에서 찾아온 admin id: "+s_admin.getId());
+            System.out.println("찾아온 dbc: "+s_admin.getAccount().getDbc());
+            if(s_admin.getId() != null){ //계정이 있을 경우
+                s_admin.getAccount().updateDbc(s_admin.getAccount().getDbc() - form.getValue());
+            }
+
+            Member mem2 = new Member();
+            Member r_member = memberRepository.findMemberByid(form.getReceiverId()).orElse(mem2);
+            if(r_member.getId()!=null){ //계정이 있을 경우
+                r_member.getAccount().updateDbc(r_member.getAccount().getDbc()+ form.getValue());
+            }
+        } //완료
+
+        /**
+         * 투표에 대한 보상으로 eth를 받는 경우
+         * 관리자의 eth를 회원에게 전송
+         * eth 테이블에서 + 관라자의 아이디가 senderId에 있으면 eth 보상 트렌젝션
+         * 동작확인
+         */
+
+        else if(form.getIsDbcEth()==0){
+            ETH rewardEth = ETH.builder().
+                    receiverId(form.getSenderId()).
+                    senderId(form.getReceiverId()).
+                    senderAccount(senderAccount.getSenderAccount()).
+                    receiverAccount(receiverAccount.getReceiverAccount()).
+                    blockHash(form.getBlockHash()).
+                    value(form.getValue()).
+                    transactionFee(form.getTransactionFee()).
+                    gasUsed(form.getGasUsed()).
+                    localDateTime(form.getLocalDateTime()).
+                    blockNumber(form.getBlockNumber()).
+                    build();
+
+            ethRepository.save(rewardEth);
+
+            //맴버 찾아서 dto처리
+            Member mem = new Member();
+            // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
+            Member member = memberRepository.findMemberByid(form.getReceiverId()).orElse(mem);
+            if(member.getId()!=null){ //계정이 있을 경우
+                member.getAccount().updateEth(member.getAccount().getEth() + form.getValue());
+            }
+
+            //맴버 찾아서 dto처리
+            Candidate candi = new Candidate();
+            // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
+            Candidate s_admin = candidateRepository.findCandidateByid(form.getSenderId()).orElse(candi);
+            System.out.println("candidate에서 찾아온 admin id: "+s_admin.getId());
+            System.out.println("찾아온 eth: "+s_admin.getAccount().getEth());
+            if(s_admin.getId() != null){ //계정이 있을 경우
+                s_admin.getAccount().updateEth(s_admin.getAccount().getEth() - form.getValue());
+            }
+        }
+    }
+
+    public Double countTotalReceiveDbcById(Long memberId) {
+
+        return dbcRepository.countTotalReceiveDbcById(memberId);
+    }
+
+    public Integer receiveEthTransactionsById(Long memberId) {
+        return ethRepository.receiveEthTransactionsById(memberId);
+    }
+
+    public Double countTotalReceiveEthById(Long memberId) {
+        return ethRepository.countTotalReceiveEthById(memberId);
+    }
+
+
 //
 //    public HttpStatus countTotalDbcById(Long memberId) {
 //        return dbcRepository.countById(memberId);
