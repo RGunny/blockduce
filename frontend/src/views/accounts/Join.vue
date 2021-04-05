@@ -3,6 +3,31 @@
     <div class="container p-3 mt-5 bg-light-ivory signup-form">
       <h3>회원가입</h3>
 
+      <!-- 프로필 사진 위치 -->
+      <div>
+        <div v-if="signupData.imageUrl != null">
+          <img
+            :src="signupData.imageUrl"
+            class="rounded mx-auto d-block"
+            @click="onClickImageUpload"
+            width="150px"
+            height="150px"
+          />
+        </div>
+        <div v-if="signupData.imageUrl == null">
+          <img
+            :src="defaultimg"
+            class="rounded mx-auto d-block"
+            @click="onClickImageUpload"
+            width="150px"
+            height="150px"
+          />
+        </div>
+      </div>
+      <input ref="imageInput" type="file" hidden @change="onChangeImages" />
+      <p class="my-3">
+        <span class="items" @click="onClickImageUpload">프로필 등록하기</span>
+      </p>
       <div class="input-with-label">
         <input
           v-model="signupData.name"
@@ -23,7 +48,46 @@
           {{ error.name }}
         </div>
       </div>
-
+      <div class="input-with-label">
+        <input
+          v-model="signupData.nickname"
+          v-bind:class="{
+            error: error.nickname,
+            complete: !error.nickname && signupData.nickname.length !== 0,
+          }"
+          class="inputs"
+          id="nickname"
+          placeholder="닉네임"
+          type="text"
+          autocapitalize="none"
+          autocorrect="none"
+          style="text-transform:lowercase"
+        />
+        <label for="nickname"></label>
+        <div class="error-text ml-3" v-if="error.nickname">
+          {{ error.nickname }}
+        </div>
+      </div>
+      <div class="input-with-label">
+        <input
+          v-model="signupData.intro"
+          v-bind:class="{
+            error: error.intro,
+            complete: !error.intro && signupData.intro.length !== 0,
+          }"
+          class="inputs"
+          id="intro"
+          placeholder="자기소개"
+          type="text"
+          autocapitalize="none"
+          autocorrect="none"
+          style="text-transform:lowercase"
+        />
+        <label for="intro"></label>
+        <div class="error-text ml-3" v-if="error.intro">
+          {{ error.intro }}
+        </div>
+      </div>
       <div class="input-with-label">
         <input
           v-model="signupData.email"
@@ -65,12 +129,13 @@
 
       <div class="input-with-label">
         <input
-          v-model="passwordConfirm"
+          v-model="signupData.passwordConfirm"
           type="password"
           id="password-confirm"
           v-bind:class="{
             error: error.passwordConfirm,
-            complete: !error.passwordConfirm && passwordConfirm.length !== 0,
+            complete:
+              !error.passwordConfirm && signupData.passwordConfirm.length !== 0,
           }"
           placeholder="비밀번호를 다시 입력해주세요."
           class="inputs"
@@ -108,16 +173,22 @@ export default {
       signupData: {
         email: '',
         password: '',
+        passwordConfirm: '',
         name: '',
+        nickname: '',
+        intro: '',
+        imageUrl: null,
       },
-      passwordConfirm: '',
       error: {
         email: false,
         name: false,
         password: false,
         passwordConfirm: false,
+        nickname: '',
+        intro: '',
       },
       isSubmit: false,
+      defaultimg: require('@/assets/user/defaultimg.png'),
     };
   },
   created() {
@@ -131,15 +202,39 @@ export default {
         this.checknameForm();
         this.checkEmailForm();
         this.checkPasswordForm();
+        this.checkNickName();
+        this.checkIntro();
         this.checkPasswordConfirmationForm();
       },
     },
   },
   methods: {
+    fileSelect() {
+      console.log('file', this.$refs);
+      this.signupData.imageUrl = this.$refs.imageInput.files[0];
+    },
+    onClickImageUpload() {
+      this.$refs.imageInput.click();
+    },
+    onChangeImages(e) {
+      console.log(e.target.files);
+      const file = e.target.files[0]; // Get first index in files
+      this.signupData.imageUrl = URL.createObjectURL(file); // Create File URL
+    },
     checknameForm() {
       if (this.signupData.name.length > 0) {
         this.error.name = false;
       } else this.error.name = '이름을 입력해주세요.';
+    },
+    checkNickName() {
+      if (this.signupData.nickname.length > 0) {
+        this.error.nickname = false;
+      } else this.error.nickname = '닉네임을 입력해주세요.';
+    },
+    checkIntro() {
+      if (this.signupData.intro.length > 0) {
+        this.error.intro = false;
+      } else this.error.intro = '자기소개를 입력해주세요.';
     },
     checkEmailForm() {
       if (
@@ -176,7 +271,7 @@ export default {
         this.signupData.password.length >= 8 &&
         this.validPassword(this.signupData.password)
       ) {
-        if (this.signupData.password !== this.passwordConfirm)
+        if (this.signupData.password !== this.signupData.passwordConfirm)
           this.error.passwordConfirm = '비밀번호가 일치하지 않아요.';
         else this.error.passwordConfirm = false;
       }
@@ -186,7 +281,9 @@ export default {
         this.signupData.name.length > 0 &&
         this.signupData.email.length > 0 &&
         this.signupData.password.length > 0 &&
-        this.passwordConfirm.length > 0
+        this.signupData.passwordConfirm.length > 0 &&
+        this.signupData.intro.length > 0 &&
+        this.signupData.nickname.length > 0
       ) {
         let isSubmit = true;
         Object.values(this.error).map((v) => {
@@ -288,6 +385,7 @@ input[type='password'] {
 }
 
 .background {
+  overflow: scroll;
   position: absolute;
   top: 0;
   left: 0;

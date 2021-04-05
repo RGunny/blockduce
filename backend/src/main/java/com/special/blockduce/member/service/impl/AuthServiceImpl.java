@@ -6,6 +6,7 @@ import com.special.blockduce.exceptions.ErrorCode;
 import com.special.blockduce.member.domain.Member;
 import com.special.blockduce.member.domain.Salt;
 import com.special.blockduce.member.domain.request.SignupMemberRequest;
+import com.special.blockduce.member.domain.request.VerifyEmailRequest;
 import com.special.blockduce.member.repository.MemberRepository;
 import com.special.blockduce.member.service.AuthService;
 import com.special.blockduce.member.service.EmailService;
@@ -40,8 +41,9 @@ public class AuthServiceImpl implements AuthService {
     Member getMemberEmail(String email){return null;}
 
     /*회원가입*/
+    @Override
     @Transactional
-    public boolean signUpMember(SignupMemberRequest signupMemberRequest){
+    public Member signUpMember(SignupMemberRequest signupMemberRequest){
 
 //        if (existsByEmail(signupMemberRequest.getEmail())){
 //            return false;
@@ -49,28 +51,32 @@ public class AuthServiceImpl implements AuthService {
 
         String password = signupMemberRequest.getPassword();
         String salt = SaltUtil.genSalt();
-        if(signupMemberRequest.getProfileImageUrl() == "" || signupMemberRequest.getProfileImageUrl()==null){
-            signupMemberRequest.setProfileImageUrl("https://blockduce-image.s3.ap-northeast-2.amazonaws.com/default-img.png");
+        if(signupMemberRequest.getImageUrl() == "" || signupMemberRequest.getImageUrl()==null){
+            signupMemberRequest.setImageUrl("https://blockduce-image.s3.ap-northeast-2.amazonaws.com/default-img.png");
         }
 
         Member member = Member.builder()
                 .email(signupMemberRequest.getEmail())
-                .img(signupMemberRequest.getProfileImageUrl())
+                .img(signupMemberRequest.getImageUrl())
                 .name(signupMemberRequest.getName())
                 .salt(new Salt(salt))
                 .password(SaltUtil.encodePassword(salt,password))
+                .intro(signupMemberRequest.getIntro())
+                .nickname(signupMemberRequest.getNickname())
                 .build();
         memberRepository.save(member);
 
-        return true;
+        return member;
     }
 
     /*이메일 중복 검사*/
+    @Override
     public boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
 
     /*로그인*/
+    @Override
     public Member loginMember(String id, String password)throws Exception{
         Member memeber = findMemberByEmail(id);
         if(memeber == null) throw new Exception("멤버가 조회 되지 않습니다.");
@@ -82,16 +88,29 @@ public class AuthServiceImpl implements AuthService {
         return memeber;
     }
 
+
     /*이메일 인증*/
+    @Override
     public void sendVerificationMail(Member member) throws NotFoundException {
-        String VERIFICATION_LINK = "http://localhost:8080/user/verify/";
+        String VERIFICATION_LINK = "http://localhost:8080/api/auth/verify/";
         if(member==null) throw new NotFoundException("멤버가 조회되지 않음");
         UUID uuid = UUID.randomUUID();
-        redisUtil.setDataExpire(uuid.toString(),member.getName(), 60 * 30L);
+        redisUtil.setDataExpire(uuid.toString(),member.getEmail(), 60 * 30L);
+        emailService.sendMail(member.getEmail(),"[BLOCKDUCE] 회원가입 인증메일입니다.",VERIFICATION_LINK+uuid.toString());
+    }
+
+
+    /*이메일 다시 보내기*/
+    public void resendVerificationMail(Member member) throws NotFoundException {
+        String VERIFICATION_LINK = "http://localhost:8080/auth/reverify/";
+        if(member==null) throw new NotFoundException("멤버가 조회되지 않음");
+        UUID uuid = UUID.randomUUID();
+        redisUtil.setDataExpire(uuid.toString(),member.getEmail(), 60 * 30L);
         emailService.sendMail(member.getEmail(),"[BLOCKDUCE] 회원가입 인증메일입니다.",VERIFICATION_LINK+uuid.toString());
     }
 
     /*이메일 가져오기*/
+    @Override
     public void verifyEmail(String key) throws NotFoundException {
         String memberId = redisUtil.getData(key);
         Member member = findMemberByEmail(key);
@@ -101,6 +120,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /*Role 설정*/
+    @Override
     public void modifyUserRole(Member member, UserRole userRole){
         member.setRole(userRole);
         memberRepository.save(member);
@@ -108,12 +128,14 @@ public class AuthServiceImpl implements AuthService {
 
 
     /*비밀번호 가져오기*/
+    @Override
     public boolean isPasswordUuidValidate(String key){
         String memberId = redisUtil.getData(key);
         return !memberId.equals("");
     }
 
     /*비밀번호 변경*/
+    @Override
     public void changePassword(Member member,String password) throws NotFoundException{
         if(member == null) throw new NotFoundException("changePassword(),멤버가 조회되지 않음");
         String salt = saltUtil.genSalt();
@@ -123,6 +145,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     /*비밀번호 관련 이메일 확인*/
+    @Override
     public void requestChangePassword(Member member) throws NotFoundException{
         String CHANGE_PASSWORD_LINK = "http://localhost:8080/auth/password/";
         if(member == null) throw new NotFoundException("멤버가 조회되지 않음.");

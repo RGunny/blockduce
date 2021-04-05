@@ -31,23 +31,27 @@ public class SignupMemberRequest {
     @Pattern(regexp = "/^(?=.*[a-zA-Z])((?=.*\\d)|(?=.*\\W)).{6,20}$/")
     private String password;
 
-    private String profileImageUrl;
+    private String imageUrl;
+
+    @ApiModelProperty(required = true)
+    @NotNull
+    private String nickname;
+
+    @ApiModelProperty(required = true)
+    @NotNull
+    private String intro;
 
 
-    @Builder
-    public SignupMemberRequest(@Email String email, @NotNull @Pattern(regexp = "/^[가-힣]+$/") String name, @NotNull @Pattern(regexp = "/^(?=.*[a-zA-Z])((?=.*\\d)|(?=.*\\W)).{6,20}$/") String password, String profileImageUrl) {
-        this.email = email;
-        this.name = name;
-        this.password = password;
-        this.profileImageUrl = profileImageUrl;
-    }
 
     public SignupMemberRequest() {
     }
-
-    public SignupMemberRequest(@Email String email, @NotNull @Pattern(regexp = "/^[가-힣]+$/") String name, @NotNull @Pattern(regexp = "/^(?=.*[a-zA-Z])((?=.*\\d)|(?=.*\\W)).{6,20}$/") String password) {
+    @Builder
+    public SignupMemberRequest(@Email String email, @NotNull @Pattern(regexp = "/^[가-힣]+$/") String name, @NotNull @Pattern(regexp = "/^(?=.*[a-zA-Z])((?=.*\\d)|(?=.*\\W)).{6,20}$/") String password, String imageUrl, @NotNull String nickname, @NotNull String intro) {
         this.email = email;
         this.name = name;
         this.password = password;
+        this.imageUrl = imageUrl;
+        this.nickname = nickname;
+        this.intro = intro;
     }
 }

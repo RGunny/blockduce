@@ -1,5 +1,6 @@
 package com.special.blockduce.member.domain.request;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -8,5 +9,9 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class VerifyEmailRequest {
-    String username;
+    String email;
+
+    public VerifyEmailRequest(String email) {
+        this.email = email;
+    }
 }
