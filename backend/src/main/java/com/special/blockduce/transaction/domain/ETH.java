@@ -77,4 +77,12 @@ public class ETH {
         this.receiverAccount = receiverAccount;
         this.transactionHash = transactionHash;
     }
+
+    public ETH updateRewardEth(ETH eth, Long receiverId, Long senderId) {
+
+        eth.setMember(Member.builder().id(receiverId).build());
+        eth.setCandidate(Candidate.builder().id(senderId).build());
+
+        return eth;
+    }
 }

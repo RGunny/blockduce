@@ -61,6 +61,8 @@ public class DBC {
     @Enumerated(EnumType.STRING)
     private DBCStatus status; // REWARD, ELECTION
 
+
+
     @Builder
     public DBC(Long id, String senderAccount,Long senderId, String receiverAccount, String blockHash,Long value,
                Long transactionFee,Long gasUsed,LocalDateTime localDateTime,String transactionHash, Long receiverId,Long blockNumber, DBCStatus status
@@ -80,5 +82,13 @@ public class DBC {
         this.transactionHash = transactionHash;
         this.receiverAccount = receiverAccount;
         this.status = status;
+    }
+
+    public DBC updateRewardDbc(DBC dbc, Long receiverId, Long senderId) {
+
+        dbc.setMember(Member.builder().id(senderId).build());
+        dbc.setCandidate(Candidate.builder().id(receiverId).build());
+
+        return dbc;
     }
 }

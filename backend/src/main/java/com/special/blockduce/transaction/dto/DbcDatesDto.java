@@ -15,6 +15,8 @@ public class DbcDatesDto {
         this.localDates = localDates;
     }
 
+    public String transactionHash;
+
     public DbcDatesDto() {
 
     }
