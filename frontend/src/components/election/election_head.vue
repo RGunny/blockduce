@@ -1,46 +1,133 @@
 <template>
-  <div class="container">
-    <div class="left-side">
-      <div class="card">
-        <div class="card-line"></div>
-        <div class="buttons"></div>
-      </div>
-      <div class="post">
-        <div class="post-line"></div>
-        <div class="screen">
-          <div class="dollar">$</div>
-        </div>
-        <div class="numbers"></div>
-        <div class="numbers-line2"></div>
-      </div>
-    </div>
-    <div class="right-side">
-      <div class="new">New Transaction</div>
+  <div class="root">
+    <calModal />
 
-      <svg
-        class="arrow"
-        xmlns="http://www.w3.org/2000/svg"
-        width="512"
-        height="512"
-        viewBox="0 0 451.846 451.847"
-      >
-        <path
-          d="M345.441 248.292L151.154 442.573c-12.359 12.365-32.397 12.365-44.75 0-12.354-12.354-12.354-32.391 0-44.744L278.318 225.92 106.409 54.017c-12.354-12.359-12.354-32.394 0-44.748 12.354-12.359 32.391-12.359 44.75 0l194.287 194.284c6.177 6.18 9.262 14.271 9.262 22.366 0 8.099-3.091 16.196-9.267 22.373z"
-          data-original="#000000"
-          class="active-path"
-          data-old_color="#000000"
-          fill="#cfcfcf"
-        />
-      </svg>
+    <div class="container" v-on:click="GetERCBalance">
+      <div class="left-side" v-if="active === false">
+        <div class="card">
+          <div class="card-line"></div>
+          <div class="buttons"></div>
+        </div>
+        <div class="post">
+          <div class="post-line"></div>
+          <div class="screen">
+            <div class="dollar">$</div>
+          </div>
+          <div class="numbers"></div>
+          <div class="numbers-line2"></div>
+        </div>
+      </div>
+      <div class="right-side" v-if="active === false">
+        <div class="new">내 DBC 확인</div>
+        <svg
+          class="arrow"
+          xmlns="http://www.w3.org/2000/svg"
+          width="512"
+          height="512"
+          viewBox="0 0 451.846 451.847"
+        >
+          <path
+            d="M345.441 248.292L151.154 442.573c-12.359 12.365-32.397 12.365-44.75 0-12.354-12.354-12.354-32.391 0-44.744L278.318 225.92 106.409 54.017c-12.354-12.359-12.354-32.394 0-44.748 12.354-12.359 32.391-12.359 44.75 0l194.287 194.284c6.177 6.18 9.262 14.271 9.262 22.366 0 8.099-3.091 16.196-9.267 22.373z"
+            data-original="#000000"
+            class="active-path"
+            data-old_color="#000000"
+            fill="#cfcfcf"
+          />
+        </svg>
+      </div>
     </div>
+    <div class="text" v-if="active === true">내 DBC : {{ DBCbalance }}</div>
   </div>
 </template>
+<script>
+let web3;
+import * as Web3 from 'web3';
+import calModal from '@/components/election/component/election_calendar_modal.vue';
+import DBCabi from '../myAccount/DBCabi.json';
+import axios from 'axios';
+
+const userId = localStorage.getItem('id');
+
+export default {
+  data() {
+    return {
+      myInfo: {
+        account: '',
+      },
+      DBCbalance: '0 DBC',
+      active: false,
+    };
+  },
+  components: {
+    calModal,
+  },
+  created() {
+    console.log('ready!');
+    if (typeof web3 !== 'undefined') {
+      console.log('Web3 Detected! ' + web3.currentProvider.constructor.name);
+      web3 = new Web3(web3.currentProvider);
+    } else {
+      console.log('No Web3 detected .. using HTTP provider');
+      const projectId = 'b04025a46bb245b3bdb7c350a938dbe5';
+      web3 = new Web3(
+        new Web3.providers.HttpProvider(
+          `https://ropsten.infura.io/v3/${projectId}`
+        )
+      );
+    }
+    async function getMyAccount(myInfo) {
+      try {
+        const response = await axios.get(
+          'http://j4b107.p.ssafy.io/api/members/' + userId + ''
+        );
+        if (response) {
+          myInfo.account = response.data.account;
+        } else {
+          console.log('Waiting for user data ');
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getMyAccount(this.myInfo);
+  },
+  methods: {
+    GetERCBalance: function() {
+      var account = this.myInfo.account;
+      var contractAddress = '0x9864bb32e02b1fae9eb875f7b169c5400b15efec';
+      var TokenABI = DBCabi;
+      var DBCcontract = new web3.eth.Contract(TokenABI, contractAddress);
+      console.log(DBCcontract);
+      let DBCtoken;
+      DBCcontract.methods
+        .balanceOf(account)
+        .call()
+        .then((result) => {
+          DBCtoken = result / 100000;
+          this.DBCbalance = DBCtoken;
+          this.active = true;
+        });
+    },
+  },
+};
+</script>
 
 <style scoped>
+@font-face {
+  font-family: 'account_font';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+.text {
+  font-family: 'account_font';
+  font-size: x-large;
+}
 @import url('https://fonts.googleapis.com/css?family=Lexend+Deca&display=swap');
 .container {
-  --background: #33837e;
-  --left-side: #5de2a3;
+  --background: #0c3267;
+  --left-side: #0c3267;
   --card: #c7ffbc;
   --card-line: #80ea69;
   --button-color-3: #26850e;
@@ -52,8 +139,14 @@
   --post-line: #757375;
   --post-line2: #545354;
   --dollar: #4b953b;
+  align-items: center;
 }
-
+.root {
+  text-align: center;
+}
+.calmodal {
+  display: flex;
+}
 .container {
   background-color: #ffffff;
   display: flex;
@@ -115,8 +208,8 @@
 }
 
 .new {
-  font-size: 23px;
-  font-family: 'Lexend Deca', sans-serif;
+  font-family: 'account_font';
+  font-size: x-large;
   margin-left: 20px;
 }
 
