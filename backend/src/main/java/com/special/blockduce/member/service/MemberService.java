@@ -164,19 +164,14 @@ public class MemberService {
 
 
     @Transactional
-    public MemberForm findById(Long memberId, MemberForm form) {
+    public MemberForm findById(Long memberId) {
         MemberForm memf =new MemberForm();
         Member mem = Member.builder().ismem(false).build();
 
         // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
         Member member = memberRepository.findOptionalById(memberId).orElse(mem);
 
-// findById 사용 상황
-// 1. 맴버 정보 조회 (form에 eth,dbc null로 전달) 2. id+eth or dbc 넣기
 
-        //address, key,
-
-        if(form.getEth()==null && form.getDbc()==null) {  //맴버 정보 조회하는경우
             if (member.getIsmem()==true) { //계정이 있을 경우
                 System.out.println("1");
                 memf = MemberForm.builder().
@@ -197,21 +192,21 @@ public class MemberService {
             }
 
 
-        }else if(form.getEth()!=null && form.getDbc()==null){ //eth 넣기
-            if (member.getIsmem()==true) { //계정이 있을 경우
-                member.getAccount().updateEth(form.getEth());
-            } else {
-                memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
-            }
-
-
-        }else if(form.getEth()==null && form.getDbc()!=null){//dbc 넣기
-            if (member.getIsmem()==true) { //계정이 있을 경우
-                member.getAccount().updateDbc(form.getDbc());
-            } else {
-                memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
-            }
-        }
+//        }else if(form.getEth()!=null && form.getDbc()==null){ //eth 넣기
+//            if (member.getIsmem()==true) { //계정이 있을 경우
+//                member.getAccount().updateEth(form.getEth());
+//            } else {
+//                memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
+//            }
+//
+//
+//        }else if(form.getEth()==null && form.getDbc()!=null){//dbc 넣기
+//            if (member.getIsmem()==true) { //계정이 있을 경우
+//                member.getAccount().updateDbc(form.getDbc());
+//            } else {
+//                memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
+//            }
+//        }
         return memf;
     }
 
@@ -226,6 +221,39 @@ public class MemberService {
                 build();
 
         return memf;
+    }
+    @Transactional
+    public String refreshDbc(Long memberId, Double dbc) {
+        MemberForm memf = new MemberForm();
+        Member mem = Member.builder().ismem(false).build();
+
+        // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
+        Member member = memberRepository.findOptionalById(memberId).orElse(mem);
+        System.out.println("찾아왔니?"+member.getAccount());
+
+                if (member.getIsmem() == true) { //계정이 있을 경우 dbc 업대이트
+                member.getAccount().updateDbc(dbc);
+                return "dbc 동기화 성공";
+            } else {
+                    return "동기화 실패";
+            }
+
+    }
+    @Transactional
+    public String refreshEth(Long memberId, Double eth) {
+
+        Member mem = Member.builder().ismem(false).build();
+
+        // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
+        Member member = memberRepository.findOptionalById(memberId).orElse(mem);
+        System.out.println("찾아왔니?"+member.getAccount());
+
+        if (member.getIsmem() == true) { //계정이 있을 경우 dbc 업대이트
+            member.getAccount().updateEth(eth);
+            return "eth 동기화 성공";
+        } else {
+            return "동기화 실패";
+        }
     }
 }
 

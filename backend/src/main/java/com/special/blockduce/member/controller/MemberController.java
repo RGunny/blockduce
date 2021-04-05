@@ -89,23 +89,30 @@ public class MemberController {
      * 맴버 정보 확인
      * */
     @GetMapping("/members/{memberId}")
-    public MemberForm memberInfo(@PathVariable("memberId") Long memberId,@RequestBody MemberForm form){
+    public MemberForm memberInfo(@PathVariable("memberId") Long memberId){
         System.out.println("들어왔니?");
-        MemberForm member = memberService.findById(memberId,form);
+        MemberForm member = memberService.findById(memberId);
 
         return member;
     }
 
     /**
-     * 해당 memberId에 이더리움 저장 or DBC 저장
+     * 해당 memberId에 이더리움 리프레시
      * */
-    @PutMapping("/members/{memberId}")
-    public MemberForm replaceMember(@PathVariable("memberId") Long memberId,@RequestBody MemberForm form){
-        System.out.println("왜안됨?"+form.getEth());
-        //변경까지하고 member로 받는다
-        MemberForm member = memberService.findById(memberId,form);
+    @PutMapping("/members/refreshEth/{memberId}/{eth}")
+    public ResponseEntity<String> refreshEth(@PathVariable("memberId") Long memberId,@PathVariable("eth") Double eth){
 
-        return member;
+        String result = memberService.refreshEth(memberId,eth);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PutMapping("/members/refreshDbc/{memberId}/{dbc}")
+    public ResponseEntity<String> refreshDbc(@PathVariable("memberId") Long memberId,@PathVariable("dbc") Double dbc){
+
+        String result = memberService.refreshDbc(memberId,dbc);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
