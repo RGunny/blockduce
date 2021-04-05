@@ -217,8 +217,8 @@ public class TransactionService {
          * 동작 확인
          */
         if(form.getIsDbcEth()==1) {
-            DBC rewarddbc = DBC.builder().
-                    receiverId(form.getReceiverId()).    //db에 receiver sender 반대로 기록됨에 주의
+            DBC dbc = DBC.builder().
+                    receiverId(form.getReceiverId()).
                     senderId(form.getSenderId()).
                     senderAccount(senderAccount.getSenderAccount()).
                     receiverAccount(receiverAccount.getReceiverAccount()).
@@ -232,11 +232,8 @@ public class TransactionService {
                     status(form.getStatus()).
                     build();
 
-            System.out.println("rewarddbc = " + rewarddbc.toString());
-            System.out.println("================================================================");
-
-            dbcRepository.save(rewarddbc);
-            System.out.println("================================================================");
+//            DBC updateRewardDbc = dbc.updateRewardDbc(dbc, form.getReceiverId(), form.getSenderId());
+            dbcRepository.save(dbc);
 
             //맴버 찾아서 dto처리
             Candidate candi = new Candidate();
@@ -263,9 +260,9 @@ public class TransactionService {
          */
 
         else if(form.getIsDbcEth()==0){
-            ETH rewardEth = ETH.builder().
-                    receiverId(form.getSenderId()).
-                    senderId(form.getReceiverId()).
+            ETH eth = ETH.builder().
+                    receiverId(form.getReceiverId()).
+                    senderId(form.getSenderId()).
                     senderAccount(senderAccount.getSenderAccount()).
                     receiverAccount(receiverAccount.getReceiverAccount()).
                     blockHash(form.getBlockHash()).
@@ -277,7 +274,9 @@ public class TransactionService {
                     transactionHash(form.getTransactionHash()).
                     build();
 
-            ethRepository.save(rewardEth);
+            ETH updateRewardEth = eth.updateRewardEth(eth, form.getReceiverId(), form.getSenderId());
+
+            ethRepository.save(updateRewardEth);
 
             //맴버 찾아서 dto처리
             Member mem = new Member();

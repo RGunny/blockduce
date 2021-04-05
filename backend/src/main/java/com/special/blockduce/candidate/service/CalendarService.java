@@ -23,6 +23,7 @@ public class CalendarService {
         DbcDatesDto datesDto = new DbcDatesDto();
         for (DBC dbc : result) {
             datesDto.getLocalDates().add(dbc.getLocalDateTime().toLocalDate());
+            datesDto.setTransactionHash(dbc.getTransactionHash());
         }
 
         return datesDto;
