@@ -41,7 +41,7 @@ public class MemberService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=360325f103f39664cd6c418590ff659c");
-            sb.append("&redirect_uri=http://j4b107.p.ssafy.io/kakaologin");
+            sb.append("&redirect_uri=http://localhost:3000/kakaologin");
             sb.append("&code=" + authorize_code);
             sb.append("&client_secret=Rrnt5OxvySpvbaiodqjg1Qt8BOA1QYUU");
             bw.write(sb.toString());
@@ -126,10 +126,10 @@ public class MemberService {
                 nickname(form.getNickname()).
                 intro(form.getIntro()).
                 img(form.getImg()).
-                account1(SaltUtil.encodePassword(salt,form.getAccount())).
-                key1(SaltUtil.encodePassword(salt,form.getKey())).
-                dbc1(form.getDbc()).
-                eth1(form.getEth()).
+//                account1(SaltUtil.encodePassword(salt,form.getAccount())).
+//                key1(SaltUtil.encodePassword(salt,form.getKey())).
+//                dbc1(form.getDbc()).
+//                eth1(form.getEth()).
                 build();
 
         System.out.println("member = " + member);
@@ -174,6 +174,8 @@ public class MemberService {
 // findById 사용 상황
 // 1. 맴버 정보 조회 (form에 eth,dbc null로 전달) 2. id+eth or dbc 넣기
 
+        //address, key,
+
         if(form.getEth()==null && form.getDbc()==null) {  //맴버 정보 조회하는경우
             if (member.getIsmem()==true) { //계정이 있을 경우
                 System.out.println("1");
@@ -188,29 +190,25 @@ public class MemberService {
                         account(member.getAccount().getAccount()).  // 맴버가 어카운트 아이디를 가지고 있을까? 일단 일대일 관계
                         eth(member.getAccount().getEth()).
                         dbc(member.getAccount().getDbc()).
-                        key(member.getAccount().getKey()).
                         ismem(member.getIsmem()).
                         build();
             } else {
-                System.out.println("2");
                 memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
             }
+
+
         }else if(form.getEth()!=null && form.getDbc()==null){ //eth 넣기
-            System.out.println("3");
             if (member.getIsmem()==true) { //계정이 있을 경우
-                System.out.println("4");
                 member.getAccount().updateEth(form.getEth());
             } else {
-                System.out.println("5");
                 memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
             }
+
+
         }else if(form.getEth()==null && form.getDbc()!=null){//dbc 넣기
-            System.out.println("6");
             if (member.getIsmem()==true) { //계정이 있을 경우
-                System.out.println("7");
                 member.getAccount().updateDbc(form.getDbc());
             } else {
-                System.out.println("8");
                 memf = MemberForm.builder().ismem(false).build(); //계정 존재 여부 -> 플래그로 파악
             }
         }

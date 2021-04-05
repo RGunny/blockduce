@@ -21,11 +21,12 @@ public class DbcEthDto {
     private Long gasUsed;
     private LocalDateTime localDateTime;
     private Long isDbcEth;
+    private String transactionHash;
 
     @Builder
     public DbcEthDto(Long id,Long senderId,Long receiverId,String blockHash,Long value,
                       Long transactionFee, Long gasUsed,LocalDateTime localDateTime,String senderAccount,
-                  String receiverAccount,Long isDbcEth,Long blockNumber) {
+                  String receiverAccount,Long isDbcEth,Long blockNumber,String transactionHash) {
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;
@@ -38,5 +39,6 @@ public class DbcEthDto {
         this.localDateTime = localDateTime;
         this.isDbcEth = isDbcEth;
         this.blockNumber = blockNumber;
+        this.transactionHash = transactionHash;
     }
 }

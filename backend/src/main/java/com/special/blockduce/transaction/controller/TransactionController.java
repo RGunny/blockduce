@@ -2,6 +2,8 @@ package com.special.blockduce.transaction.controller;
 
 import com.special.blockduce.member.dto.MemberForm;
 import com.special.blockduce.member.service.MemberService;
+import com.special.blockduce.transaction.dto.AccountDto;
+import com.special.blockduce.transaction.dto.AccountInfoDto;
 import com.special.blockduce.transaction.dto.DbcEthDto;
 import com.special.blockduce.transaction.dto.DbcEthDto;
 import com.special.blockduce.transaction.service.TransactionService;
@@ -55,13 +57,24 @@ public class TransactionController {
 
         transactionService.createRewardDbc(form);
         return new ResponseEntity<>("전송완료", HttpStatus.OK);
+
+    }
+
+
+    /**
+     * 어카운트 페이지 들어갔을때 트렌젝션 정보 한번에 조회하기
+     */
+    @GetMapping("/election/accountInfo/{memberId}")
+    public ResponseEntity<AccountInfoDto> accountInfo(@PathVariable("memberId") Long memberId){
+
+        return new ResponseEntity<>(transactionService.accountInfo(memberId), HttpStatus.OK);
+
     }
 
     /**
      * 해당 맴버의 총 투표횟수 조회(dbc 트랜젝션 발생횟수)
      * dbc테이블에서 + 맴버의 아이디가 senderId에 있는게 투표 트렌젝션
      * */
-
     //dbc 테이블에서 맴버 id로 count 해서 조회
     @GetMapping("/election/transactions-dbc/{memberId}")
     public ResponseEntity<Integer> dbcTransactions(@PathVariable("memberId") Long memberId){
@@ -77,6 +90,7 @@ public class TransactionController {
     public ResponseEntity<Double> totalDbc(@PathVariable("memberId") Long memberId){
 
         return new ResponseEntity<Double>(transactionService.countTotalSendDbcById(memberId), HttpStatus.OK);
+
     }
 
 
@@ -128,6 +142,15 @@ public class TransactionController {
 
 
         return new ResponseEntity<>(transactionService.countTotalReceiveEthById(memberId), HttpStatus.OK);
+    }
+
+    /**
+     * 지갑 생성 눌렀을 경우 account key dbc(0) eth(0) 으로 넣어주기
+     */
+    @PutMapping("/election/createAccount/{memberId}")
+    public ResponseEntity<String> createAccount(@RequestBody AccountDto form,@PathVariable("memberId") Long memberId){
+
+        return new ResponseEntity<>(transactionService.createAccount(form,memberId), HttpStatus.OK);
     }
 
 
@@ -198,6 +221,6 @@ public class TransactionController {
             throw new RuntimeException(ex);
         }
 
-        return new ResponseEntity<Integer>(transactionService.countDbcTransactionByMember(memberId), HttpStatus.OK);
+        return new ResponseEntity<>(transactionService.countDbcTransactionByMember(memberId), HttpStatus.OK);
     }
 }
