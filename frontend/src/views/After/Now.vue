@@ -14,12 +14,30 @@
         </div>
       </div>
     </div>
+
+
+    <div class="chart">
+      <!-- <card> -->
+        <h6 class="text-uppercase text-muted">
+          순위 그래프
+        </h6>
+        <div>
+          <canvas :height="350" :id="ordersChartID"></canvas>
+        </div>
+
+
+
+    </div>
+
   </div>
 </template>
 
 <script>
 import Navbar from '@/components/Navbar.vue'
 import axios from 'axios'
+import Chart from "chart.js"
+
+// let chart;
 
 export default {
   components: {
@@ -28,6 +46,8 @@ export default {
 
   data() {
     return {
+
+      ordersChartID: "ordersChart",
 
       candidates: [
         {
@@ -73,7 +93,98 @@ export default {
     }
   },
 
+  methods: {
+
+    createChart(chartId) {
+    const chartColor = "#FFFFFF";
+    const fallBackColor = "#f96332";
+    const color = this.color || fallBackColor;
+    const ctx = document.getElementById(chartId).getContext("2d");
+    const gradientStroke = ctx.createLinearGradient(500, 0, 100, 0);
+    gradientStroke.addColorStop(0, color);
+    gradientStroke.addColorStop(1, chartColor);
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["최주아", "황영준", "류건희", "황호연", "박상우", "이상현"],
+        datasets: [
+          {
+            label: "points",
+            tension: 0.4,
+            borderWidth: 0,
+            pointRadius: 0,
+            backgroundColor: "#962afa",
+            data: [1000, 1500, 20, 1200, 1400, 1500],
+            maxBarThickness: 10,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        legend: {
+          display: false,
+        },
+        tooltips: {
+          enabled: true,
+          mode: "index",
+          intersect: false,
+        },
+        scales: {
+          yAxes: [
+            {
+              gridLines: {
+                borderDash: [2],
+                borderDashOffset: [2],
+                drawBorder: false,
+                drawTicks: false,
+                lineWidth: 0,
+                zeroLineWidth: 0,
+                zeroLineBorderDash: [2],
+                zeroLineBorderDashOffset: [2],
+              },
+              ticks: {
+                beginAtZero: true,
+                padding: 10,
+                fontSize: 13,
+                fontColor: "#8898aa",
+                fontFamily: "Open Sans",
+                callback: function (value) {
+                  if (!(value % 10)) {
+                    return value;
+                  }
+                },
+              },
+            },
+          ],
+          xAxes: [
+            {
+              gridLines: {
+                drawBorder: false,
+                drawOnChartArea: false,
+                drawTicks: false,
+              },
+              ticks: {
+                padding: 20,
+                fontSize: 13,
+                fontColor: "#8898aa",
+                fontFamily: "Open Sans",
+              },
+            },
+          ],
+        },
+      },
+    });
+  },
+
+
+
+  },
+
   mounted() {
+
+    this.createChart(this.ordersChartID);
 
     axios.get('http://j4b107.p.ssafy.io/api/candidates')
     .then((response) => {
@@ -89,20 +200,18 @@ export default {
 
     console.log(this.top6)
 
+    // this.createChart(this.ordersChartID);
+
     
     })
     .catch((err) => {
       console.log(err);
       })
-
-  
-  
-
-
   
 
     },
 
+    
 
 }
 </script>
@@ -178,6 +287,10 @@ export default {
   font-size: 15px;
   margin-top: 4vh;
   margin-left: 5vw;
+}
+
+.chart {
+  margin-top: 100px;
 }
 
 </style>
