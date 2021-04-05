@@ -34,7 +34,7 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     /**
-     * DBC,ETH 트렌젝션 생성
+     * DBC,ETH 트렌젝션 생성 (회원이 후보자에게 투표하는 경우)
      * */
     @PostMapping("/election/dbc")
     public ResponseEntity<String> createDbcTransaction(@RequestBody DbcEthDto form){
@@ -45,81 +45,91 @@ public class TransactionController {
     }
 
     /**
-     * 맴버의 총 투표횟수 조회(dbc 트랜젝션 발생횟수)
+     * DBC,ETH 트렌젝션 생성 (관리자 계정으로 회원에게 dbc를 보내주는경우(출책, 투표 보상))
+     * 이 경우 받는 사람이 -> MEMBER 테이블의 회원
+     * 주는 사람은 -> CANDIDATE 테이블의 관리자 계정이다
+     * createDbcTransaction에서 처리하면 직관성이 너무 떨어져서 분리함
+     * */
+    @PostMapping("/election/rewardDbcEth")
+    public ResponseEntity<String> createRewardDbcTransaction(@RequestBody DbcEthDto form){
+
+        transactionService.createRewardDbc(form);
+        return new ResponseEntity<>("전송완료", HttpStatus.OK);
+    }
+
+    /**
+     * 해당 맴버의 총 투표횟수 조회(dbc 트랜젝션 발생횟수)
+     * dbc테이블에서 + 맴버의 아이디가 senderId에 있는게 투표 트렌젝션
      * */
 
     //dbc 테이블에서 맴버 id로 count 해서 조회
     @GetMapping("/election/transactions-dbc/{memberId}")
     public ResponseEntity<Integer> dbcTransactions(@PathVariable("memberId") Long memberId){
 
-        return new ResponseEntity<>(transactionService.countTransactionById(memberId), HttpStatus.OK);
+        return new ResponseEntity<>(transactionService.countDbcTransactionByMember(memberId), HttpStatus.OK);
     }
 
 
-//    /**
-//     * 투표한 양 조회(투표에 사용한 총 dbc 사용량)
-//     * */
-//    @GetMapping("/election/total-dbc/{memberId}")
-//    public ResponseEntity<Double> totalDbc(@PathVariable("memberId") Long memberId){
-//
-//        return new ResponseEntity<Double>(transactionService.countTotalDbcById(memberId), HttpStatus.OK);
-//    }
-//
-//
-//    /**
-//     * dbc받은 횟수(투표에 사용할 dbc를 받은 횟수 -qr코드, 사이트 방문을 통해 지급)  senderId -> 호연    receiverId -> memberId
-//     * */
-//    @GetMapping("/election/receive-transactions-dbc/{memberId}")
-//    public ResponseEntity<Integer> receivedDbcTransactions(@PathVariable("memberId") Long memberId){
-//
-//        return new ResponseEntity<>(transactionService.countTransactionById(memberId), HttpStatus.OK);
-//    }
+    /**
+     * 투표한 양 조회(투표에 사용한 총 dbc 사용량)
+     * */
+    @GetMapping("/election/total-dbc/{memberId}")
+    public ResponseEntity<Double> totalDbc(@PathVariable("memberId") Long memberId){
+
+        return new ResponseEntity<Double>(transactionService.countTotalSendDbcById(memberId), HttpStatus.OK);
+    }
 
 
-//
-//
-//    /**
-//     * dbc받은 양(투표에 사용할 dbc 받은 양)
-//     * */
-//    @GetMapping("/election/received-dbc/{memberId}")
-//    public ResponseEntity<String> receivedDbc(@RequestBody DbcEthDto form){
-//
-//        transactionService.create(form);
-//
-//        return new ResponseEntity<>("전송완료", HttpStatus.OK);
-//    }
-//
-//    /**
-//     * eth 받은 횟수(투표에 사용할 dbc 받은 양)
-//     * */
-//
-//    @GetMapping("/election/receive-transactions-eth/{memberId}")
-//    public ResponseEntity<String> receivedEthTransactions(@RequestBody DbcEthDto form){
-//
-//        transactionService.create(form);
-//
-//        return new ResponseEntity<>("전송완료", HttpStatus.OK);
-//    }
-//
-//    /**
-//     * eth 받은 양(투표에 사용할 dbc 받은 양)
-//     * */
-//
-//    @GetMapping("/election/received-eth/{memberId}")
-//    public ResponseEntity<String> receivedEth(@RequestBody DbcEthDto form){
-//
-//        transactionService.create(form);
-//
-//        return new ResponseEntity<>("전송완료", HttpStatus.OK);
-//    }
-//
-//    /**
-//     * 굿즈 구매 횟수 ( 구현 보류)
-//     * */
-//
-//    /**
-//     * 방문 수 ( 구현 보류)
-//     * */
+    /**
+     * dbc받은 횟수(투표에 사용할 dbc를 받은 횟수 -qr코드, 사이트 방문을 통해 지급)
+     *
+     * dbc 테이블에서 senderId -> dbc주는 관리자 계정    receiverId -> memberId  인 것을 카운트해서 return
+     * */
+
+    @GetMapping("/election/receive-transactions-dbc/{memberId}")
+    public ResponseEntity<Integer> receivedDbcTransactions(@PathVariable("memberId") Long memberId){
+
+        return new ResponseEntity<>(transactionService.receiveDbcTransactionsById(memberId), HttpStatus.OK);
+    }
+
+
+    /**
+     * dbc받은 양(투표에 사용할 dbc 받은 양)
+     *
+     * dbc 테이블에서 candidateId 가 memberId 인 것들의 value 합
+     * */
+    @GetMapping("/election/received-dbc/{memberId}")
+    public ResponseEntity<Double> receivedDbc(@PathVariable("memberId") Long memberId){
+
+        return new ResponseEntity<>(transactionService.countTotalReceiveDbcById(memberId), HttpStatus.OK);
+    }
+
+
+    /**
+     * eth 받은 횟수(투표에 사용할 dbc 받은 양)
+     *
+     * eth 테이블에서 senderId -> eth 관리자 계정    receiverId -> memberId  인 것을 카운트해서 return
+     * */
+
+    @GetMapping("/election/receive-transactions-eth/{memberId}")
+    public ResponseEntity<Integer> receivedEthTransactions(@PathVariable("memberId") Long memberId){
+
+        return new ResponseEntity<>(transactionService.receiveEthTransactionsById(memberId), HttpStatus.OK);
+    }
+
+    /**
+     * eth 받은 양(투표에 사용할 dbc 받은 양)
+     *
+     * eth 테이블에서 candidateId 가 memberId 인 것들의 value 합
+     * */
+
+    @GetMapping("/election/received-eth/{memberId}")
+    public ResponseEntity<Double> receivedEth(@PathVariable("memberId") Long memberId){
+
+
+        return new ResponseEntity<>(transactionService.countTotalReceiveEthById(memberId), HttpStatus.OK);
+    }
+
 
     /**
      * 투표한 맴버에게 eth 제공
@@ -188,6 +198,6 @@ public class TransactionController {
             throw new RuntimeException(ex);
         }
 
-        return new ResponseEntity<Integer>(transactionService.countTransactionById(memberId), HttpStatus.OK);
+        return new ResponseEntity<Integer>(transactionService.countDbcTransactionByMember(memberId), HttpStatus.OK);
     }
 }
