@@ -65,7 +65,7 @@ public interface CalendarRepository extends JpaRepository<DBC, Long> {
 //    List<DBC> findDbcFjMemberCandidateBySenderId(Long senderId, int month, int day);
 
     @Query("select new com.special.blockduce.transaction.dto.DbcResponseDto" +
-            " (d.blockNumber, d.blockHash, c.img, c.name, c.agency, d.localDateTime, d.value)" +
+            " (d.blockNumber, d.blockHash, c.img, c.name, c.agency, d.localDateTime, d.value, d.transactionHash)" +
             " from DBC d join d.member m join d.candidate c " +
             " where m.id = :senderId" +
             " and month(d.localDateTime) = :month and day(d.localDateTime) = :day")

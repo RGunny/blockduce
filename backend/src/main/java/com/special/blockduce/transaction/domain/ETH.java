@@ -1,7 +1,11 @@
 package com.special.blockduce.transaction.domain;
+
 import com.special.blockduce.candidate.domain.Candidate;
 import com.special.blockduce.member.domain.Member;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -57,8 +61,7 @@ public class ETH {
     @Builder
     public ETH(Long id, String senderAccount, Long senderId, String receiverAccount, String blockHash, Long value,
                Long transactionFee, Long gasUsed, LocalDateTime localDateTime, Long receiverId, Long blockNumber,
-               String transactionhash
-    ) {
+               String transactionHash) {
         this.id = id;
         this.member = Member.builder().
                 id(senderId).build();
@@ -72,6 +75,6 @@ public class ETH {
         this.blockNumber = blockNumber;
         this.senderAccount = senderAccount;
         this.receiverAccount = receiverAccount;
-        this.transactionHash =transactionhash;
+        this.transactionHash = transactionHash;
     }
 }

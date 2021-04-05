@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
+import java.util.Optional;
 
 public interface DbcRepository extends CrudRepository<DBC,Long> {
 //    int countById(Long memberId);
@@ -40,6 +41,12 @@ public interface DbcRepository extends CrudRepository<DBC,Long> {
             "and d.member.id = :memberId"
     )
     Integer countByMember(Long memberId, DBCStatus status);
+
+    @Query("select d from DBC d join fetch d.candidate c" +
+            " where c.id = :receiverId" +
+            " and d.status = :status" +
+            " and month(d.localDateTime) = :month and day(d.localDateTime) = :day")
+    Optional<DBC> isRewarded(Long receiverId, DBCStatus status, int month, int day);
 
 
 //    int countBySenderId(Long memberId);

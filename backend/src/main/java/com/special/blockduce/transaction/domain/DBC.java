@@ -1,13 +1,13 @@
 package com.special.blockduce.transaction.domain;
+
 import com.special.blockduce.candidate.domain.Candidate;
-import com.special.blockduce.config.UserRole;
 import com.special.blockduce.member.domain.Member;
-import com.special.blockduce.member.domain.Salt;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
@@ -39,10 +39,6 @@ public class DBC {
     @Column(name = "block_hash")
     private String blockHash;
 
-    @Column(name = "dbc_status")
-    @Enumerated(EnumType.STRING)
-    private DBCStatus status;
-
     @Column(name = "transaction_hash")
     private String transactionHash;
 
@@ -61,9 +57,13 @@ public class DBC {
     @Column(name = "local_date_time")
     private LocalDateTime localDateTime;
 
+    @Column(name = "dbc_status")
+    @Enumerated(EnumType.STRING)
+    private DBCStatus status; // REWARD, ELECTION
+
     @Builder
     public DBC(Long id, String senderAccount,Long senderId, String receiverAccount, String blockHash,Long value,
-               Long transactionFee,Long gasUsed,LocalDateTime localDateTime,Long receiverId,Long blockNumber, String transactionhash
+               Long transactionFee,Long gasUsed,LocalDateTime localDateTime,String transactionHash, Long receiverId,Long blockNumber, DBCStatus status
                   ) {
         this.id = id;
         this.member = Member.builder().
@@ -77,7 +77,8 @@ public class DBC {
         this.localDateTime = localDateTime;
         this.blockNumber = blockNumber;
         this.senderAccount = senderAccount;
+        this.transactionHash = transactionHash;
         this.receiverAccount = receiverAccount;
-        this.transactionHash = transactionhash;
+        this.status = status;
     }
 }
