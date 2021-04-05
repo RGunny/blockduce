@@ -3,7 +3,6 @@ export default {
     ROUTES: {
  
       // accounts
-      myaccount: '/users',
       signup: '/auth/signup',
       social: '/auth/social',
       login: '/auth/login',

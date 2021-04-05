@@ -41,19 +41,35 @@ const accountStore = {
             clearInterval(timerInterval)
           }
         })
-      axios.post(SERVER.URL + info.location,  {
-        headers: {
-          'Content-Type' : 'multipart/form-data'
-        }
-      },info.data)
-        .then(() => {
-          console.log('info.data', info.data)
-          // console.log("SUCCESS", res.data)
-          console.log(commit)
-          router.push({ name: 'SignupEmail', params: {signupEmail: info.data} })
+      const formData = new FormData();
+      const memberData = {
+        email: info.data.email,
+        name: info.data.name,
+        password: info.data.password,
+        nickName: info.data.nickName,
+        intro: info.data.intro
+      }
 
+      formData.append('image', info.data.imageUrl);
+      // formData.append('member', memberData);
+      formData.append('member', new Blob([JSON.stringify(memberData)], { type: 'application/json' }))
+      
+      axios.post(SERVER.URL + info.location, formData)
+        .then(res => {
+          console.log('res', res)
+          console.log(commit)
+          if (res.status == 200) {
+            axios({
+              method: 'post',
+              url: SERVER.URL + '/auth/verify',
+              data: JSON.stringify(info.data.email),
+              headers:{'Content-Type': 'application/json; charset=utf-8'}
+          })
+            router.push({ name: 'SignupEmail', params: {signupEmail: info.data} })
+          }
         })
         .catch(err => {
+          console.log('err', err.response.data)
           const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -205,7 +221,7 @@ const accountStore = {
           html: '조금만 기다려주세요',
           timer: 4000,
           timerProgressBar: true,
-          onBeforeOpen: () => {
+          onBeforeOpen: () => { 
             Swal.showLoading()
             timerInterval = setInterval(() => {
               const content = Swal.getContent()

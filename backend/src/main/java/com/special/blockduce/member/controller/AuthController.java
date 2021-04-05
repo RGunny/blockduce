@@ -46,41 +46,43 @@ public class AuthController {
             notes = "회원가입시 SignupMemberRequest의 데이터 타입으로 입력받아 가입을 진행한다.",
             response = Response.class
     )
-//    public Object signUpMember(@RequestPart(required = false) MultipartFile image, SignupMemberRequest signupMemberRequest) {
-    public Object signUpMember(@RequestBody SignupMemberRequest signupMemberRequest) {
+    public Object signUpMember(@RequestPart(value = "file", required = false) MultipartFile image, @RequestPart("member") SignupMemberRequest signupMemberRequest) {
+//    public Object signUpMember(@RequestBody SignupMemberRequest signupMemberRequest) {
+        Response response;
         ResponseEntity<Response> responseEntity = null;
-
-        System.out.println(signupMemberRequest.getEmail());
-        System.out.println(signupMemberRequest.getName());
-        System.out.println(signupMemberRequest.getPassword());
-
         if (authService.existsByEmail(signupMemberRequest.getEmail())) {
             final Response result = new Response("success", "중복된 회원 이메일 발견", "duplicated email exception");
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
 
-
-//        //유저 대표 이미지 저장
-//        if (image != null) {
-//            try {
-//                String imgName = imageService.createImage(image);
-//                signupMemberRequest.setProfileImageUrl(imgName);
-//            } catch (IOException e) {
-//                final Response result = new Response("success", "회원가입 이미지 저장 중 오류 발생", e.getMessage());
-//                return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-//            }
-//        }//파일 저장 끝
-
+        //유저 대표 이미지 저장
+        if (image != null) {
+            try {
+                String imgName = imageService.createImage(image);
+                signupMemberRequest.setImageUrl(imgName);
+            } catch (IOException e) {
+                final Response result = new Response("success", "회원가입 이미지 저장 중 오류 발생", e.getMessage());
+                return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+            }
+        }//파일 저장 끝
         try {
             authService.signUpMember(signupMemberRequest);
-            final Response result = new Response("success", "회원가입 성공", null);
-            responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
+            try{
+                Member member = authService.findMemberByName(signupMemberRequest.getName());
+                authService.sendVerificationMail(member);
+                response = new Response("success", "성공적으로 인증메일을 보냈습니다.", null);
+            }catch (Exception exception){
+                response = new Response("error", "인증메일을 보내는데 문제가 발생했습니다.", exception);
+            }
+            if(response.getReponse().equals("success")) {
+                final Response result = new Response("success", "회원가입 성공", null);
+                responseEntity = new ResponseEntity<>(result, HttpStatus.OK);
+            }
         } catch (Exception e) {
             final Response result = new Response("error", "회원가입 중 오류 발생", e.getMessage());
             responseEntity = new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
         return responseEntity;
-
     }
 
     @PostMapping("/login")
@@ -118,8 +120,22 @@ public class AuthController {
     public Response verify(@RequestBody VerifyEmailRequest verifyEmailRequest, HttpServletRequest req, HttpServletResponse res) {
         Response response;
         try {
-            Member member = authService.findMemberByName(verifyEmailRequest.getUsername());
+            Member member = authService.findMemberByEmail(verifyEmailRequest.getEmail());
             authService.sendVerificationMail(member);
+            response = new Response("success", "성공적으로 인증메일을 보냈습니다.", null);
+        } catch (Exception exception) {
+            response = new Response("error", "인증메일을 보내는데 문제가 발생했습니다.", exception);
+        }
+        return response;
+    }
+
+    @ApiOperation(value = "다시 이메일을 보내는 경우", response = Response.class)
+    @PostMapping("/resend")
+    public Response reverify(@RequestBody @Valid VerifyEmailRequest verifyEmailRequest, HttpServletRequest req, HttpServletResponse res) {
+        Response response;
+        try{
+            Member member = authService.findMemberByName(verifyEmailRequest.getEmail());
+            authService.resendVerificationMail(member);
             response = new Response("success", "성공적으로 인증메일을 보냈습니다.", null);
         } catch (Exception exception) {
             response = new Response("error", "인증메일을 보내는데 문제가 발생했습니다.", exception);
