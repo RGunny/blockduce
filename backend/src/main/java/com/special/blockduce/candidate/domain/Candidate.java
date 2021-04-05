@@ -59,14 +59,14 @@ public class Candidate {
     @Column(name = "intro")
     private String intro;
 
-    public void updateDbc(Double dbc) {
-        this.account.updateDbc(dbc);
-    }
+
 
     @Builder
     public Candidate(Long id, String name, int age, String agency,
                   String img, String key1, String account1, Double dbc1,
-                  String intro) {
+
+                  String intro,Double eth1) {
+
         this.id = id;
         this.name = name;
         this.age = age;
@@ -77,6 +77,7 @@ public class Candidate {
                 key(key1).
                 account(account1).
                 dbc(dbc1).
+                eth(eth1).
                 build();
     }
 }

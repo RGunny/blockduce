@@ -29,6 +29,7 @@ public class CandidateController {
 
     /**
      * 후보자 생성 db에 넣어주기
+     * 관리자 계정도 후보자 테이블에 생성됩니다. eth 보상 시 eth 트렌젝션 발생시켜서 기록하기 위해서
      * */
     @PostMapping("/candidate/join")
     public ResponseEntity<String> join(@RequestBody CandidateDto form){
@@ -38,11 +39,10 @@ public class CandidateController {
         //ResponseEntity로 성공 메세지 전달 가능
     }
 
-
     /**
      * 후보자 아이디를 통한 조회
      * */
-    @GetMapping("/candidate/findAll")
+    @GetMapping("/candidates")
     public Result<CandidateDto> findAll() {
         return new Result(candidateService.findAll());
     }
