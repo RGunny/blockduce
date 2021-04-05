@@ -15,6 +15,7 @@
     "body-parser": "^1.18.3",
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
+    "chart.js": "^2.9.4",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "ethereumjs-tx": "^2.1.2",
