@@ -21,7 +21,9 @@ public class DbcResponseDto {
     private Long value; // 투표한 dbc 양
     private int totalValue; // 해당 날의 투표한 dbc 총량
 
-    public DbcResponseDto(Long blockNumber, String blockHash, String candidateImg, String candidateName, String agency, LocalDateTime localDateTime, Long value) {
+    private String transactionHash;
+
+    public DbcResponseDto(Long blockNumber, String blockHash, String candidateImg, String candidateName, String agency, LocalDateTime localDateTime, Long value, String transactionHash) {
         this.blockNumber = blockNumber;
         this.blockHash = blockHash;
         this.candidateImg = candidateImg;
@@ -29,5 +31,6 @@ public class DbcResponseDto {
         this.agency = agency;
         this.localDateTime = localDateTime;
         this.value = value;
+        this.transactionHash = transactionHash;
     }
 }

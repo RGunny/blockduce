@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -63,7 +64,8 @@ public class TransactionService {
                     gasUsed(form.getGasUsed()).
                     localDateTime(LocalDateTime.now()).
                     blockNumber(form.getBlockNumber()).
-                    transactionhash(form.getTransactionHash()).
+                    transactionHash(form.getTransactionHash()).
+                    status(form.getStatus()).
                     build();
 
             dbcRepository.save(dbc);
@@ -109,7 +111,7 @@ public class TransactionService {
                     gasUsed(form.getGasUsed()).
                     localDateTime(LocalDateTime.now()).
                     blockNumber(form.getBlockNumber()).
-                    transactionhash(form.getTransactionHash()).
+                    transactionHash(form.getTransactionHash()).
                     build();
 
             ethRepository.save(eth);
@@ -191,6 +193,9 @@ public class TransactionService {
     public Integer receiveDbcTransactionsById(Long memberId) {
         return dbcRepository.receiveDbcTransactionsById(memberId);
     }
+
+
+
     @Transactional
     public void createRewardDbc(DbcEthDto form) {
 
@@ -213,20 +218,25 @@ public class TransactionService {
          */
         if(form.getIsDbcEth()==1) {
             DBC rewarddbc = DBC.builder().
-                    receiverId(form.getSenderId()).    //db에 receiver sender 반대로 기록됨에 주의
-                    senderId(form.getReceiverId()).
-                    senderAccount(senderAccount.getSenderAccount()).  //여기서 널포인트
+                    receiverId(form.getReceiverId()).    //db에 receiver sender 반대로 기록됨에 주의
+                    senderId(form.getSenderId()).
+                    senderAccount(senderAccount.getSenderAccount()).
                     receiverAccount(receiverAccount.getReceiverAccount()).
                     blockHash(form.getBlockHash()).
                     value(form.getValue()).  //보낸양 eth or dbc
                     transactionFee(form.getTransactionFee()).  //만들때 사용한 가스비
                     gasUsed(form.getGasUsed()).
-                    localDateTime(form.getLocalDateTime()).
+                    localDateTime(LocalDateTime.now()).
                     blockNumber(form.getBlockNumber()).
-                    transactionhash(form.getTransactionHash()).
+                    transactionHash(form.getTransactionHash()).
+                    status(form.getStatus()).
                     build();
 
+            System.out.println("rewarddbc = " + rewarddbc.toString());
+            System.out.println("================================================================");
+
             dbcRepository.save(rewarddbc);
+            System.out.println("================================================================");
 
             //맴버 찾아서 dto처리
             Candidate candi = new Candidate();
@@ -262,9 +272,9 @@ public class TransactionService {
                     value(form.getValue()).
                     transactionFee(form.getTransactionFee()).
                     gasUsed(form.getGasUsed()).
-                    localDateTime(form.getLocalDateTime()).
+                    localDateTime(LocalDateTime.now()).
                     blockNumber(form.getBlockNumber()).
-                    transactionhash(form.getTransactionHash()).
+                    transactionHash(form.getTransactionHash()).
                     build();
 
             ethRepository.save(rewardEth);
@@ -330,8 +340,8 @@ public class TransactionService {
         Member member = findMemberByid(memberId);
 
         AccountInfoDto accountinfodto = AccountInfoDto.builder().
-                dbcTransactions(dbcRepository.countByMember(member.getId(),DBCStatus.ELECTION)).
-                totalDbc(dbcRepository.countTotalSendDbcById(member.getId(),DBCStatus.ELECTION)).
+                dbcTransactions(dbcRepository.countByMember(member.getId(), DBCStatus.ELECTION)).
+                totalDbc(dbcRepository.countTotalSendDbcById(member.getId(), DBCStatus.ELECTION)).
                 receiveTransactionsDbc(dbcRepository.receiveDbcTransactionsById(member.getId())).
                 receiveDbc(dbcRepository.countTotalReceiveDbcById(member.getId())).
                 receivedEthTransactions(ethRepository.receiveEthTransactionsById(member.getId())).
@@ -339,11 +349,38 @@ public class TransactionService {
         return accountinfodto;
     }
 
+    /**
+     * QR 코드를 인증한 유저에 대해 DBC 토큰 보상 지급하는 메서드
+     *  reward : 100,000 DBC 지급
+     *
+     * --> userId로 해당 유저(Member)를 찾아옴
+     * --> 해당 유저의
+     */
+    public boolean isRewarded(Long userId, DBCStatus dStatus) {
+
+        Member member = findMemberByid(userId);
+
+        LocalDate today = LocalDate.now();
+
+//        Optional<DBC> isRewarded = dbcRepository.isRewarded(member.getId(), dStatus, today.getMonthValue(), today.getDayOfMonth());
+        Optional<DBC> isRewarded = dbcRepository.isRewarded(member.getId(), dStatus, 04, 05);
+
+        System.out.println("today.getMonthValue() = " + today.getMonthValue());
+        System.out.println("today.getDayOfMonth() = " + today.getDayOfMonth());
+        System.out.println("isRewarded.get() = " + isRewarded.get());
+        
+        if(isRewarded.isPresent()){
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
 
 //
 //    public HttpStatus countTotalDbcById(Long memberId) {
 //        return dbcRepository.countById(memberId);
 //    }
-
 
 }

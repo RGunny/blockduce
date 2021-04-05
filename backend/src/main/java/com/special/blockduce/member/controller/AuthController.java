@@ -46,7 +46,8 @@ public class AuthController {
             notes = "회원가입시 SignupMemberRequest의 데이터 타입으로 입력받아 가입을 진행한다.",
             response = Response.class
     )
-    public Object signUpMember(@RequestPart(required = false) MultipartFile image, SignupMemberRequest signupMemberRequest) {
+//    public Object signUpMember(@RequestPart(required = false) MultipartFile image, SignupMemberRequest signupMemberRequest) {
+    public Object signUpMember(@RequestBody SignupMemberRequest signupMemberRequest) {
         ResponseEntity<Response> responseEntity = null;
 
         System.out.println(signupMemberRequest.getEmail());
@@ -59,16 +60,16 @@ public class AuthController {
         }
 
 
-        //유저 대표 이미지 저장
-        if (image != null) {
-            try {
-                String imgName = imageService.createImage(image);
-                signupMemberRequest.setProfileImageUrl(imgName);
-            } catch (IOException e) {
-                final Response result = new Response("success", "회원가입 이미지 저장 중 오류 발생", e.getMessage());
-                return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-            }
-        }//파일 저장 끝
+//        //유저 대표 이미지 저장
+//        if (image != null) {
+//            try {
+//                String imgName = imageService.createImage(image);
+//                signupMemberRequest.setProfileImageUrl(imgName);
+//            } catch (IOException e) {
+//                final Response result = new Response("success", "회원가입 이미지 저장 중 오류 발생", e.getMessage());
+//                return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+//            }
+//        }//파일 저장 끝
 
         try {
             authService.signUpMember(signupMemberRequest);
