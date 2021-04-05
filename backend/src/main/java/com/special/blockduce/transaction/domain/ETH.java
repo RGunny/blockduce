@@ -30,6 +30,9 @@ public class ETH {
     @Column(name = "sender_account")
     private String senderAccount;
 
+    @Column(name = "transaction_hash")
+    private String transactionHash;
+
     @Column(name = "receiver_account")
     private String receiverAccount;
 
@@ -53,7 +56,8 @@ public class ETH {
 
     @Builder
     public ETH(Long id, String senderAccount, Long senderId, String receiverAccount, String blockHash, Long value,
-               Long transactionFee, Long gasUsed, LocalDateTime localDateTime, Long receiverId, Long blockNumber
+               Long transactionFee, Long gasUsed, LocalDateTime localDateTime, Long receiverId, Long blockNumber,
+               String transactionhash
     ) {
         this.id = id;
         this.member = Member.builder().
@@ -68,5 +72,6 @@ public class ETH {
         this.blockNumber = blockNumber;
         this.senderAccount = senderAccount;
         this.receiverAccount = receiverAccount;
+        this.transactionHash =transactionhash;
     }
 }
