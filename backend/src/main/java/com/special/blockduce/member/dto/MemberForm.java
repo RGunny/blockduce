@@ -20,12 +20,12 @@ public class MemberForm {
     private Boolean ismem;
     private String nickname;
     private String intro;
-    private String key;
+//    private String key;
 
     @Builder
     public MemberForm(Long id,String email,String password,String name,String img,String token,
                       String kid, String account,Double eth,Double dbc,Boolean ismem,String nickname,
-                      String intro,String key) {
+                      String intro) {
         this.id = id;
         this.email = email;
         this.password = password;
@@ -39,6 +39,6 @@ public class MemberForm {
         this.ismem = ismem;
         this.nickname = nickname;
         this.intro = intro;
-        this.key = key;
+//        this.key = key;
     }
 }

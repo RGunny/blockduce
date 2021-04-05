@@ -8,13 +8,16 @@ import org.springframework.data.repository.CrudRepository;
 public interface EthRepository extends CrudRepository<ETH,Long> {
 
 
-    @Query("select sum(e.value) from ETH e" +
-            " where e.candidate.id = 20"+
+    @Query("select count(e.value) from ETH e" +
+            " where e.candidate.id = 1"+
             "and e.member.id = :memberId"
     )
     Integer receiveEthTransactionsById(Long memberId);
 
-    @Query("select sum(e.value) from ETH e where e.candidate.id = :memberId")
+    @Query("select sum(e.value) from ETH e" +
+            " where e.candidate.id = 1"+
+            "and e.member.id = :memberId"
+    )
     Double countTotalReceiveEthById(Long memberId);
 
 }

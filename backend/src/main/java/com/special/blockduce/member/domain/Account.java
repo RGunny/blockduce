@@ -41,6 +41,14 @@ public class Account {
         this.dbc = dbc;
     }
 
+    public void updateKey(String key) {
+        this.key = key;
+    }
+
+    public void updateAccount(String account) {
+        this.account = account;
+    }
+
     @Builder
     public Account(String key, String account, Double dbc, Double eth) {
         this.key = key;
