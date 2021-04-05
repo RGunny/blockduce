@@ -1,15 +1,13 @@
 package com.special.blockduce.candidate.service;
 
+import com.special.blockduce.transaction.domain.DBC;
 import com.special.blockduce.transaction.dto.DbcDatesDto;
 import com.special.blockduce.transaction.dto.DbcResponseDto;
 import com.special.blockduce.transaction.repository.CalendarRepository;
-import com.special.blockduce.transaction.domain.DBC;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -25,6 +23,7 @@ public class CalendarService {
         DbcDatesDto datesDto = new DbcDatesDto();
         for (DBC dbc : result) {
             datesDto.getLocalDates().add(dbc.getLocalDateTime().toLocalDate());
+            datesDto.setTransactionHash(dbc.getTransactionHash());
         }
 
         return datesDto;
@@ -43,7 +42,6 @@ public class CalendarService {
         for (DbcResponseDto dto : result) {
             dto.setTotalValue(total);
             dto.setLocalDate(dto.getLocalDateTime().toLocalDate());
-            System.out.println("dto.getLocalDate() = " + dto.getLocalDate());
         }
 
         return result;

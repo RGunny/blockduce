@@ -62,7 +62,7 @@ public class CalendarController {
      *  받고 싶은 데이터 : day 에 있었던 trasaction 데이터
      *  block_number, block_hash, candidate_img, candidate_name, agency, timeStamp ,DBC 양 ,total DBC 양
      *      -> receiver_id : cadndidate table - candidate_id
-     *      -> sender_id : member table - member_id
+     *      -> sender_id : member table - member_id 
      *      -> DBC 양 : dbc table - value
      *      -> total DBC 양 : dbc table - 해달 날의 value 합
      * @return

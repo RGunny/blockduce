@@ -1,11 +1,9 @@
 package com.special.blockduce.transaction.controller;
 
-import com.special.blockduce.member.dto.MemberForm;
-import com.special.blockduce.member.service.MemberService;
 import com.special.blockduce.transaction.dto.AccountDto;
 import com.special.blockduce.transaction.dto.AccountInfoDto;
 import com.special.blockduce.transaction.dto.DbcEthDto;
-import com.special.blockduce.transaction.dto.DbcEthDto;
+import com.special.blockduce.transaction.domain.DBCStatus;
 import com.special.blockduce.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,7 +24,6 @@ import org.web3j.utils.Numeric;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.time.LocalDateTime;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*")
@@ -47,7 +44,7 @@ public class TransactionController {
     }
 
     /**
-     * DBC,ETH 트렌젝션 생성 (관리자 계정으로 회원에게 dbc를 보내주는경우(출책, 투표 보상))
+     * DBC,ETH 트렌젝션 생성 (관리자 계정으로 회원에게 dbc를 보내주는경우(출책))
      * 이 경우 받는 사람이 -> MEMBER 테이블의 회원
      * 주는 사람은 -> CANDIDATE 테이블의 관리자 계정이다
      * createDbcTransaction에서 처리하면 직관성이 너무 떨어져서 분리함
@@ -72,12 +69,35 @@ public class TransactionController {
     }
 
     /**
+     * QR 찍었을때 DBC 서버에서 보내주는 로직
+     * election/receiveDBC/{35}
+     * <p>
+     * 100,000
+     * <p>
+     * response로 날짜 검사해서 userId 중복이면 response = false
+     * <p>
+     * 날짜 비워있으면 response = true 하고 account Table도 refresh
+     */
+    @GetMapping("/election/isrewarded/{userId}/{status}")
+    public ResponseEntity<String> isRewarded(@PathVariable("userId") Long userId, @PathVariable("status") DBCStatus status) {
+
+        System.out.println("userId = " + userId);
+        System.out.println("status = " + status);
+
+        if (transactionService.isRewarded(userId, status)) {
+            return new ResponseEntity<>("true", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
      * 해당 맴버의 총 투표횟수 조회(dbc 트랜젝션 발생횟수)
      * dbc테이블에서 + 맴버의 아이디가 senderId에 있는게 투표 트렌젝션
      * */
     //dbc 테이블에서 맴버 id로 count 해서 조회
     @GetMapping("/election/transactions-dbc/{memberId}")
-    public ResponseEntity<Integer> dbcTransactions(@PathVariable("memberId") Long memberId){
+    public ResponseEntity<Integer> dbcTransactions(@PathVariable("memberId") Long memberId) {
 
         return new ResponseEntity<>(transactionService.countDbcTransactionByMember(memberId), HttpStatus.OK);
     }
@@ -148,7 +168,7 @@ public class TransactionController {
      * 지갑 생성 눌렀을 경우 account key dbc(0) eth(0) 으로 넣어주기
      */
     @PutMapping("/election/createAccount/{memberId}")
-    public ResponseEntity<String> createAccount(@RequestBody AccountDto form,@PathVariable("memberId") Long memberId){
+    public ResponseEntity<String> createAccount(@RequestBody AccountDto form, @PathVariable("memberId") Long memberId){
 
         return new ResponseEntity<>(transactionService.createAccount(form,memberId), HttpStatus.OK);
     }
