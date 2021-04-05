@@ -39,6 +39,13 @@ public class DBC {
     @Column(name = "block_hash")
     private String blockHash;
 
+    @Column(name = "dbc_status")
+    @Enumerated(EnumType.STRING)
+    private DBCStatus status;
+
+    @Column(name = "transaction_hash")
+    private String transactionHash;
+
     @Column(name = "block_number")
     private Long blockNumber;
 
@@ -56,7 +63,7 @@ public class DBC {
 
     @Builder
     public DBC(Long id, String senderAccount,Long senderId, String receiverAccount, String blockHash,Long value,
-               Long transactionFee,Long gasUsed,LocalDateTime localDateTime,Long receiverId,Long blockNumber
+               Long transactionFee,Long gasUsed,LocalDateTime localDateTime,Long receiverId,Long blockNumber, String transactionhash
                   ) {
         this.id = id;
         this.member = Member.builder().
@@ -71,5 +78,6 @@ public class DBC {
         this.blockNumber = blockNumber;
         this.senderAccount = senderAccount;
         this.receiverAccount = receiverAccount;
+        this.transactionHash = transactionhash;
     }
 }

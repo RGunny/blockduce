@@ -89,9 +89,8 @@ public class MemberController {
      * 맴버 정보 확인
      * */
     @GetMapping("/members/{memberId}")
-    public MemberForm memberInfo(@PathVariable("memberId") Long memberId){
+    public MemberForm memberInfo(@PathVariable("memberId") Long memberId,@RequestBody MemberForm form){
         System.out.println("들어왔니?");
-        MemberForm form = new MemberForm();
         MemberForm member = memberService.findById(memberId,form);
 
         return member;

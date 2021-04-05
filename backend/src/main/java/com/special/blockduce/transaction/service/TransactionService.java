@@ -3,14 +3,17 @@ package com.special.blockduce.transaction.service;
 import com.special.blockduce.candidate.domain.Candidate;
 import com.special.blockduce.candidate.repository.CandidateRepository;
 import com.special.blockduce.member.domain.Member;
+import com.special.blockduce.member.repository.AccountRepository;
 import com.special.blockduce.member.repository.MemberRepository;
 import com.special.blockduce.transaction.domain.DBC;
+import com.special.blockduce.transaction.domain.DBCStatus;
 import com.special.blockduce.transaction.domain.ETH;
+import com.special.blockduce.transaction.dto.AccountDto;
+import com.special.blockduce.transaction.dto.AccountInfoDto;
 import com.special.blockduce.transaction.dto.DbcEthDto;
 import com.special.blockduce.transaction.repository.DbcRepository;
 import com.special.blockduce.transaction.repository.EthRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +28,7 @@ public class TransactionService {
     private final CandidateRepository candidateRepository;
     private final DbcRepository dbcRepository;
     private final EthRepository ethRepository;
+    private final AccountRepository accountRepository;
 
     //dbc 트렌젝션을 만든다  ------ dbc(보낸사람 dbc는 - 받은사람 dbc는 +) *eth도 동일
     @Transactional
@@ -59,6 +63,7 @@ public class TransactionService {
                     gasUsed(form.getGasUsed()).
                     localDateTime(LocalDateTime.now()).
                     blockNumber(form.getBlockNumber()).
+                    transactionhash(form.getTransactionHash()).
                     build();
 
             dbcRepository.save(dbc);
@@ -104,6 +109,7 @@ public class TransactionService {
                     gasUsed(form.getGasUsed()).
                     localDateTime(LocalDateTime.now()).
                     blockNumber(form.getBlockNumber()).
+                    transactionhash(form.getTransactionHash()).
                     build();
 
             ethRepository.save(eth);
@@ -161,7 +167,7 @@ public class TransactionService {
 
     public int countDbcTransactionByMember(Long memberId) {
         Member member = findMemberByid(memberId);
-        return dbcRepository.countByMember(member);
+        return dbcRepository.countByMember(member.getId(),DBCStatus.ELECTION);
 
     }
 
@@ -179,7 +185,7 @@ public class TransactionService {
 
 
     public Double countTotalSendDbcById(Long memberId) {
-        return dbcRepository.countTotalSendDbcById(memberId);
+        return dbcRepository.countTotalSendDbcById(memberId, DBCStatus.ELECTION);
     }
 
     public Integer receiveDbcTransactionsById(Long memberId) {
@@ -209,7 +215,7 @@ public class TransactionService {
             DBC rewarddbc = DBC.builder().
                     receiverId(form.getSenderId()).    //db에 receiver sender 반대로 기록됨에 주의
                     senderId(form.getReceiverId()).
-                    senderAccount(senderAccount.getSenderAccount()).
+                    senderAccount(senderAccount.getSenderAccount()).  //여기서 널포인트
                     receiverAccount(receiverAccount.getReceiverAccount()).
                     blockHash(form.getBlockHash()).
                     value(form.getValue()).  //보낸양 eth or dbc
@@ -217,6 +223,7 @@ public class TransactionService {
                     gasUsed(form.getGasUsed()).
                     localDateTime(form.getLocalDateTime()).
                     blockNumber(form.getBlockNumber()).
+                    transactionhash(form.getTransactionHash()).
                     build();
 
             dbcRepository.save(rewarddbc);
@@ -257,6 +264,7 @@ public class TransactionService {
                     gasUsed(form.getGasUsed()).
                     localDateTime(form.getLocalDateTime()).
                     blockNumber(form.getBlockNumber()).
+                    transactionhash(form.getTransactionHash()).
                     build();
 
             ethRepository.save(rewardEth);
@@ -292,6 +300,43 @@ public class TransactionService {
 
     public Double countTotalReceiveEthById(Long memberId) {
         return ethRepository.countTotalReceiveEthById(memberId);
+    }
+
+    @Transactional
+    public String createAccount(AccountDto form,Long memberId) {
+
+        //맴버 아이디로 맴버 찾아와서 맴버.account로 변경하지
+        Member mem = new Member();
+        // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
+        Member member = memberRepository.findMemberByid(memberId).orElse(mem);
+
+        if(member.getId() != null){ //계정이 있을 경우
+//            Account account = Account.builder().
+//                    key(form.getKey()).
+//                    account(form.getAccount()).
+//                    dbc(form.getDbc()).
+//                    eth(form.getEth()).
+//                    build();
+            member.getAccount().updateAccount(form.getAccount());
+            member.getAccount().updateDbc(form.getDbc());
+            member.getAccount().updateKey(form.getKey());
+            member.getAccount().updateEth(form.getEth());
+            return "지갑 생성 완료";
+        }
+    return "지갑 생성 오류";
+    }
+
+    public AccountInfoDto accountInfo(Long memberId) {
+        Member member = findMemberByid(memberId);
+
+        AccountInfoDto accountinfodto = AccountInfoDto.builder().
+                dbcTransactions(dbcRepository.countByMember(member.getId(),DBCStatus.ELECTION)).
+                totalDbc(dbcRepository.countTotalSendDbcById(member.getId(),DBCStatus.ELECTION)).
+                receiveTransactionsDbc(dbcRepository.receiveDbcTransactionsById(member.getId())).
+                receiveDbc(dbcRepository.countTotalReceiveDbcById(member.getId())).
+                receivedEthTransactions(ethRepository.receiveEthTransactionsById(member.getId())).
+                receivedEth(ethRepository.countTotalReceiveEthById(member.getId())).build();
+        return accountinfodto;
     }
 
 
