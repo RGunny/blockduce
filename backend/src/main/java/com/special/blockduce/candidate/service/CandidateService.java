@@ -39,6 +39,7 @@ public class CandidateService {
                 name(form.getName()).
                 account1(form.getAccount()).
                 dbc1(form.getDbc()).
+                eth1(form.getEth()).
                 intro(form.getIntro()).
                 key1(SaltUtil.encodePassword(salt,key)).
                 build();

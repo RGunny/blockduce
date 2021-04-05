@@ -20,11 +20,12 @@ public class CandidateDto {
     private String key;
     private String account;
     private Double dbc;
+    private Double eth;
     private String intro;
 
     @Builder
     public CandidateDto(Long id,String name,int age,String agency,String img,
-                        String key,String account,Double dbc,String intro) {
+                        String key,String account,Double dbc,String intro,Double eth) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -35,5 +36,6 @@ public class CandidateDto {
         this.dbc = dbc;
         this.intro = intro;
         this.dbc = dbc;
+        this.eth = eth;
     }
 }
