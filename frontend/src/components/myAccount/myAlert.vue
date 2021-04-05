@@ -55,4 +55,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.page_Alert {
+  position: absolute;
+  z-index: 30;
+}
+</style>

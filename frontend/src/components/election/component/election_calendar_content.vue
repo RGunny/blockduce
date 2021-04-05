@@ -1,81 +1,88 @@
 <template>
   <div class="card mt-50 mb-50">
-    <div class="col b-flex">
-      <span class="text-muted" id="orderno">Block #546924</span>
-    </div>
+    <!-- <div class="col b-flex">
+      <span class="text-muted" id="orderno">
+        <div v-for="d in dateList" :key="d.localDateTime">
+          {{ d.blockNumber }}
+        </div></span
+      >
+    </div> -->
 
-    <div class="title mx-auto text">Thank you for your vote!</div>
+    <div class="title mx-auto text">투표 내역</div>
     <div class="main">
       <span id="sub-title text">
         <p>
-          <b>{{ propsDate }}</b>
+          <b>{{ clickday }}</b>
         </p>
       </span>
-      <div class="row row-main">
+      <div class="row row-main " v-for="d in dateList" :key="d.localDateTime">
         <div class="col-3">
-          <img class="img-fluid" src="https://i.imgur.com/qSnCFIS.png" />
+          <img class="img-fluid" :src="d.candidateImg" />
         </div>
         <div class="col-6">
           <div class="row d-flex text">
-            황호연
+            {{ d.candidateName }}
           </div>
           <div class="row d-flex text ">
-            <p class="text-muted">SSAFY</p>
+            <p class="text-muted">{{ d.agency }}</p>
           </div>
         </div>
         <div class="col-3 d-flex justify-content-end text">
-          <p><b>100DBC</b></p>
-        </div>
-      </div>
-      <div class="row row-main">
-        <div class="col-3">
-          <img class="img-fluid" src="https://i.imgur.com/WuJwAJD.jpg" />
-        </div>
-        <div class="col-6">
-          <div class="row d-flex text">
-            류건희
-          </div>
-          <div class="row d-flex text">
-            <p class="text-muted">SSAFY</p>
-          </div>
-        </div>
-        <div class="col-3 d-flex justify-content-end text">
-          <p><b>100DBC</b></p>
-        </div>
-      </div>
-      <div class="row row-main">
-        <div class="col-3 ">
-          <img class="img-fluid" src="https://i.imgur.com/hOsIes2.png" />
-        </div>
-        <div class="col-6">
-          <div class="row d-flex text">
-            황영준
-          </div>
-          <div class="row d-flex text">
-            <p class="text-muted">SSAFY</p>
-          </div>
-        </div>
-        <div class="col-3 d-flex justify-content-end text">
-          <p><b>100DBC</b></p>
+          <p>
+            <b>{{ d.value }}</b>
+          </p>
         </div>
       </div>
       <hr />
       <div class="total">
         <div class="row">
           <div class="col text"><b> Total:</b></div>
-          <div class="col d-flex justify-content-end text"><b>300DBC</b></div>
+          <div class="col d-flex justify-content-end text">
+            <b>{{ totalValue }} DBC</b>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import axios from 'axios';
+const userId = localStorage.getItem('id');
+
 export default {
   props: ['propsDate'],
   data() {
-    return {};
+    return {
+      dateList: [],
+      clickday: '',
+      totalValue: '0',
+      block: [],
+    };
   },
-  computed: {},
+  created() {
+    console.log('content start!');
+    this.clickday = this.propsDate;
+    var splitDate = this.propsDate.split('-');
+    var day = splitDate[1];
+    var month = splitDate[2];
+    axios
+      .get(
+        'http://j4b107.p.ssafy.io/api/elections/' +
+          userId +
+          '/' +
+          month +
+          '/' +
+          day
+      )
+      .then((response) => {
+        this.dateList = response.data;
+        this.totalValue = response.data[0].totalValue;
+        console.log(this.dateList);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
 };
 </script>
 

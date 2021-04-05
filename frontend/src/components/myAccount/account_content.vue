@@ -115,7 +115,7 @@
                       ></i>
                     </div>
                     <div class="media-body text-right">
-                      <h3>278</h3>
+                      <h3>{{ statisInfo.dbcTransactions }} 회</h3>
                       <span class="content_infospan"> 투표 횟수</span>
                     </div>
                   </div>
@@ -134,7 +134,7 @@
                       ></i>
                     </div>
                     <div class="media-body text-right">
-                      <h3>5</h3>
+                      <h3>{{ statisInfo.receiveTransactionsDbc }} 회</h3>
                       <span class="content_infospan">DBC받은 횟수</span>
                     </div>
                   </div>
@@ -151,7 +151,7 @@
                       <i class="icon-graph success font-large-2 float-left"></i>
                     </div>
                     <div class="media-body text-right">
-                      <h3>150,000 DBC</h3>
+                      <h3>{{ statisInfo.totalDbc }} DBC</h3>
                       <span class="content_infospan">투표한 양</span>
                     </div>
                   </div>
@@ -170,7 +170,7 @@
                       ></i>
                     </div>
                     <div class="media-body text-right">
-                      <h3>300,000 DBC</h3>
+                      <h3>{{ statisInfo.receivedEth }} DBC</h3>
                       <span class="content_infospan">DBC받은 양</span>
                     </div>
                   </div>
@@ -187,7 +187,7 @@
                 <div class="card-body">
                   <div class="media d-flex">
                     <div class="media-body text-left">
-                      <h3>278</h3>
+                      <h3>{{ statisInfo.receivedEthTransactions }} 회</h3>
                       <span class="content_infospan">ETH받은 횟수</span>
                     </div>
                     <div class="align-self-center">
@@ -206,7 +206,7 @@
                 <div class="card-body">
                   <div class="media d-flex">
                     <div class="media-body text-left">
-                      <h3>3 ETH</h3>
+                      <h3>{{ statisInfo.receivedEth }} ETH</h3>
                       <span class="content_infospan">ETH받은 양</span>
                     </div>
                     <div class="align-self-center">
@@ -217,7 +217,7 @@
               </div>
             </div>
           </div>
-
+          <!-- 
           <div class="col-xl-3 col-sm-6 col-12">
             <div class="card">
               <div class="card-content">
@@ -255,7 +255,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </section>
     </div>
@@ -274,9 +274,19 @@ export default {
   data() {
     return {
       active: 0,
-      DBCbalance: '0 DBC',
-      ETHbalance: '0 ETH',
+      DBCbalance: '0',
+      ETHbalance: '0',
       account: '',
+      statisInfo: [
+        {
+          dbcTransactions: '',
+          receiveDbc: '',
+          receiveTransactionsDbc: '',
+          receivedEth: '',
+          receivedEthTransactions: '',
+          totalDbc: '',
+        },
+      ],
     };
   },
   created() {
@@ -296,9 +306,28 @@ export default {
     axios
       .get('http://j4b107.p.ssafy.io/api/members/' + userId + '')
       .then((response) => {
-        this.account = response.data.wallet;
+        console.log(response.data.account);
+        this.account = response.data.account;
         this.DBCbalance = response.data.dbc;
         this.ETHbalance = response.data.eth;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get('http://j4b107.p.ssafy.io/api/election/accountInfo/' + userId)
+      .then((response) => {
+        this.statisInfo = response.data;
+        if (this.statisInfo.receiveDbc === null) {
+          this.statisInfo.receiveDbc = 0;
+        }
+        if (this.statisInfo.receivedEth === null) {
+          this.statisInfo.receivedEth = 0;
+        }
+        if (this.statisInfo.totalDbc === null) {
+          this.statisInfo.totalDbc = 0;
+        }
+        console.log(this.statisInfo);
       })
       .catch((error) => {
         console.log(error);
@@ -312,12 +341,14 @@ export default {
         if (!error) {
           this.ETHbalance = web3.utils.fromWei(wei, 'ether');
           axios
-            .put('http://j4b107.p.ssafy.io/api/members/' + userId, {
-              id: userId,
-              eth: this.ETHbalance,
-            })
+            .put(
+              'http://j4b107.p.ssafy.io/api/members/refreshEth/' +
+                userId +
+                '/' +
+                this.ETHbalance
+            )
             .then((response) => {
-              console.log(response.status);
+              console.log(response);
             })
             .catch((error) => {
               console.log(error);
@@ -340,10 +371,12 @@ export default {
           DBCtoken = result / 100000;
           this.DBCbalance = DBCtoken;
           axios
-            .put('http://j4b107.p.ssafy.io/api/members/' + userId, {
-              id: userId,
-              dbc: this.DBCbalance,
-            })
+            .put(
+              'http://j4b107.p.ssafy.io/api/members/refreshDbc/' +
+                userId +
+                '/' +
+                this.DBCbalance
+            )
             .then((response) => {
               console.log(response.status);
             })

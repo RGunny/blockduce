@@ -7,11 +7,22 @@
     />
     <div class="user_Info">
       <b-img
+        v-if="myInfo.profile_img === ''"
+        class="profile_img"
+        v-bind:src="
+          'https://www.searchpng.com/wp-content/uploads/2019/02/Profile-PNG-Icon.png'
+        "
+        rounded="circle"
+        alt="profile image"
+      ></b-img>
+      <b-img
+        v-else
         class="profile_img"
         v-bind:src="myInfo.profile_img"
         rounded="circle"
         alt="profile image"
       ></b-img>
+
       <div class="text">
         {{ myInfo.name }}
       </div>
@@ -44,13 +55,20 @@
       </div>
       <div>
         <div>
-          <h4
-            class="text"
+          <div
+            class="account_text"
             v-show="show_account === true"
             v-if="myInfo.account != '' && myInfo.account != null"
           >
             My Account : {{ myInfo.account }}
-          </h4>
+          </div>
+          <div
+            class="account_text"
+            v-show="show_account === true"
+            v-if="myInfo.account != '' && myInfo.account != null"
+          >
+            Key : {{ privateKey }}
+          </div>
           <button
             v-show="show_account === false"
             @click="[(show_account = true), GetMyAccount()]"
@@ -80,11 +98,11 @@ export default {
         nick: '',
         profile_img: '',
         account: '',
-        balance: '0.00 ETH',
-        ERCbalance: '0.00 DBC',
+        balance: '0.00 ',
+        ERCbalance: '0.00 ',
       },
-
       contract_result: '',
+      privateKey: '',
     };
   },
   created() {
@@ -103,9 +121,7 @@ export default {
     }
     async function getData(myInfo) {
       try {
-        const response = await axios.get(
-          'http://j4b107.p.ssafy.io/api/members/' + userId + ''
-        );
+        const response = await axios.get('/api/members/' + userId);
         console.log(response);
         if (response) {
           myInfo.name = response.data.nickname;
@@ -126,11 +142,9 @@ export default {
     GetMyAccount: function() {
       async function getMyAccount(myInfo) {
         try {
-          const response = await axios.get(
-            'http://j4b107.p.ssafy.io/api/members/' + userId + ''
-          );
+          const response = await axios.get('/api/members/' + userId + '');
           if (response) {
-            myInfo.account = response.data.wallet;
+            myInfo.account = response.data.account;
           } else {
             console.log('Waiting for user data ');
           }
@@ -139,16 +153,27 @@ export default {
         }
       }
       getMyAccount(this.myInfo);
-      const apiresponse = axios.get(
-        'https://api-ropsten.etherscan.io/api?module=account&action=tokentx&address=0x9dfd19acac0c523d19f9b50b4640a0dd74e092e6&startblock=9903744 &endblock=9903744 &sort=asc&apikey=CKWK2KN8MGRQD6DQ4I39G5NYGPTQFKWGNM'
-      );
-      console.log(apiresponse);
+      // const apiresponse = axios.get(
+      //   'https://api-ropsten.etherscan.io/api?module=account&action=tokentx&address=0x9dfd19acac0c523d19f9b50b4640a0dd74e092e6&startblock=9903744 &endblock=9903744 &sort=asc&apikey=CKWK2KN8MGRQD6DQ4I39G5NYGPTQFKWGNM'
+      // );
+      // console.log(apiresponse);
     },
 
     GetNewAccount: function() {
       let result = web3.eth.accounts.create('newAccount');
-      this.myInfo.account = result.address;
-      console.log(result);
+      axios
+        .put('/api/election/createAccount/' + userId, {
+          account: result.address,
+          eth: 0,
+          dbc: 0,
+          key: result.privateKey,
+        })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };
@@ -165,6 +190,11 @@ export default {
 .text {
   font-family: 'account_font';
   font-size: x-large;
+}
+.account_text {
+  font-family: 'account_font';
+  font-size: large;
+  overflow-wrap: anywhere;
 }
 .corner-button {
   font-family: 'account_font';

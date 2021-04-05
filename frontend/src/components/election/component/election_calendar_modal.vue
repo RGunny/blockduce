@@ -1,17 +1,19 @@
 <template>
   <div>
     <div>
-      <b-button
+      <div></div>
+      <img
         id="show-btn"
-        @click="$bvModal.show('bv-modal-example')"
-        class="text"
-        >Open Calendar</b-button
-      >
-
+        @click="[$bvModal.show('bv-modal-example'), modalClick()]"
+        class="text modalButton"
+        v-bind:src="
+          'https://www.pngkey.com/png/full/236-2367048_logo-calendar-calendar-icon-png-blue.png'
+        "
+      />
       <b-modal id="bv-modal-example" hide-footer>
         <template #modal-title>
           <div class="text">
-            Calender
+            나의 투표 정보
           </div>
         </template>
         <b-container>
@@ -56,7 +58,7 @@
                 <div class="b-calendar__calendar">
                   <div class="b-calendar__header">
                     <b-row>
-                      <b-col class="year text-right" align-h="end">
+                      <b-col class="year text-right text" align-h="end">
                         <span>{{ year }}</span>
                       </b-col>
                     </b-row>
@@ -74,7 +76,7 @@
                           {{ previousMonthAsString | capitalize }}
                         </b-tooltip>
                       </b-col>
-                      <b-col class="text-center" align-h="center">
+                      <b-col class="text-center text" align-h="center">
                         <span class="month">{{ month }}</span>
                       </b-col>
                       <b-col
@@ -104,13 +106,14 @@
                       <strong>{{ day }}</strong>
                     </div>
                   </div>
-                  <div class="b-calendar__dates">
+                  <div class="b-calendar__dates daytext">
                     <div
                       class="date text-right"
                       :class="{
                         today: date.today,
                         blank: date.blank,
                         'no-border-right': date.key % 7 === 0,
+                        on: isState(date.dayNumber, date.date),
                       }"
                       v-for="date in dateList"
                       :key="date.key"
@@ -152,6 +155,9 @@
 <script>
 import moment from 'moment';
 import calContent from '@/components/election/component/election_calendar_content.vue';
+import axios from 'axios';
+const userId = localStorage.getItem('id');
+
 export default {
   data() {
     return {
@@ -160,6 +166,7 @@ export default {
       selectedDate: moment(),
       propsDate: '',
       days: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      checkday: [],
     };
   },
   components: {
@@ -419,6 +426,36 @@ export default {
     selecteDate: function() {
       this.propsDate = this.selectedDate.format('YYYY-MM-DD');
       console.log(this.propsDate);
+      console.log(this.dateList.dayNumber);
+    },
+    modalClick: function() {
+      this.propsDate = this.selectedDate.format('YYYY-MM');
+      var year = this.selectedDate.format('YYYY');
+      var month = this.selectedDate.format('MM');
+      axios
+        .get(
+          'http://j4b107.p.ssafy.io/api/elections/content/' +
+            userId +
+            '/' +
+            year +
+            '/' +
+            month
+        )
+        .then((response) => {
+          this.checkday = response.data.localDates;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    isState: function(day, month) {
+      var monthTemp = month.split('.');
+      for (var d in this.checkday) {
+        var temp = this.checkday[d].split('-');
+        if (day === temp[2] && temp[1] === monthTemp[1]) {
+          return true;
+        } else false;
+      }
     },
   },
   filters: {
@@ -442,10 +479,26 @@ export default {
   font-family: 'account_font';
   font-size: x-large;
 }
+.daytext {
+  font-family: 'account_font';
+  font-size: large;
+}
+.icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  stroke-width: 0;
+  stroke: currentColor;
+  fill: currentColor;
+}
 .mt-100 {
   margin-top: 100px;
 }
-
+.modalButton {
+  width: 10%;
+  height: 10%;
+  background-color: white;
+}
 .modal-button {
   background-color: rgb(29, 226, 226);
   border-color: rgb(29, 226, 226);
@@ -581,10 +634,18 @@ export default {
   cursor: pointer;
 }
 .b-calendar__header .arrow-left i {
-  transform: translateX(-10%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right: 10px solid #0c3267;
 }
 .b-calendar__header .arrow-right i {
-  transform: translateX(10%);
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid #0c3267;
 }
 .b-calendar__weekdays {
   display: flex;
@@ -625,7 +686,10 @@ export default {
   border-right: none;
 }
 .b-calendar__dates .date.today {
-  background-color: rgba(0, 123, 255, 0.2);
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.b-calendar__dates .on {
+  background-color: #bd8686;
 }
 .b-calendar__dates .date .weekday {
   display: none;
@@ -633,7 +697,6 @@ export default {
 .b-calendar__dates .date .additional {
   font-size: 0.75em;
   position: absolute;
-  bottom: 0.25rem;
   left: 0.5rem;
 }
 .b-calendar__dates .date .additional .year {

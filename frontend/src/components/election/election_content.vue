@@ -1,7 +1,12 @@
 <template>
   <div class="election_container">
     <div class="cardwrap">
-      <div class="candidate" v-for="c in candidateInfo" :key="c.id">
+      <div
+        class="candidate"
+        v-for="c in candidateInfo"
+        :key="c.id"
+        v-show="c.id != 1"
+      >
         <div class="imgbox">
           <img :src="c.img" />
         </div>
@@ -11,8 +16,8 @@
             <span>{{ c.age }} </span>
           </h2>
           <h2>{{ c.agency }} <br /></h2>
-          <div class="center content-inputs">
-            <vs-input v-model="voteValue" placeholder="1500DBC" />DBC
+          <div class="content_inputs">
+            <input v-model="voteValue" placeholder="1500DBC" />DBC
           </div>
           <div
             class="button_container"
@@ -23,9 +28,9 @@
             <svg
               class="fingerprint fingerprint-base"
               xmlns="http://www.w3.org/2000/svg"
-              width="100"
-              height="100"
-              viewBox="0 0 100 100"
+              width="80"
+              height="80"
+              viewBox="-10 0 100 100"
             >
               <g
                 class="fingerprint-out"
@@ -110,9 +115,9 @@
             <svg
               class="fingerprint fingerprint-active"
               xmlns="http://www.w3.org/2000/svg"
-              width="100"
-              height="100"
-              viewBox="0 0 100 100"
+              width="80"
+              height="80"
+              viewBox="-10 0 100 100"
             >
               <g
                 class="fingerprint-out"
@@ -251,10 +256,9 @@ export default {
       );
     }
     axios
-      .get('http://j4b107.p.ssafy.io/api/candidate/findAll')
+      .get('http://j4b107.p.ssafy.io/api/candidates')
       .then((response) => {
         this.candidateInfo = response.data.data;
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -263,6 +267,7 @@ export default {
   methods: {
     DBCContract: function(candidate_id) {
       console.log('DBC contract start!.....');
+      var myValue = this.voteValue;
       // 토큰 어드레스
       var contractAddress = '0x9864bb32e02b1fae9eb875f7b169c5400b15efec';
       // 토큰 abi
@@ -272,7 +277,7 @@ export default {
         from: this.receive_account,
       });
       // 1인가
-      var amount = web3.utils.toHex(100000 * this.voteValue);
+      var amount = web3.utils.toHex(100000 * myValue);
       // ethereumjs-tx npm install  끝에 .Transaction 까지 해서 TX 만들기
       var Tx = require('ethereumjs-tx').Transaction;
       // 이더리움 컨트랙트 만들기
@@ -307,6 +312,7 @@ export default {
 
         const serializedTx = tx.serialize();
         const raw = '0x' + serializedTx.toString('hex');
+        this.voteValue = 0;
 
         // 보내고 돌아오는거 로그에 찍고 좀 기다리면 롭슨으로 옴
         // 가스비가 작아서 그런가 좀 늦게 되는 감이있다
@@ -344,48 +350,37 @@ export default {
               minutes +
               ':' +
               second;
-
-            console.log(userId);
-            console.log(candidate_id);
-            console.log(receipt.blockHash);
-            console.log(receipt.blockNumber);
-            console.log(this.voteValue);
-            console.log(receipt.gasUsed);
-            console.log(today);
-
             axios
-              .post('http://j4b107.p.ssafy.io/election/dbc', {
+              .post('http://j4b107.p.ssafy.io/api/election/dbc', {
                 senderId: userId,
                 receiverId: candidate_id,
-                blockHash: receipt.blockHash,
+                blockHash: receipt.transactionHash,
                 blockNumber: receipt.blockNumber,
-                value: this.voteValue,
+                value: myValue,
                 gasUsed: receipt.cumulativeGasUsed,
                 transactionFee: receipt.gasUsed,
                 timeStamp: today,
                 isDbcEth: 1,
+                transactionHash: receipt.transactionHash,
               })
               .then((response) => {
                 this.candidateInfo = response.data.data;
-                console.log(this.candidateInfo);
               })
               .catch((error) => {
                 console.log(error);
               });
-
-            this.voteValue = 0;
-
             console.log('reward transaction start!');
-
-            // axios
-            //   .get('http://127.0.0.1:8080/test/web3')
-            //   .then((response) => {
-            //     console.log(response);
-            //     console.log('reward transaction end!');
-            //   })
-            //   .catch((error) => {
-            //     console.log(error);
-            //   });
+            axios
+              .get(
+                'http://j4b107.p.ssafy.io/api/election/rewardDbcEth/' + userId
+              )
+              .then((response) => {
+                console.log(response);
+                console.log('reward transaction end!');
+              })
+              .catch((error) => {
+                console.log(error);
+              });
           })
           .on('error', console.error);
       });
@@ -411,13 +406,14 @@ export default {
   text-align: -webkit-center;
   width: 100vw;
   height: 100vh;
+  z-index: 1;
   /* border: #4a148c 5px solid; */
 }
 .cardwrap {
   display: flex;
   flex-flow: wrap;
   justify-content: center;
-  width: 80vw;
+  width: 90vw;
   height: 100vh;
   /* border: #148c6e 5px solid; */
 }
@@ -426,11 +422,10 @@ export default {
 
   margin: 1%;
   transform: translate(0%, 0%);
-  width: 30%;
-  height: 50%;
+  width: 370px;
+  height: 410px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  background: #0e0e0f;
   overflow: hidden;
 }
 
@@ -438,7 +433,7 @@ export default {
   width: 100%;
   height: 100%;
   box-sizing: border-box;
-  background-image: url('./img/candidate_background.jpeg');
+  background-image: url('./img/candidate_background.jpg');
   background-size: 100%;
 }
 
@@ -446,13 +441,14 @@ export default {
   display: block;
   width: 60%;
   height: 60%;
-  margin: 2px auto 0;
+  margin: 10px auto;
 }
 
 .specifies {
   position: absolute;
   width: 100%;
-  bottom: -130px;
+  height: 200px;
+  bottom: -108px;
   background: #fff;
   padding: 10px;
   box-sizing: border-box;
@@ -483,6 +479,22 @@ export default {
   font-weight: bold;
   color: #000;
   font-size: 30px;
+}
+
+.content_inputs {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.content_inputs input {
+  width: 70%;
+  background-color: #e8e8e8;
+  border: 1px solid #e8e8e8;
+  border-radius: 10px;
+  margin-right: 5%;
+  padding-left: 10px;
 }
 
 label {
@@ -554,6 +566,7 @@ ul.colors li:nth-child(5) {
   justify-content: center;
   position: relative;
   width: 200px;
+  height: 50px;
 }
 .text {
   color: #eeca99;
