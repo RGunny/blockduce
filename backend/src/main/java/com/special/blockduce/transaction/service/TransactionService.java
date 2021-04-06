@@ -422,6 +422,7 @@ public class TransactionService {
                     isDbcEth(1L).
                     build();
 
+            System.out.println(DbcTransactionInfo.getValue());
             createRewardDbc(DbcTransactionInfo);
             return false;
         }

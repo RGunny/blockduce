@@ -24,15 +24,15 @@ public interface DbcRepository extends CrudRepository<DBC,Long> {
     Double countTotalSendDbcById(Long memberId,DBCStatus status);
 
     @Query("select sum(d.value) from DBC d" +
-            " where d.candidate.id = 1"+
-            "and d.member.id = :memberId"
+            " where d.candidate.id = :memberId "+
+            "and d.member.id = 1"
     )
     Double countTotalReceiveDbcById(Long memberId);
 
     // 관리자 1번이 준 횟수
     @Query("select count(d.value) from DBC d" +
-            " where d.candidate.id = 1"+
-            "and d.member.id = :memberId"
+            " where d.candidate.id = :memberId "+
+            "and d.member.id = 1"
     )
     Integer receiveDbcTransactionsById(Long memberId);
 

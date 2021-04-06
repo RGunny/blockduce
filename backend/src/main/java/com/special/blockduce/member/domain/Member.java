@@ -34,7 +34,6 @@ public class Member {
     @Column(name = "kakao_id")
     private String kid;
 
-
     @Column(name = "is_ourmember")
     private Boolean ismem;
 
