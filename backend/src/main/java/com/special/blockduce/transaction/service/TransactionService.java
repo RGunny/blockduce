@@ -362,6 +362,7 @@ public class TransactionService {
 
         Optional<DBC> isRewarded = dbcRepository.isRewarded(member.getId(), dStatus, today.getMonthValue(), today.getDayOfMonth());
 
+
         System.out.println("today.getMonthValue() = " + today.getMonthValue());
         System.out.println("today.getDayOfMonth() = " + today.getDayOfMonth());
 

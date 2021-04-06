@@ -232,6 +232,7 @@ public class TransactionController {
             // Send transaction
             EthSendTransaction ethSendTransaction = web3.ethSendRawTransaction(hexValue).send();
             String transactionHash = ethSendTransaction.getTransactionHash();
+
             System.out.println("transactionHash: " + transactionHash);
             if(transactionHash == null){
                 return new ResponseEntity<>("사용자가 많아 처리가 지연되고 있습니다. 잠시후 이용해주세요", HttpStatus.OK);
