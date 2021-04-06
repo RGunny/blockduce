@@ -261,6 +261,8 @@ public class TransactionService {
          */
 
         else if(form.getIsDbcEth()==0){
+
+            System.out.println("else if(form.getIsDbcEth()==0) 여기 들어왔나?");
             ETH eth = ETH.builder().
                     receiverId(form.getReceiverId()).
                     senderId(form.getSenderId()).
@@ -364,13 +366,11 @@ public class TransactionService {
 
         LocalDate today = LocalDate.now();
 
-//        Optional<DBC> isRewarded = dbcRepository.isRewarded(member.getId(), dStatus, today.getMonthValue(), today.getDayOfMonth());
-        Optional<DBC> isRewarded = dbcRepository.isRewarded(member.getId(), dStatus, 04, 05);
+        Optional<DBC> isRewarded = dbcRepository.isRewarded(member.getId(), dStatus, today.getMonthValue(), today.getDayOfMonth());
 
         System.out.println("today.getMonthValue() = " + today.getMonthValue());
         System.out.println("today.getDayOfMonth() = " + today.getDayOfMonth());
-        System.out.println("isRewarded.get() = " + isRewarded.get());
-        
+
         if(isRewarded.isPresent()){
             return true;
         }else{
@@ -388,6 +388,12 @@ public class TransactionService {
             account =  member.get().getAccount().getAccount();
         }
         return account;
+    }
+
+    public void createEthTransaction(DbcEthDto EthTransactionInfo) {
+        System.out.println("createEthTransaction 들어왔어");
+        createRewardDbc(EthTransactionInfo);
+
     }
 
 
