@@ -1,9 +1,12 @@
 package com.special.blockduce.transaction.controller;
 
+
+
+import com.special.blockduce.transaction.domain.DBCStatus;
+import com.special.blockduce.transaction.domain.ETH;
 import com.special.blockduce.transaction.dto.AccountDto;
 import com.special.blockduce.transaction.dto.AccountInfoDto;
 import com.special.blockduce.transaction.dto.DbcEthDto;
-import com.special.blockduce.transaction.domain.DBCStatus;
 import com.special.blockduce.transaction.service.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,12 +21,14 @@ import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
 import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
+
 import org.web3j.protocol.http.HttpService;
 import org.web3j.utils.Convert;
 import org.web3j.utils.Numeric;
 
 import java.io.IOException;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*")
@@ -44,7 +49,7 @@ public class TransactionController {
     }
 
     /**
-     * DBC,ETH 트렌젝션 생성 (관리자 계정으로 회원에게 dbc를 보내주는경우(출책))
+     * DBC,ETH 트렌젝션 생성 (관리자 계정으로 회원에게 dbc나 eth를 보내주는경우(출책))
      * 이 경우 받는 사람이 -> MEMBER 테이블의 회원
      * 주는 사람은 -> CANDIDATE 테이블의 관리자 계정이다
      * createDbcTransaction에서 처리하면 직관성이 너무 떨어져서 분리함
@@ -84,7 +89,7 @@ public class TransactionController {
         if (transactionService.isRewarded(userId, status)) {
             return new ResponseEntity<>("true", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("false", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("false", HttpStatus.OK);
         }
     }
 
@@ -186,9 +191,10 @@ public class TransactionController {
      * */
 
     @GetMapping("/election/EthReward/{memberId}/{dbcvelue}")
-    public ResponseEntity<Integer> dbc(@PathVariable("memberId") Long memberId,@PathVariable("dbcvelue") Double dbcvelue){
+    public ResponseEntity<String> dbc(@PathVariable("memberId") Long memberId,@PathVariable("dbcvelue") Double dbcvelue){
 
         String Account = transactionService.findAccountByid(memberId);
+        double velue = 0.0000000003*dbcvelue;
 
         Web3j web3 = Web3j.build(new HttpService(
                 "https://ropsten.infura.io/v3/b04025a46bb245b3bdb7c350a938dbe5"));
@@ -196,7 +202,9 @@ public class TransactionController {
         try{
             String privetKey = "91b40449775898b8c31c8cb914f5408bc4e2a619cab888fcf1b0f823b8905ffd";
             Credentials credentials = Credentials.create(privetKey);
+            System.out.println("recipientAddress: "+Account);
 
+            System.out.println(credentials.getAddress());
             EthGetTransactionCount ethGetTransactionCount = web3
                     .ethGetTransactionCount(credentials.getAddress(), DefaultBlockParameterName.LATEST).send();
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
@@ -205,7 +213,6 @@ public class TransactionController {
             String recipientAddress = Account;
             // Value to transfer (in wei)
 
-            double velue = dbcvelue * 0.000000000015;
             String tmp = Double.toString(velue);
             String amountToBeSent= tmp; // 60원
             BigInteger value = Convert.toWei(amountToBeSent, Convert.Unit.ETHER).toBigInteger();
@@ -225,7 +232,10 @@ public class TransactionController {
             // Send transaction
             EthSendTransaction ethSendTransaction = web3.ethSendRawTransaction(hexValue).send();
             String transactionHash = ethSendTransaction.getTransactionHash();
-
+            System.out.println("transactionHash: " + transactionHash);
+            if(transactionHash == null){
+                return new ResponseEntity<>("사용자가 많아 처리가 지연되고 있습니다. 잠시후 이용해주세요", HttpStatus.OK);
+            }
             // Wait for transaction to be mined
             Optional<TransactionReceipt> transactionReceipt = null;
             do {
@@ -237,14 +247,47 @@ public class TransactionController {
 
             System.out.println("Transaction " + transactionHash + " was mined in block # "
                     + transactionReceipt.get().getBlockNumber());
-            System.out.println("Balance: "
-                    + Convert.fromWei(web3.ethGetBalance(credentials.getAddress(), DefaultBlockParameterName.LATEST)
-                    .send().getBalance().toString(), Convert.Unit.ETHER));
+            System.out.println("블록해시 : "
+                    + transactionReceipt.get().getBlockHash());
+            System.out.println("가스유즈드 : "
+                    + transactionReceipt.get().getGasUsed());
+            System.out.println("받는사람 주소 : "
+                    + Account);
+            System.out.println("주는사람 주소(관리자) : "
+                    + credentials.getAddress());
+            System.out.println("트렌젝션피 : "
+                    + transactionReceipt.get().getCumulativeGasUsed());
+            System.out.println("트렌젝션해시 : "
+                    + transactionReceipt.get().getTransactionHash());
+            System.out.println("보낸이더 : "
+                    + value);
+            System.out.println("보낸사람 아이디 : 후보자테이블 1번  보상 받는 맴버 아이디: "
+                    + memberId);
+            System.out.println("value: "
+                    + (0.0000000003*dbcvelue));
+
+            DbcEthDto EthTransactionInfo = DbcEthDto.builder().
+                    senderId(1L).
+                    receiverId(memberId).
+                    senderAccount(credentials.getAddress()).
+                    receiverAccount(Account).
+                    blockHash(transactionReceipt.get().getBlockHash()).
+                    value((long) (0.0000000003*dbcvelue)).
+                    transactionFee(transactionReceipt.get().getCumulativeGasUsed().longValue()).
+                    gasUsed(transactionReceipt.get().getGasUsed().longValue()).
+                    localDateTime(LocalDateTime.now()).
+                    blockNumber(transactionReceipt.get().getBlockNumber().longValue()).
+                    transactionHash(transactionReceipt.get().getTransactionHash()).
+                    isDbcEth(0L).
+                    build();
+            System.out.println("EthTransactionInfo의 isdbceth는?"+EthTransactionInfo.getIsDbcEth());
+            System.out.println("EthTransactionInfo의 isdbceth는?"+EthTransactionInfo.getIsDbcEth());
+            transactionService.createEthTransaction(EthTransactionInfo);
 
         } catch (IOException | InterruptedException ex) {
             throw new RuntimeException(ex);
         }
 
-        return new ResponseEntity<>(transactionService.countDbcTransactionByMember(memberId), HttpStatus.OK);
+        return new ResponseEntity<>("eth 보상 지급완료", HttpStatus.OK);
     }
 }
