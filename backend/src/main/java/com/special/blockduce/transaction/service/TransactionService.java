@@ -17,9 +17,22 @@ import com.special.blockduce.utils.SaltUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Bool;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.crypto.Credentials;
+import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.methods.response.EthSendTransaction;
+import org.web3j.protocol.http.HttpService;
+import org.web3j.tx.RawTransactionManager;
 
+import java.io.IOException;
+import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Optional;
 
 @Service
@@ -66,7 +79,7 @@ public class TransactionService {
                     localDateTime(LocalDateTime.now()).
                     blockNumber(form.getBlockNumber()).
                     transactionHash(form.getTransactionHash()).
-                    status(form.getStatus()).
+                    status(DBCStatus.ELECTION).
                     build();
 
             dbcRepository.save(dbc);
@@ -209,11 +222,13 @@ public class TransactionService {
                 build();
 
         /**
-         * qr코드 영상 시청 등의 보상으로 dbc를 보상받은경우
+         * qr코드 영상 시청, 출책 등의 보상으로 dbc를 보상받은경우
          * 관리자의 dbc를 회원에게 전송
          * dbc 테이블에서 + 관라자의 아이디가 senderId에 있으면 dbc 보상 트렌젝션
          * 동작 확인
          */
+        System.out.println("이즈 디비씨"+form.getIsDbcEth());
+
         if(form.getIsDbcEth()==1) {
             DBC dbc = DBC.builder().
                     receiverId(form.getReceiverId()).
@@ -227,22 +242,33 @@ public class TransactionService {
                     localDateTime(LocalDateTime.now()).
                     blockNumber(form.getBlockNumber()).
                     transactionHash(form.getTransactionHash()).
-                    status(form.getStatus()).
+                    status(DBCStatus.REWARD).
                     build();
 
 //            DBC updateRewardDbc = dbc.updateRewardDbc(dbc, form.getReceiverId(), form.getSenderId());
             dbcRepository.save(dbc);
 
+
+            System.out.println("form.getSenderId() : 관리자아이디:" +form.getSenderId());
+            System.out.println("form.getmemberId() : 보상받는사람아이디:" +form.getReceiverId());
+            System.out.println("form.getValue()" +form.getValue());
+
             //맴버 찾아서 dto처리
             Candidate candi = new Candidate();
             // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
             Candidate s_admin = candidateRepository.findCandidateByid(form.getSenderId()).orElse(candi);
+
+            System.out.println("s_admin : 관리자의 현재dbc:" +s_admin.getAccount().getDbc());
+
             if(s_admin.getId() != null){ //계정이 있을 경우
                 s_admin.getAccount().updateDbc(s_admin.getAccount().getDbc() - form.getValue());
             }
 
             Member mem2 = new Member();
             Member r_member = memberRepository.findMemberByid(form.getReceiverId()).orElse(mem2);
+
+            System.out.println("r_member.getAccount().getAccount()" +r_member.getAccount().getAccount());
+            System.out.println("r_member.getId(): " +r_member.getId());
             if(r_member.getId()!=null){ //계정이 있을 경우
                 r_member.getAccount().updateDbc(r_member.getAccount().getDbc()+ form.getValue());
             }
@@ -354,7 +380,8 @@ public class TransactionService {
      * --> userId로 해당 유저(Member)를 찾아옴
      * --> 해당 유저의
      */
-    public boolean isRewarded(Long userId, DBCStatus dStatus) {
+    @Transactional
+    public boolean isRewarded(Long userId, DBCStatus dStatus) throws IOException {
 
         Member member = findMemberByid(userId);
 
@@ -369,9 +396,43 @@ public class TransactionService {
         if(isRewarded.isPresent()){
             return true;
         }else{
+
+            long value = 10000000000L;
+            Web3j web3 = Web3j.build(new HttpService(
+                    "https://ropsten.infura.io/v3/b04025a46bb245b3bdb7c350a938dbe5"));
+            String privetKey = "91b40449775898b8c31c8cb914f5408bc4e2a619cab888fcf1b0f823b8905ffd";
+            Credentials credentials = Credentials.create(privetKey);
+            RawTransactionManager manager = new RawTransactionManager(web3, credentials);
+            String toAddress = member.getAccount().getAccount(); // 여기만 findId로 account 가져와서 넣어주세요
+            String contractAddress = "0x9864bb32e02b1fae9eb875f7b169c5400b15efec";
+            BigInteger sum = BigInteger.valueOf(value); // amount you want to send 100000DBC
+            String data = encodeTransferData(toAddress, sum);
+            BigInteger gasPrice = web3.ethGasPrice().send().getGasPrice();
+            BigInteger gasLimit = BigInteger.valueOf(120000); // set gas limit here
+            EthSendTransaction transaction = manager.sendTransaction(gasPrice, gasLimit, contractAddress, data, null);
+
+            DbcEthDto DbcTransactionInfo = DbcEthDto.builder().
+                    senderId(1L).
+                    receiverId(userId).
+                    senderAccount(credentials.getAddress()).
+                    receiverAccount(toAddress).
+                    value(100000L).
+                    localDateTime(LocalDateTime.now()).
+                    transactionHash(transaction.getTransactionHash()).
+                    isDbcEth(1L).
+                    build();
+
+            createRewardDbc(DbcTransactionInfo);
             return false;
         }
+    }
 
+    public static String encodeTransferData(String toAddress, BigInteger sum) {
+        Function function = new Function(
+                "transfer",  // function we're calling
+                Arrays.asList(new Address(toAddress), new Uint256(sum)),  // Parameters to pass as Solidity Types
+                Arrays.asList(new org.web3j.abi.TypeReference<Bool>() {}));
+        return FunctionEncoder.encode(function);
     }
 
     public String findAccountByid(Long memberId) {
@@ -384,10 +445,10 @@ public class TransactionService {
         return account;
     }
 
+    @Transactional
     public void createEthTransaction(DbcEthDto EthTransactionInfo) {
         System.out.println("createEthTransaction 들어왔어");
         createRewardDbc(EthTransactionInfo);
-
     }
 
 

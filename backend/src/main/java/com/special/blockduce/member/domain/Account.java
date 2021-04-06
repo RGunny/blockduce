@@ -38,6 +38,7 @@ public class Account {
     }
 
     public void updateDbc(Double dbc) {
+        System.out.println("파라미터로 들어온 dbc : "+dbc);
         this.dbc = dbc;
     }
 

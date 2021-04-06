@@ -84,7 +84,7 @@ public class TransactionController {
      * 날짜 비워있으면 response = true 하고 account Table도 refresh
      */
     @GetMapping("/election/isrewarded/{userId}/{status}")
-    public ResponseEntity<String> isRewarded(@PathVariable("userId") Long userId, @PathVariable("status") DBCStatus status) {
+    public ResponseEntity<String> isRewarded(@PathVariable("userId") Long userId, @PathVariable("status") DBCStatus status) throws IOException {
 
         if (transactionService.isRewarded(userId, status)) {
             return new ResponseEntity<>("true", HttpStatus.OK);
@@ -191,7 +191,7 @@ public class TransactionController {
      * */
 
     @GetMapping("/election/EthReward/{memberId}/{dbcvelue}")
-    public ResponseEntity<String> dbc(@PathVariable("memberId") Long memberId,@PathVariable("dbcvelue") Double dbcvelue){
+    public ResponseEntity<String> ethReward(@PathVariable("memberId") Long memberId,@PathVariable("dbcvelue") Double dbcvelue){
 
         String Account = transactionService.findAccountByid(memberId);
         double velue = 0.0000000003*dbcvelue;
@@ -291,4 +291,7 @@ public class TransactionController {
 
         return new ResponseEntity<>("eth 보상 지급완료", HttpStatus.OK);
     }
+
+
+
 }
