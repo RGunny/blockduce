@@ -30,7 +30,7 @@ public interface AuthService {
 
     Member findMemberByName(String name);
 
-    Member findMemberByEmail(String username);
+    Member findMemberByEmail(String email);
 
 
 }

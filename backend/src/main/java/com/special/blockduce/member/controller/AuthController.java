@@ -118,9 +118,11 @@ public class AuthController {
             response = Response.class
     )
     public Response verify(@RequestBody VerifyEmailRequest verifyEmailRequest, HttpServletRequest req, HttpServletResponse res) {
+        System.out.println("verifyEmailRequest.getEmail() = " + verifyEmailRequest.getEmail());
         Response response;
         try {
             Member member = authService.findMemberByEmail(verifyEmailRequest.getEmail());
+            System.out.println("member.getEmail() = " + member.getEmail());
             authService.sendVerificationMail(member);
             response = new Response("success", "성공적으로 인증메일을 보냈습니다.", null);
         } catch (Exception exception) {
@@ -150,6 +152,7 @@ public class AuthController {
             response = Response.class
     )
     public Response getVerify(@PathVariable String key) {
+        System.out.println("key = " + key);
         Response response;
         try {
             authService.verifyEmail(key);
