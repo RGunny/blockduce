@@ -42,7 +42,7 @@ public class MemberService {
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
             sb.append("&client_id=360325f103f39664cd6c418590ff659c");
-            sb.append("&redirect_uri=http://j4b107.p.ssafy.io:3000/kakaologin");
+            sb.append("&redirect_uri=http://j4b107.p.ssafy.io/kakaologin");
             sb.append("&code=" + authorize_code);
             sb.append("&client_secret=Rrnt5OxvySpvbaiodqjg1Qt8BOA1QYUU");
             bw.write(sb.toString());
