@@ -165,6 +165,16 @@ public class TransactionController {
     }
 
     /**
+     * id 받고 키 주기
+     * */
+
+    @GetMapping("/election/key/{memberId}")
+    public ResponseEntity<String> findKey(@PathVariable("memberId") Long memberId){
+
+        return new ResponseEntity<>(transactionService.findKeyByid(memberId), HttpStatus.OK);
+    }
+
+    /**
      * 지갑 생성 눌렀을 경우 account key dbc(0) eth(0) 으로 넣어주기
      */
     @PutMapping("/election/createAccount/{memberId}")
