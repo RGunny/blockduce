@@ -17,7 +17,7 @@
           </h2>
           <h2>{{ c.agency }} <br /></h2>
           <div class="content_inputs">
-            <input v-model="voteValue" placeholder="1500DBC" />DBC
+            <input v-model="voteValue" placeholder="10000DBC" />DBC
           </div>
           <div
             class="button_container"
@@ -28,9 +28,9 @@
             <svg
               class="fingerprint fingerprint-base"
               xmlns="http://www.w3.org/2000/svg"
-              width="80"
-              height="80"
-              viewBox="-10 0 100 100"
+              width="70"
+              height="70"
+              viewBox="-20 0 100 100"
             >
               <g
                 class="fingerprint-out"
@@ -115,9 +115,9 @@
             <svg
               class="fingerprint fingerprint-active"
               xmlns="http://www.w3.org/2000/svg"
-              width="80"
-              height="80"
-              viewBox="-10 0 100 100"
+              width="70"
+              height="70"
+              viewBox="-20 0 100 100"
             >
               <g
                 class="fingerprint-out"
@@ -231,14 +231,13 @@ export default {
   data() {
     return {
       candidateInfo: [],
-      send_account: '0x9DFD19acAc0c523D19F9B50B4640a0dD74E092E6',
-      receive_account: '0xD9Cba24c647faE6fB0b971487F75d78dCBB6FBb3',
+      send_account: '',
+      receive_account: '',
       voteValue: 0,
-      privateKey: Buffer.from(
-        '91b40449775898b8c31c8cb914f5408bc4e2a619cab888fcf1b0f823b8905ffd',
-        'hex'
-      ),
       contract_result: '',
+      receive_key : '',
+      checkDBC : 0,
+
     };
   },
   created() {
@@ -263,10 +262,33 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+    axios.get('http://j4b107.p.ssafy.io/api/members/'+userId).then((response)=>{
+      this.send_account=response.data.account;      
+      this.checkDBC = response.data.dbc;
+    }).catch((error)=>{
+      console.log(error);
+    })
+    axios.get('http://j4b107.p.ssafy.io/api/election/key/'+userId).then((reponse)=>{
+      var key =reponse.data.split('0x'); 
+      this.receive_key = key[1];
+      console.log(this.receive_key);
+      }).catch((error)=>{
+      console.log(error);
+    })
   },
   methods: {
     DBCContract: function(candidate_id) {
+      if(this.voteValue<10000){
+        alert("DBC를 10000 이상 입력해주세요!");
+        return false;
+      }
+      if(this.checkDBC<this.voteValue){
+         alert("DBC를 초과하였습니다.");
+         return false;
+      }
       console.log('DBC contract start!.....');
+      this.receive_account=this.candidateInfo[candidate_id-1].account.account;
+      var privateKey = Buffer.from(this.receive_key,'hex');
       var myValue = this.voteValue;
       // 토큰 어드레스
       var contractAddress = '0x9864bb32e02b1fae9eb875f7b169c5400b15efec';
@@ -301,11 +323,11 @@ export default {
         var tx = new Tx(rawTx, { chain: 'ropsten' });
 
         // 트랜잭션 서명
-        tx.sign(this.privateKey);
+        tx.sign(privateKey);
         if (tx.verifySignature()) {
           console.log('서명 완료!');
           console.log(
-            '서명에서 추적한 발신자 주소: ' +
+            '발신자 주소: ' +
               tx.getSenderAddress().toString('hex')
           );
         }
@@ -326,6 +348,7 @@ export default {
           })
           .once('receipt', (receipt) => {
             console.info('receipt', receipt);
+            alert("투표 완료!");
             console.log('save transaction!');
             var date = new Date();
             var year = date.getFullYear();
@@ -360,6 +383,7 @@ export default {
                 gasUsed: receipt.cumulativeGasUsed,
                 transactionFee: receipt.gasUsed,
                 timeStamp: today,
+                status : "ELECTION",
                 isDbcEth: 1,
                 transactionHash: receipt.transactionHash,
               })
@@ -372,7 +396,7 @@ export default {
             console.log('reward transaction start!');
             axios
               .get(
-                'http://j4b107.p.ssafy.io/api/election/rewardDbcEth/' + userId
+                'http://j4b107.p.ssafy.io/api/election/EthReward/' + userId +"/"+myValue
               )
               .then((response) => {
                 console.log(response);
@@ -382,7 +406,10 @@ export default {
                 console.log(error);
               });
           })
-          .on('error', console.error);
+          .on('error',(receipt)=>{
+            console.log(receipt);
+           alert("투표에 실패하였습니다.");
+          });
       });
     },
   },

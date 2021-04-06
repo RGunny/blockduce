@@ -1,13 +1,5 @@
 <template>
   <div class="card mt-50 mb-50">
-    <!-- <div class="col b-flex">
-      <span class="text-muted" id="orderno">
-        <div v-for="d in dateList" :key="d.localDateTime">
-          {{ d.blockNumber }}
-        </div></span
-      >
-    </div> -->
-
     <div class="title mx-auto text">투표 내역</div>
     <div class="main">
       <span id="sub-title text">
@@ -21,16 +13,18 @@
         </div>
         <div class="col-6">
           <div class="row d-flex text">
-            {{ d.candidateName }}
+            <a v-bind:href="d.transactionHash">{{ d.candidateName }}</a>
           </div>
           <div class="row d-flex text ">
             <p class="text-muted">{{ d.agency }}</p>
           </div>
         </div>
         <div class="col-3 d-flex justify-content-end text">
+          <div class="valueText">
           <p>
             <b>{{ d.value }}</b>
           </p>
+          </div>
         </div>
       </div>
       <hr />
@@ -63,8 +57,10 @@ export default {
     console.log('content start!');
     this.clickday = this.propsDate;
     var splitDate = this.propsDate.split('-');
-    var day = splitDate[1];
-    var month = splitDate[2];
+    var day = splitDate[2];
+    var month = splitDate[1];
+    console.log(this.propsDate);
+    console.log(month+"/"+day);
     axios
       .get(
         'http://j4b107.p.ssafy.io/api/elections/' +
@@ -75,9 +71,15 @@ export default {
           day
       )
       .then((response) => {
+        console.log(response);
         this.dateList = response.data;
+        for(var d in this.dateList){
+          if(this.dateList[d].transactionHash){
+            this.dateList[d].transactionHash="https://ropsten.etherscan.io/tx/"+this.dateList[d].transactionHash;
+            console.log(this.dateList[d]);
+          }
+        }
         this.totalValue = response.data[0].totalValue;
-        console.log(this.dateList);
       })
       .catch((error) => {
         console.log(error);
@@ -97,6 +99,10 @@ export default {
 .text {
   font-family: 'account_font';
   font-size: x-large;
+}
+.valueText {
+  font-family: 'account_font';
+  font-size: large;
 }
 .text .b-flex {
   text-align: center;

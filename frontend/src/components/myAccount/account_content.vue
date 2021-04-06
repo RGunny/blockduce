@@ -170,7 +170,7 @@
                       ></i>
                     </div>
                     <div class="media-body text-right">
-                      <h3>{{ statisInfo.receivedEth }} DBC</h3>
+                      <h3>{{ statisInfo.receiveDbc }} DBC</h3>
                       <span class="content_infospan">DBC받은 양</span>
                     </div>
                   </div>
@@ -200,62 +200,6 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3>{{ statisInfo.receivedEth }} ETH</h3>
-                      <span class="content_infospan">ETH받은 양</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i class="icon-cup success font-large-2 float-right"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- 
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3>3</h3>
-                      <span class="content_infospan">굿즈 구매 횟수</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i
-                        class="icon-pie-chart warning font-large-2 float-right"
-                      ></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card">
-              <div class="card-content">
-                <div class="card-body">
-                  <div class="media d-flex">
-                    <div class="media-body text-left">
-                      <h3>423</h3>
-                      <span class="content_infospan">방문 수</span>
-                    </div>
-                    <div class="align-self-center">
-                      <i
-                        class="icon-direction danger font-large-2 float-right"
-                      ></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
         </div>
       </section>
     </div>
@@ -274,8 +218,8 @@ export default {
   data() {
     return {
       active: 0,
-      DBCbalance: '0',
-      ETHbalance: '0',
+      DBCbalance: 0,
+      ETHbalance: 0,
       account: '',
       statisInfo: [
         {
@@ -308,8 +252,14 @@ export default {
       .then((response) => {
         console.log(response.data.account);
         this.account = response.data.account;
-        this.DBCbalance = response.data.dbc;
-        this.ETHbalance = response.data.eth;
+        if(response.data.dbc===null){
+          this.DBCbalance =0;
+        this.ETHbalance = 0;
+        }else {
+          this.DBCbalance = response.data.dbc;
+          this.ETHbalance = response.data.eth;
+
+        }
       })
       .catch((error) => {
         console.log(error);

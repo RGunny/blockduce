@@ -1,15 +1,18 @@
 <template>
   <div>
     <div>
-      <div></div>
-      <img
+      <div class ="reward">
+        <button
+        id="show-btn"
+        @click="rewardClick()"
+        class="rtext modalButton"
+      >오늘의 보상</button>
+      <button
         id="show-btn"
         @click="[$bvModal.show('bv-modal-example'), modalClick()]"
-        class="text modalButton"
-        v-bind:src="
-          'https://www.pngkey.com/png/full/236-2367048_logo-calendar-calendar-icon-png-blue.png'
-        "
-      />
+        class="rtext modalButton"
+      >투표 정보</button>
+      </div>
       <b-modal id="bv-modal-example" hide-footer>
         <template #modal-title>
           <div class="text">
@@ -457,6 +460,27 @@ export default {
         } else false;
       }
     },
+    rewardClick : function () {
+      var rewardResponse;
+       axios
+        .get(
+          'http://j4b107.p.ssafy.io/api/election/isrewarded/' +
+            userId +
+            '/REWARD'
+        )
+        .then((response) => {
+          rewardResponse = response.data;
+          if(rewardResponse==true){
+          alert("이미 오늘의 보상을 받으셨습니다.");
+        }else{
+          alert("보상이 지급될 때 까지 잠시만 기다려주세요");
+        }
+          })
+        .catch((error) => {
+          console.log(error);
+        });
+        
+    }
   },
   filters: {
     capitalize: function(value) {
@@ -479,6 +503,14 @@ export default {
   font-family: 'account_font';
   font-size: x-large;
 }
+.rtext{
+  font-family: 'account_font';
+  font-size: large;
+  border: solid 2px #0c3267;
+  border-radius: 20px;
+      margin-left: 10px;
+
+}
 .daytext {
   font-family: 'account_font';
   font-size: large;
@@ -498,6 +530,11 @@ export default {
   width: 10%;
   height: 10%;
   background-color: white;
+}
+.reward{
+  display: flex;
+      place-content: center;
+
 }
 .modal-button {
   background-color: rgb(29, 226, 226);
@@ -689,7 +726,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.2);
 }
 .b-calendar__dates .on {
-  background-color: #bd8686;
+  background-color: grey;
 }
 .b-calendar__dates .date .weekday {
   display: none;

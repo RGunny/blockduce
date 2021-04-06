@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class ="marginTop">
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap"
@@ -7,7 +7,7 @@
     />
     <div class="user_Info">
       <b-img
-        v-if="myInfo.profile_img === ''"
+        v-if="myInfo.profile_img === ''||myInfo.profile_img===null"
         class="profile_img"
         v-bind:src="
           'https://www.searchpng.com/wp-content/uploads/2019/02/Profile-PNG-Icon.png'
@@ -61,13 +61,6 @@
             v-if="myInfo.account != '' && myInfo.account != null"
           >
             My Account : {{ myInfo.account }}
-          </div>
-          <div
-            class="account_text"
-            v-show="show_account === true"
-            v-if="myInfo.account != '' && myInfo.account != null"
-          >
-            Key : {{ privateKey }}
           </div>
           <button
             v-show="show_account === false"
@@ -173,11 +166,23 @@ export default {
           key: result.privateKey,
         })
         .then((response) => {
+          this.myInfo.account = result.address;
           console.log(response);
+          axios.get(
+                'http://j4b107.p.ssafy.io/api/election/EthReward/' + userId +"/33000000"
+              )
+              .then((response) => {
+                console.log(response);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
         })
         .catch((error) => {
           console.log(error);
         });
+        alert("개인 키 "+result.privateKey);
+        window.location.reload();
     },
   },
 };
@@ -190,6 +195,9 @@ export default {
     format('woff');
   font-weight: normal;
   font-style: normal;
+}
+.marginTop{
+  margin-top: 30px;
 }
 .text {
   font-family: 'account_font';
