@@ -92,7 +92,7 @@ public class AuthServiceImpl implements AuthService {
     /*이메일 인증*/
     @Override
     public void sendVerificationMail(Member member) throws NotFoundException {
-        String VERIFICATION_LINK = "http://localhost:8080/api/auth/verify/";
+        String VERIFICATION_LINK = "http://j4b107.p.ssafy.io/api/auth/verify/";
         if(member==null) throw new NotFoundException("멤버가 조회되지 않음");
         UUID uuid = UUID.randomUUID();
         redisUtil.setDataExpire(uuid.toString(),member.getEmail(), 60 * 30L);
@@ -102,7 +102,7 @@ public class AuthServiceImpl implements AuthService {
 
     /*이메일 다시 보내기*/
     public void resendVerificationMail(Member member) throws NotFoundException {
-        String VERIFICATION_LINK = "http://localhost:8080/auth/reverify/";
+        String VERIFICATION_LINK = "http://j4b107.p.ssafy.io/api/user/verify/";
         if(member==null) throw new NotFoundException("멤버가 조회되지 않음");
         UUID uuid = UUID.randomUUID();
         redisUtil.setDataExpire(uuid.toString(),member.getEmail(), 60 * 30L);
@@ -147,7 +147,7 @@ public class AuthServiceImpl implements AuthService {
     /*비밀번호 관련 이메일 확인*/
     @Override
     public void requestChangePassword(Member member) throws NotFoundException{
-        String CHANGE_PASSWORD_LINK = "http://localhost:8080/auth/password/";
+        String CHANGE_PASSWORD_LINK = "http://j4b107.p.ssafy.io/api/auth/password/";
         if(member == null) throw new NotFoundException("멤버가 조회되지 않음.");
         String key = REDIS_CHANGE_PASSWORD_PREFIX+ UUID.randomUUID();
         redisUtil.setDataExpire(key,member.getName(),60 * 30L);
