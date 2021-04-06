@@ -31,8 +31,7 @@ public class InitDb {
         private final EntityManager em;
 
         public void dbInit() {
-//            Candidate candidate0 = createCandidate("관리자", 0, "관리자", "관리자", "관리자");
-//            em.persist(candidate0);
+
             Account account = createAccount("0x9DFD19acAc0c523D19F9B50B4640a0dD74E092E6", Double.MAX_VALUE, Double.MAX_VALUE, "91b40449775898b8c31c8cb914f5408bc4e2a619cab888fcf1b0f823b8905ffd");
             Candidate candidate = createCandidate("관리자", 0, "관리자", "관리자", "관리자", account);
             em.persist(candidate);
