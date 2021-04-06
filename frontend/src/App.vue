@@ -77,6 +77,21 @@
                   User
                 </h4>
               </div>
+              <div id="buttons mt-3" style="margin-left: 260px;">
+                <div v-if="isToken">
+                  <button
+                    class="btn login-button"
+                    v-on:click.prevent="deleteToken"
+                  >
+                    Logout
+                  </button>
+                </div>
+                <div v-else>
+                  <button class="btn login-button" @click="clickLogin">
+                    Login
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </nav>
@@ -115,7 +130,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-
+import router from '@/router';
 export default {
   name: 'App',
   data() {
@@ -144,6 +159,14 @@ export default {
     },
   },
   methods: {
+    clickLogin() {
+      router.push({ name: 'Login' });
+    },
+    deleteToken() {
+      localStorage.clear();
+      window.location.reload();
+      alert('로그아웃 되었습니다.');
+    },
     ...mapActions(['findMyAccount', 'fetchUsers', 'logout']),
     ...mapActions('clubStore', ['fetchClubs']),
     searchUser() {
@@ -302,5 +325,26 @@ export default {
   background-color: #feca57;
   border-radius: 10px;
   transition: background-color 0.3s, border-radius 0.5s, width 0.5s;
+}
+.login-button {
+  float: right;
+  color: #fcfcfd;
+}
+
+.login-button:hover {
+  background-color: #0011ff;
+  color: #f8f8f8;
+}
+
+.disabled,
+.disabled:hover {
+  background-color: #3700ff (136, 154, 152, 0.25);
+  color: #f8f8f8;
+  cursor: inherit;
+}
+
+.items:hover {
+  cursor: pointer;
+  color: #3700ff;
 }
 </style>
