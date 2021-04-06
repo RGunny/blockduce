@@ -81,9 +81,6 @@ public class TransactionController {
     @GetMapping("/election/isrewarded/{userId}/{status}")
     public ResponseEntity<String> isRewarded(@PathVariable("userId") Long userId, @PathVariable("status") DBCStatus status) {
 
-        System.out.println("userId = " + userId);
-        System.out.println("status = " + status);
-
         if (transactionService.isRewarded(userId, status)) {
             return new ResponseEntity<>("true", HttpStatus.OK);
         } else {
@@ -195,7 +192,7 @@ public class TransactionController {
 
         Web3j web3 = Web3j.build(new HttpService(
                 "https://ropsten.infura.io/v3/b04025a46bb245b3bdb7c350a938dbe5"));
-        System.out.println("Successfuly connected to Ethereum");
+
         try{
             String privetKey = "91b40449775898b8c31c8cb914f5408bc4e2a619cab888fcf1b0f823b8905ffd";
             Credentials credentials = Credentials.create(privetKey);
@@ -207,7 +204,6 @@ public class TransactionController {
             // Recipient address
             String recipientAddress = Account;
             // Value to transfer (in wei)
-            System.out.println("Enter Amount to be sent:");
 
             double velue = dbcvelue * 0.000000000015;
             String tmp = Double.toString(velue);
@@ -229,12 +225,10 @@ public class TransactionController {
             // Send transaction
             EthSendTransaction ethSendTransaction = web3.ethSendRawTransaction(hexValue).send();
             String transactionHash = ethSendTransaction.getTransactionHash();
-            System.out.println("transactionHash: " + transactionHash);
 
             // Wait for transaction to be mined
             Optional<TransactionReceipt> transactionReceipt = null;
             do {
-                System.out.println("checking if transaction " + transactionHash + " is mined....");
                 EthGetTransactionReceipt ethGetTransactionReceiptResp = web3.ethGetTransactionReceipt(transactionHash)
                         .send();
                 transactionReceipt = ethGetTransactionReceiptResp.getTransactionReceipt();

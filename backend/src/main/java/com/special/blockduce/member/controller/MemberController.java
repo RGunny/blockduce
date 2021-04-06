@@ -30,13 +30,10 @@ public class MemberController {
     @GetMapping("/members/klogin")
     public MemberForm klogin(@RequestParam String authorize_code) {
         String access_token = memberService.getAccessToken(authorize_code); //인가 코드를 이용해 사용자코드 받아오기
-        System.out.println("억세스 토큰 확인: "+access_token);
         ProfileDto userinfo = memberService.getUserInfo(access_token); //사용자 코드를 이용해 유저 프로필 받아오기
 
         //findById 카카오 고유값을 통해 찾아보자-> id 확인 있으면 jwt토큰 발급해서 dto 넣어주고 -> 홈화면   으로 없으면-> join으로
         MemberForm member = memberService.findByKid(userinfo);
-        System.out.println("맴버 케이아이디 :"+member.getKid());
-        System.out.println("맴버 이미지 :"+userinfo.getImg());
 
         //getismem을 통해서 프론트에서 회원이 있는지 없는지 확인
         MemberForm memberResult;
@@ -57,9 +54,6 @@ public class MemberController {
      * */
     @PostMapping("/members/join")  // post - 양식 작성 후 회원가입하기 클릭 시 json으로 받아올거 -> email pw name
     public ResponseEntity<String> join(@RequestBody MemberForm form){
-        System.out.println("닉네임: "+form.getNickname());
-        System.out.println("인트로: "+form.getIntro());
-        System.out.println("이미지: "+form.getImg());
         memberService.join(form);
         return new ResponseEntity<>("success", HttpStatus.OK);
         //ResponseEntity로 성공 메세지 전달 가능
@@ -71,7 +65,6 @@ public class MemberController {
     @PostMapping("/members/login")  // post - 양식 작성 후 회원가입하기 클릭 시 json으로 받아올거 ->세션에 저장된 member_id + 프로필 양식에 넣은 값
     public ResponseEntity<MemberForm> login(@RequestBody MemberForm form){
         MemberForm memf;
-        System.out.println("로그인시 받아오는거 : "+form.getEmail());
 
         MemberForm member = memberService.findByEmail(form.getEmail());
         String token = jwtService.create(form);  //jwt토근에는 dto 전달 -> db 건드리는거 아니니까 어짜피
@@ -90,7 +83,6 @@ public class MemberController {
      * */
     @GetMapping("/members/{memberId}")
     public MemberForm memberInfo(@PathVariable("memberId") Long memberId){
-        System.out.println("들어왔니?");
         MemberForm member = memberService.findById(memberId);
 
         return member;
