@@ -1,5 +1,6 @@
 package com.special.blockduce.member.controller;
 
+import com.special.blockduce.Response;
 import com.special.blockduce.member.domain.Member;
 import com.special.blockduce.member.dto.MemberForm;
 import com.special.blockduce.member.dto.ProfileDto;
@@ -21,10 +22,11 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
+
     private final MemberService memberService;
     public static final Logger logger = LoggerFactory.getLogger(JwtService.class);
-    @Autowired
-    private JwtService jwtService;
+    private final AuthService authService;
+    private final JwtService jwtService;
 
     //인가코드를 통한 프로필로 우리 사이트 회원인지 검사(벡에서) 회원 아니면 회원가입으로 회원이면 억세스 토큰받고 홈으로
     @GetMapping("/members/klogin")
@@ -54,6 +56,11 @@ public class MemberController {
      * */
     @PostMapping("/members/join")  // post - 양식 작성 후 회원가입하기 클릭 시 json으로 받아올거 -> email pw name
     public ResponseEntity<String> join(@RequestBody MemberForm form){
+
+        if (authService.existsByEmail(form.getEmail())) {
+            return new ResponseEntity<>("Duplicated Email", HttpStatus.BAD_REQUEST);
+        }
+
         memberService.join(form);
         return new ResponseEntity<>("success", HttpStatus.OK);
         //ResponseEntity로 성공 메세지 전달 가능
