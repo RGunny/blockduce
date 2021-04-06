@@ -1,9 +1,7 @@
 <template>
   <div class="root">
-    <calModal />
-
     <div class="container" v-on:click="GetERCBalance">
-      <div class="left-side" v-if="active === false">
+      <div class="left-side">
         <div class="card">
           <div class="card-line"></div>
           <div class="buttons"></div>
@@ -17,7 +15,7 @@
           <div class="numbers-line2"></div>
         </div>
       </div>
-      <div class="right-side" v-if="active === false">
+      <div class="right-side">
         <div class="new">내 DBC 확인</div>
         <svg
           class="arrow"
@@ -36,7 +34,8 @@
         </svg>
       </div>
     </div>
-    <div class="text" v-if="active === true">내 DBC : {{ DBCbalance }}</div>
+    <div class="text">내 DBC : {{ DBCbalance }}<calModal />
+</div>
   </div>
 </template>
 <script>
@@ -54,7 +53,7 @@ export default {
       myInfo: {
         account: '',
       },
-      DBCbalance: '0 DBC',
+      DBCbalance: '0',
       active: false,
     };
   },
@@ -143,6 +142,7 @@ export default {
 }
 .root {
   text-align: center;
+  margin-top : 20px;
 }
 .calmodal {
   display: flex;
