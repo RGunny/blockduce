@@ -188,7 +188,7 @@ public class TransactionController {
      * 투표한 맴버에게 eth 제공
      * */
 
-    @GetMapping("/election/미정/{memberId}/{dbcvelue}")
+    @GetMapping("/election/EthReward/{memberId}/{dbcvelue}")
     public ResponseEntity<Integer> dbc(@PathVariable("memberId") Long memberId,@PathVariable("dbcvelue") Double dbcvelue){
 
         String Account = transactionService.findAccountByid(memberId);
