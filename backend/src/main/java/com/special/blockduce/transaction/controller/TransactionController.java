@@ -188,10 +188,10 @@ public class TransactionController {
      * 투표한 맴버에게 eth 제공
      * */
 
-    @GetMapping("/election/미정/{memberId}/{dbcvelue}")
+    @GetMapping("/election/EthReward/{memberId}/{dbcvelue}")
     public ResponseEntity<Integer> dbc(@PathVariable("memberId") Long memberId,@PathVariable("dbcvelue") Double dbcvelue){
 
-        String key = transactionService.findKeyByid(memberId);
+        String Account = transactionService.findAccountByid(memberId);
 
         Web3j web3 = Web3j.build(new HttpService(
                 "https://ropsten.infura.io/v3/b04025a46bb245b3bdb7c350a938dbe5"));
@@ -205,7 +205,7 @@ public class TransactionController {
             BigInteger nonce = ethGetTransactionCount.getTransactionCount();
 
             // Recipient address
-            String recipientAddress = key;
+            String recipientAddress = Account;
             // Value to transfer (in wei)
             System.out.println("Enter Amount to be sent:");
 
