@@ -6,36 +6,34 @@ import com.special.blockduce.exceptions.ErrorCode;
 import com.special.blockduce.member.domain.Member;
 import com.special.blockduce.member.domain.Salt;
 import com.special.blockduce.member.domain.request.SignupMemberRequest;
-import com.special.blockduce.member.domain.request.VerifyEmailRequest;
 import com.special.blockduce.member.repository.MemberRepository;
 import com.special.blockduce.member.service.AuthService;
 import com.special.blockduce.member.service.EmailService;
 import com.special.blockduce.utils.RedisUtil;
 import com.special.blockduce.utils.SaltUtil;
 import javassist.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     final String REDIS_CHANGE_PASSWORD_PREFIX="CPW";
-    private MemberRepository memberRepository;
-    private EmailService emailService;
-    private SaltUtil saltUtil;
-    private RedisUtil redisUtil;
-
-    public AuthServiceImpl (MemberRepository memberRepository){
-        this.memberRepository = memberRepository;
-    }
+    private final MemberRepository memberRepository;
+    private final EmailService emailService;
+    private final SaltUtil saltUtil;
+    private final RedisUtil redisUtil;
 
     public Member findMemberByName(String name){
         return memberRepository.findMemberByName(name).orElseThrow(() ->new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
     }
 
     public Member findMemberByEmail(String email){
-        return memberRepository.findMemberByEmail(email).orElseThrow(()->new EntityNotFoundException(ErrorCode.EMAIL_NOT_FOUND));
+        Member member = memberRepository.findMemberByEmail(email).orElseThrow(() -> new EntityNotFoundException(ErrorCode.EMAIL_NOT_FOUND));
+        return member;
     }
 
     Member getMemberEmail(String email){return null;}
@@ -112,8 +110,8 @@ public class AuthServiceImpl implements AuthService {
     /*이메일 가져오기*/
     @Override
     public void verifyEmail(String key) throws NotFoundException {
-        String memberId = redisUtil.getData(key);
-        Member member = findMemberByEmail(key);
+        String email = redisUtil.getData(key);
+        Member member = findMemberByEmail(email);
         if(member==null) throw new NotFoundException("멤버가 조회되지않음");
         modifyUserRole(member, UserRole.USER);
         redisUtil.deleteData(key);
