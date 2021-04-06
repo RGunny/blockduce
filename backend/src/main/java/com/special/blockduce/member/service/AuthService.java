@@ -3,7 +3,6 @@ package com.special.blockduce.member.service;
 import com.special.blockduce.config.UserRole;
 import com.special.blockduce.member.domain.Member;
 import com.special.blockduce.member.domain.request.SignupMemberRequest;
-import com.special.blockduce.member.domain.request.VerifyEmailRequest;
 import javassist.NotFoundException;
 
 public interface AuthService {

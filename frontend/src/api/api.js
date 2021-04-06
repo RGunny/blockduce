@@ -1,5 +1,5 @@
 export default {
-    URL: 'http://localhost:8080/api',
+    URL: 'http://j4b107.ssafy.io/api',
     ROUTES: {
  
       // accounts
