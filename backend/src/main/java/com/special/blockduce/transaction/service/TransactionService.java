@@ -379,6 +379,17 @@ public class TransactionService {
 
     }
 
+    public String findAccountByid(Long memberId) {
+        Optional<Member> member = memberRepository.findMemberByid(memberId);
+        System.out.println("member의 어카운트 찾아왔니? :"+member.get().getAccount().getAccount());
+
+        String account ="어카운트 못찾았어요 지갑먼저 만들어주세요";
+        if(member.isPresent()){ //계정이 있을 경우
+            account =  member.get().getAccount().getAccount();
+        }
+        return account;
+    }
+
 
 //
 //    public HttpStatus countTotalDbcById(Long memberId) {
