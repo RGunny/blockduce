@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.special.blockduce.Response;
+import com.special.blockduce.config.UserRole;
 import com.special.blockduce.member.domain.Member;
 import com.special.blockduce.member.domain.Salt;
 import com.special.blockduce.member.dto.MemberForm;
@@ -78,7 +79,6 @@ public class MemberService {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST");
 
-            System.out.println(access_Token);
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
@@ -89,8 +89,6 @@ public class MemberService {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-
-            System.out.println("response body : " + result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
@@ -126,15 +124,8 @@ public class MemberService {
                 nickname(form.getNickname()).
                 intro(form.getIntro()).
                 img(form.getImg()).
-//                account1(SaltUtil.encodePassword(salt,form.getAccount())).
-//                key1(SaltUtil.encodePassword(salt,form.getKey())).
-//                dbc1(form.getDbc()).
-//                eth1(form.getEth()).
+                role(UserRole.USER).
                 build();
-
-        System.out.println("member = " + member);
-        System.out.println("member = " + member.getClass());
-        System.out.println("member = " + member.getClass().getName());
 
         memberRepository.save(member);
     }
@@ -173,7 +164,6 @@ public class MemberService {
 
 
             if (member.getIsmem()==true) { //계정이 있을 경우
-                System.out.println("1");
                 memf = MemberForm.builder().
                         id(member.getId()).
                         kid(member.getKid()).
@@ -229,7 +219,6 @@ public class MemberService {
 
         // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
         Member member = memberRepository.findOptionalById(memberId).orElse(mem);
-        System.out.println("찾아왔니?"+member.getAccount());
 
                 if (member.getIsmem() == true) { //계정이 있을 경우 dbc 업대이트
                 member.getAccount().updateDbc(dbc);
@@ -246,7 +235,6 @@ public class MemberService {
 
         // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
         Member member = memberRepository.findOptionalById(memberId).orElse(mem);
-        System.out.println("찾아왔니?"+member.getAccount());
 
         if (member.getIsmem() == true) { //계정이 있을 경우 dbc 업대이트
             member.getAccount().updateEth(eth);

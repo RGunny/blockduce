@@ -75,8 +75,6 @@ public class TransactionService {
             Member mem = new Member();
             // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
             Member member = memberRepository.findMemberByid(form.getSenderId()).orElse(mem);
-            System.out.println("찾아온 id: "+member.getId());
-            System.out.println("찾아온 dbc: "+member.getAccount().getDbc());
             if(member.getId() != null){ //계정이 있을 경우
                 member.getAccount().updateDbc(member.getAccount().getDbc() - form.getValue());
             }
@@ -177,7 +175,6 @@ public class TransactionService {
     public String findKeyByid(Long memberId) {
 
         Optional<Member> member = memberRepository.findMemberByid(memberId);
-        System.out.println("member의 키 찾아왔니? :"+member.get().getAccount().getKey());
 
         String key ="키키키키키";
         if(member.isPresent()){ //계정이 있을 경우
@@ -240,8 +237,6 @@ public class TransactionService {
             Candidate candi = new Candidate();
             // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
             Candidate s_admin = candidateRepository.findCandidateByid(form.getSenderId()).orElse(candi);
-            System.out.println("candidate에서 찾아온 admin id: "+s_admin.getId());
-            System.out.println("찾아온 dbc: "+s_admin.getAccount().getDbc());
             if(s_admin.getId() != null){ //계정이 있을 경우
                 s_admin.getAccount().updateDbc(s_admin.getAccount().getDbc() - form.getValue());
             }
@@ -293,8 +288,7 @@ public class TransactionService {
             Candidate candi = new Candidate();
             // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
             Candidate s_admin = candidateRepository.findCandidateByid(form.getSenderId()).orElse(candi);
-            System.out.println("candidate에서 찾아온 admin id: "+s_admin.getId());
-            System.out.println("찾아온 eth: "+s_admin.getAccount().getEth());
+
             if(s_admin.getId() != null){ //계정이 있을 경우
                 s_admin.getAccount().updateEth(s_admin.getAccount().getEth() - form.getValue());
             }
@@ -381,7 +375,6 @@ public class TransactionService {
 
     public String findAccountByid(Long memberId) {
         Optional<Member> member = memberRepository.findMemberByid(memberId);
-        System.out.println("member의 어카운트 찾아왔니? :"+member.get().getAccount().getAccount());
 
         String account ="어카운트 못찾았어요 지갑먼저 만들어주세요";
         if(member.isPresent()){ //계정이 있을 경우
