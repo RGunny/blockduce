@@ -13,6 +13,7 @@ import com.special.blockduce.transaction.dto.AccountInfoDto;
 import com.special.blockduce.transaction.dto.DbcEthDto;
 import com.special.blockduce.transaction.repository.DbcRepository;
 import com.special.blockduce.transaction.repository.EthRepository;
+import com.special.blockduce.utils.SaltUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -314,6 +315,7 @@ public class TransactionService {
     @Transactional
     public String createAccount(AccountDto form,Long memberId) {
 
+        String salt = SaltUtil.genSalt();
         //맴버 아이디로 맴버 찾아와서 맴버.account로 변경하지
         Member mem = new Member();
         // 아이디 찾아오면 member로 넣고 못찾으면 ismem false로 바꿔서 넣고...
@@ -337,6 +339,7 @@ public class TransactionService {
 
     public AccountInfoDto accountInfo(Long memberId) {
         Member member = findMemberByid(memberId);
+
 
         AccountInfoDto accountinfodto = AccountInfoDto.builder().
                 dbcTransactions(dbcRepository.countByMember(member.getId(), DBCStatus.ELECTION)).
