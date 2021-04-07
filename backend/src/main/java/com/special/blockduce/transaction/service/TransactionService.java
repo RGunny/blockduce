@@ -228,11 +228,15 @@ public class TransactionService {
          * 동작 확인
          */
         System.out.println("이즈 디비씨"+form.getIsDbcEth());
+        System.out.println("리시버아이디"+form.getReceiverId());
+        System.out.println("센더아이디"+form.getSenderId());
+        System.out.println("리시버아이디"+receiver.getId());
+        System.out.println("센더아이디"+sender.getId());
 
         if(form.getIsDbcEth()==1) {
             DBC dbc = DBC.builder().
-                    receiverId(form.getReceiverId()).
-                    senderId(form.getSenderId()).
+                    receiverId(sender.getId()).
+                    senderId(receiver.getId()).
                     senderAccount(senderAccount.getSenderAccount()).
                     receiverAccount(receiverAccount.getReceiverAccount()).
                     blockHash(form.getBlockHash()).
