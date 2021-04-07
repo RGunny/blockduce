@@ -31,7 +31,7 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
 .footer {
   text-align: center;
   background-color: rgb(34, 34, 34);
@@ -41,7 +41,6 @@ export default {
   left: 0;
   bottom: 0;
   width: 100%;
-  z-index: 99;
   position: relative;
 }
 

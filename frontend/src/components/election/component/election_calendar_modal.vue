@@ -428,8 +428,6 @@ export default {
     },
     selecteDate: function() {
       this.propsDate = this.selectedDate.format('YYYY-MM-DD');
-      console.log(this.propsDate);
-      console.log(this.dateList.dayNumber);
     },
     modalClick: function() {
       this.propsDate = this.selectedDate.format('YYYY-MM');
