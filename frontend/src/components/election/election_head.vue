@@ -34,8 +34,7 @@
         </svg>
       </div>
     </div>
-    <div class="text">내 DBC : {{ DBCbalance }}<calModal />
-</div>
+    <div class="text">내 DBC : {{ DBCbalance }}<calModal /></div>
   </div>
 </template>
 <script>
@@ -96,7 +95,6 @@ export default {
       var contractAddress = '0x9864bb32e02b1fae9eb875f7b169c5400b15efec';
       var TokenABI = DBCabi;
       var DBCcontract = new web3.eth.Contract(TokenABI, contractAddress);
-      console.log(DBCcontract);
       let DBCtoken;
       DBCcontract.methods
         .balanceOf(account)
@@ -125,8 +123,8 @@ export default {
 }
 @import url('https://fonts.googleapis.com/css?family=Lexend+Deca&display=swap');
 .container {
-  --background: #0c3267;
-  --left-side: #0c3267;
+  --background: #ffffff;
+  --left-side: #ffffff;
   --card: #c7ffbc;
   --card-line: #80ea69;
   --button-color-3: #26850e;
@@ -142,7 +140,7 @@ export default {
 }
 .root {
   text-align: center;
-  margin-top : 20px;
+  margin-top: 20px;
 }
 .calmodal {
   display: flex;

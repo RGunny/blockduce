@@ -21,9 +21,9 @@
         </div>
         <div class="col-3 d-flex justify-content-end text">
           <div class="valueText">
-          <p>
-            <b>{{ d.value }}</b>
-          </p>
+            <p>
+              <b>{{ d.value }}</b>
+            </p>
           </div>
         </div>
       </div>
@@ -59,8 +59,6 @@ export default {
     var splitDate = this.propsDate.split('-');
     var day = splitDate[2];
     var month = splitDate[1];
-    console.log(this.propsDate);
-    console.log(month+"/"+day);
     axios
       .get(
         'http://j4b107.p.ssafy.io/api/elections/' +
@@ -71,12 +69,12 @@ export default {
           day
       )
       .then((response) => {
-        console.log(response);
         this.dateList = response.data;
-        for(var d in this.dateList){
-          if(this.dateList[d].transactionHash){
-            this.dateList[d].transactionHash="https://ropsten.etherscan.io/tx/"+this.dateList[d].transactionHash;
-            console.log(this.dateList[d]);
+        for (var d in this.dateList) {
+          if (this.dateList[d].transactionHash) {
+            this.dateList[d].transactionHash =
+              'https://ropsten.etherscan.io/tx/' +
+              this.dateList[d].transactionHash;
           }
         }
         this.totalValue = response.data[0].totalValue;

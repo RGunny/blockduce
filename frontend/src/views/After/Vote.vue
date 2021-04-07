@@ -1,19 +1,15 @@
 <template>
   <div class="main">
-    <Navbar/>
-    <Profile 
+    <Navbar />
+    <Profile
       v-for="(profile, idx) in profiles"
       :key="idx"
       :profile="profile"
       @onChange="onChange"
     />
     <div class="remain">
-      <p v-if="this.remain >= 0">
-        잔액 : {{remain}} 원
-      </p>
-      <p v-if="this.remain < 0" class="remainRed">
-        잔액 : {{remain}} 원
-      </p>
+      <p v-if="this.remain >= 0">잔액 : {{ remain }} 원</p>
+      <p v-if="this.remain < 0" class="remainRed">잔액 : {{ remain }} 원</p>
       <button class="myButton" @click="calculate">계산</button>
     </div>
     <div class="footer">
@@ -25,100 +21,89 @@
           :active="active == 6"
           @click="active = 6"
         >
-        투표
+          투표
         </vs-button>
       </div>
     </div>
-
-
   </div>
 </template>
 
 <script>
-import Navbar from '@/components/Navbar.vue'
-import Profile from '@/components/vote/Profile.vue'
-
+import Navbar from '@/components/Navbar.vue';
+import Profile from '@/components/vote/Profile.vue';
 
 export default {
   components: {
     Navbar,
     Profile,
   },
-  data:() => ({
-      remain: 1000000,
-        active: 0,
-        cnt:0,
+  data: () => ({
+    remain: 1000000,
+    active: 0,
+    cnt: 0,
 
-      moneyList: [0, 0, 0, 0, 0, 0, 0],
-      profiles: [
-        {
-          id: 0,
-          image: "1.jpg",
-          name: "최주아",
-          agency: "YG",
-          age: 18,
-          money: 0,       
-        }
-        ,
-        {
-          id: 1,
-          image: "2.jpg",
-          name: "류건희",
-          agency: "JYP",
-          age: 21,
-          money: 0,       
-        }
-        ,
-        {
-          id: 2,
-          image: "3.jpg",
-          name: "박상우",
-          agency: "SM",
-          age: 19,
-          money: 0,       
-        }
-        ,
-        {
-          id: 3,
-          image: "4.jpg",
-          name: "이아영",
-          agency: "CUBE",
-          age: 15,
-          money: 0,      
-        }
-        ,
-        {
-          id: 4,
-          image: "5.jpg",
-          name: "윤은철",
-          agency: "위",
-          age: 24,
-          money: 0,      
-        }
-        ,
-        {
-          id: 5,
-          image: "6.jpg",
-          name: "서범석",
-          agency: "개인 연습생",
-          age: 22,
-          money: 0,      
-        }
-        ,
-        {
-          id: 6,
-          image: "7.jpg",
-          name: "김민지",
-          agency: "플레디스",
-          age: 18,
-          money: 0,      
-        }
-        ,
-  
-      ]
-      }),
-  methods:{
-    onChange(val, profile){
+    moneyList: [0, 0, 0, 0, 0, 0, 0],
+    profiles: [
+      {
+        id: 0,
+        image: '1.jpg',
+        name: '최주아',
+        agency: 'YG',
+        age: 18,
+        money: 0,
+      },
+      {
+        id: 1,
+        image: '2.jpg',
+        name: '류건희',
+        agency: 'JYP',
+        age: 21,
+        money: 0,
+      },
+      {
+        id: 2,
+        image: '3.jpg',
+        name: '박상우',
+        agency: 'SM',
+        age: 19,
+        money: 0,
+      },
+      {
+        id: 3,
+        image: '4.jpg',
+        name: '이아영',
+        agency: 'CUBE',
+        age: 15,
+        money: 0,
+      },
+      {
+        id: 4,
+        image: '5.jpg',
+        name: '윤은철',
+        agency: '위',
+        age: 24,
+        money: 0,
+      },
+      {
+        id: 5,
+        image: '6.jpg',
+        name: '서범석',
+        agency: '개인 연습생',
+        age: 22,
+        money: 0,
+      },
+      {
+        id: 6,
+        image: '7.jpg',
+        name: '김민지',
+        agency: '플레디스',
+        age: 18,
+        money: 0,
+      },
+    ],
+  }),
+  methods: {
+    onChange(val, profile) {
       // console.log(val);
       // console.log(profile);
       // console.log(this.moneyList[0]);
@@ -129,12 +114,12 @@ export default {
       this.remain = 1000000;
       const sum = this.moneyList.reduce((a, b) => a + b);
       this.remain -= sum * 100000;
-    }
+    },
     // onClickHeart(cnt){
     //   this.cnt=cnt
     // }
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
@@ -150,7 +135,7 @@ export default {
   height: 5rem;
 
   bottom: 0;
-  border-top: 1px solid #6B05A9;
+  border-top: 1px solid #6b05a9;
   background: white;
 }
 
@@ -181,6 +166,4 @@ export default {
   margin-left: 10px;
   color: plum;
 }
-
-
 </style>

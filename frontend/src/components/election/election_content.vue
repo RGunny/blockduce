@@ -235,9 +235,9 @@ export default {
       receive_account: '',
       voteValue: 0,
       contract_result: '',
-      receive_key : '',
-      checkDBC : 0,
-
+      receive_key: '',
+      checkDBC: 0,
+      emitKey: 0,
     };
   },
   created() {
@@ -262,33 +262,42 @@ export default {
       .catch((error) => {
         console.log(error);
       });
-    axios.get('http://j4b107.p.ssafy.io/api/members/'+userId).then((response)=>{
-      this.send_account=response.data.account;      
-      this.checkDBC = response.data.dbc;
-    }).catch((error)=>{
-      console.log(error);
-    })
-    axios.get('http://j4b107.p.ssafy.io/api/election/key/'+userId).then((reponse)=>{
-      var key =reponse.data.split('0x'); 
-      this.receive_key = key[1];
-      console.log(this.receive_key);
-      }).catch((error)=>{
-      console.log(error);
-    })
+    axios
+      .get('http://j4b107.p.ssafy.io/api/members/' + userId)
+      .then((response) => {
+        this.send_account = response.data.account;
+        this.checkDBC = response.data.dbc;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    axios
+      .get('http://j4b107.p.ssafy.io/api/election/key/' + userId)
+      .then((reponse) => {
+        var key = reponse.data.split('0x');
+        this.receive_key = key[1];
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   },
   methods: {
     DBCContract: function(candidate_id) {
-      if(this.voteValue<10000){
-        alert("DBC를 10000 이상 입력해주세요!");
+      if (this.voteValue < 10000) {
+        alert('DBC를 10000 이상 입력해주세요!');
         return false;
       }
-      if(this.checkDBC<this.voteValue){
-         alert("DBC를 초과하였습니다.");
-         return false;
+      if (this.checkDBC < this.voteValue) {
+        alert('DBC를 초과하였습니다.');
+        return false;
       }
       console.log('DBC contract start!.....');
-      this.receive_account=this.candidateInfo[candidate_id-1].account.account;
-      var privateKey = Buffer.from(this.receive_key,'hex');
+      this.emitKey = 1;
+      this.$emit('child', this.emitKey);
+      this.receive_account = this.candidateInfo[
+        candidate_id - 1
+      ].account.account;
+      var privateKey = Buffer.from(this.receive_key, 'hex');
       var myValue = this.voteValue;
       // 토큰 어드레스
       var contractAddress = '0x9864bb32e02b1fae9eb875f7b169c5400b15efec';
@@ -326,10 +335,7 @@ export default {
         tx.sign(privateKey);
         if (tx.verifySignature()) {
           console.log('서명 완료!');
-          console.log(
-            '발신자 주소: ' +
-              tx.getSenderAddress().toString('hex')
-          );
+          console.log('발신자 주소: ' + tx.getSenderAddress().toString('hex'));
         }
 
         const serializedTx = tx.serialize();
@@ -348,7 +354,8 @@ export default {
           })
           .once('receipt', (receipt) => {
             console.info('receipt', receipt);
-            alert("투표 완료!");
+            this.emitKey = 2;
+            this.$emit('child', this.emitKey);
             console.log('save transaction!');
             var date = new Date();
             var year = date.getFullYear();
@@ -383,7 +390,7 @@ export default {
                 gasUsed: receipt.cumulativeGasUsed,
                 transactionFee: receipt.gasUsed,
                 timeStamp: today,
-                status : "ELECTION",
+                status: 'ELECTION',
                 isDbcEth: 1,
                 transactionHash: receipt.transactionHash,
               })
@@ -396,19 +403,22 @@ export default {
             console.log('reward transaction start!');
             axios
               .get(
-                'http://j4b107.p.ssafy.io/api/election/EthReward/' + userId +"/"+myValue
+                'http://j4b107.p.ssafy.io/api/election/EthReward/' +
+                  userId +
+                  '/' +
+                  myValue
               )
-              .then((response) => {
-                console.log(response);
+              .then(() => {
                 console.log('reward transaction end!');
               })
               .catch((error) => {
                 console.log(error);
               });
           })
-          .on('error',(receipt)=>{
+          .on('error', (receipt) => {
             console.log(receipt);
-           alert("투표에 실패하였습니다.");
+            this.emitKey = 3;
+            this.$emit('child', this.emitKey);
           });
       });
     },
@@ -434,7 +444,6 @@ export default {
   width: 100vw;
   height: 100vh;
   z-index: 1;
-  /* border: #4a148c 5px solid; */
 }
 .cardwrap {
   display: flex;
@@ -442,15 +451,12 @@ export default {
   justify-content: center;
   width: 90vw;
   height: 100vh;
-  /* border: #148c6e 5px solid; */
 }
 .candidate {
-  /* border: #8c8a14 5px solid; */
-
   margin: 1%;
   transform: translate(0%, 0%);
-  width: 370px;
-  height: 410px;
+  width: 70%;
+  height: 52.6%;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   overflow: hidden;
@@ -466,7 +472,7 @@ export default {
 
 .candidate .imgbox img {
   display: block;
-  width: 60%;
+  width: 80%;
   height: 60%;
   margin: 10px auto;
 }

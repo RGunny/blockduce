@@ -17,12 +17,12 @@ import Main from '@/views/Main.vue';
 import Login from '@/views/accounts/Login.vue';
 import Join from '@/views/accounts/Join.vue';
 import Klogin from '@/views/accounts/kakaologin.vue';
-import SignupEmail from '@/views/accounts/SignupEmail'
-import SignupSuccessful from '@/views/accounts/SignupSuccessful'
-import PasswordFind from '@/views/accounts/PasswordFind'
-import PasswordFindEmail from '@/views/accounts/PasswordFindEmail'
-import PasswordChange from '@/views/accounts/PasswordChange'
-import PasswordChangeSuccessful from '@/views/accounts/PasswordChangeSuccessful'
+import SignupEmail from '@/views/accounts/SignupEmail';
+import SignupSuccessful from '@/views/accounts/SignupSuccessful';
+import PasswordFind from '@/views/accounts/PasswordFind';
+import PasswordFindEmail from '@/views/accounts/PasswordFindEmail';
+import PasswordChange from '@/views/accounts/PasswordChange';
+import PasswordChangeSuccessful from '@/views/accounts/PasswordChangeSuccessful';
 
 //Vote
 import Vote from '@/views/After/Vote.vue';
@@ -34,8 +34,10 @@ import Account from '@/views/Account.vue';
 import Election from '@/views/Election.vue';
 import Information from '@/views/Information.vue';
 
+import Statistics from '@/views/Statistics.vue';
+
 //pagenotfound
-import PageNotFound from '@/views/PageNotFound'
+import PageNotFound from '@/views/PageNotFound';
 
 Vue.use(VueMaterial);
 Vue.use(VueToastr, {
@@ -93,36 +95,35 @@ const routes = [
   {
     path: '/join/email',
     name: 'SignupEmail',
-    component: SignupEmail
+    component: SignupEmail,
   },
   {
     path: '/join/success',
     name: 'SignupSuccessful',
-    component: SignupSuccessful
+    component: SignupSuccessful,
   },
   {
     path: '/password',
     name: 'PasswordFind',
-    component: PasswordFind
+    component: PasswordFind,
   },
   {
     path: '/password/email',
     name: 'PasswordFindEmail',
-    component: PasswordFindEmail
+    component: PasswordFindEmail,
   },
   {
     path: '/password/change',
     name: 'PasswordChange',
-    component: PasswordChange
+    component: PasswordChange,
   },
-  
+
   {
     path: '/password/success',
     name: 'PasswordChangeSuccessful',
-    component: PasswordChangeSuccessful
+    component: PasswordChangeSuccessful,
   },
 
-  
   //Vote
   {
     path: '/after/vote',
@@ -150,7 +151,11 @@ const routes = [
     name: 'information',
     component: Information,
   },
- 
+  {
+    path: '/statistic',
+    name: 'statistic',
+    component: Statistics,
+  },
   // {
   //   path: '/after/wallet',
   //   name: 'Wallet',
@@ -163,26 +168,25 @@ const routes = [
   //   component: Blockduce
   // },
 
-    // 404 Pages
-    {
-      path: '*',
-      name: 'PageNotFound',
-      component: PageNotFound
-  
-    }
+  // 404 Pages
+  {
+    path: '*',
+    name: 'PageNotFound',
+    component: PageNotFound,
+  },
 ];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes,
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior(to, from, savedPosition) {
     if (savedPosition) {
-      return savedPosition
+      return savedPosition;
     } else {
-      return { x: 0, y: 0 }
+      return { x: 0, y: 0 };
     }
-  }
+  },
 });
 
 // router.beforeEach((to, from, next) => {
@@ -197,7 +201,7 @@ const router = new VueRouter({
 //   if (unauthRequired && isLoggedIn){
 //     next('/')
 //   }
-  
+
 //   if (authRequired && !isLoggedIn) {
 //     next({ name: 'Login' })
 //   } else {

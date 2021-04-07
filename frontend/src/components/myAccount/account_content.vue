@@ -250,15 +250,13 @@ export default {
     axios
       .get('http://j4b107.p.ssafy.io/api/members/' + userId + '')
       .then((response) => {
-        console.log(response.data.account);
         this.account = response.data.account;
-        if(response.data.dbc===null){
-          this.DBCbalance =0;
-        this.ETHbalance = 0;
-        }else {
+        if (response.data.dbc === null) {
+          this.DBCbalance = 0;
+          this.ETHbalance = 0;
+        } else {
           this.DBCbalance = response.data.dbc;
           this.ETHbalance = response.data.eth;
-
         }
       })
       .catch((error) => {
@@ -277,7 +275,6 @@ export default {
         if (this.statisInfo.totalDbc === null) {
           this.statisInfo.totalDbc = 0;
         }
-        console.log(this.statisInfo);
       })
       .catch((error) => {
         console.log(error);
@@ -297,9 +294,7 @@ export default {
                 '/' +
                 this.ETHbalance
             )
-            .then((response) => {
-              console.log(response);
-            })
+            .then(() => {})
             .catch((error) => {
               console.log(error);
             });
@@ -327,9 +322,7 @@ export default {
                 '/' +
                 this.DBCbalance
             )
-            .then((response) => {
-              console.log(response.status);
-            })
+            .then(() => {})
             .catch((error) => {
               console.log(error);
             });

@@ -1,140 +1,54 @@
 <template>
-  <div id="nav">
-    <nav
-      class="navbar navbar-expand-md navbar-light navbar-bg-color d-flex justify-content-between"
-    >
-      <router-link class="navbar-brand" to="/">
-        <img
-          class="img-fluid logo-img"
-          style="height: 50px"
-          src="https://user-images.githubusercontent.com/70404643/113627029-dd31ea80-969d-11eb-9369-9e3c5760d330.png"
-          alt="로고 이미지"
-        />
-      </router-link>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"> </span>
-      </button>
-
-      <div
-        class="collapse navbar-collapse d-flex justify-content-between"
-        id="navbarSupportedContent"
-      >
-        <div class="colum">
-          <div class="home">
-            <i
-              class="lni-home size-md "
-              :class="{ 'lni-tada-effect': showHome }"
-              id="home"
-              @click="showHome = !showHome"
-            ></i>
-            <router-link
-              v-if="showHome"
-              style="margin-top: 8px; color: #ffff"
-              class="menus"
-              to="/after/vote"
+  <div class="myNav">
+    <nav role="navigation">
+      <div id="menuToggle">
+        <input type="checkbox" />
+        <span></span>
+        <span></span>
+        <span></span>
+        <ul id="menu">
+          <div class="box" id="account">
+            <router-link class="router" id="Home" to="/">홈</router-link>
+          </div>
+          <div class="box" id="election">
+            <router-link class="router" id="menus" to="/election"
               >투표하기</router-link
             >
           </div>
-
-          <div class="check">
-            <i
-              class="lni-check-mark-circle size-md"
-              :class="{ 'lni-tada-effect': showCheck }"
-              id="check"
-              @click="showCheck = !showCheck"
-            ></i>
-            <router-link
-              v-if="showCheck"
-              style="margin-top: 8px; color: #ffff"
-              class="menus"
-              to="/after/now"
+          <div class="box" id="now">
+            <router-link class="router" id="menus" to="/statistic"
               >투표현황</router-link
             >
           </div>
-
-          <div class="coin">
-            <i
-              class="lni-coin size-md"
-              :class="{ 'lni-tada-effect': showCoin }"
-              id="coin"
-              @click="showCoin = !showCoin"
-            ></i>
-            <router-link
-              v-if="showCoin"
-              style="margin-top: 8px; color: #ffff"
-              class="menus"
-              to="/after/blockduce"
-              >블록듀스</router-link
-            >
-          </div>
-
-          <div class="user">
-            <i
-              class="lni-user size-md"
-              :class="{ 'lni-tada-effect': showUser }"
-              id="user"
-              @click="showUser = !showUser"
-            ></i>
-            <router-link
-              v-if="showUser"
-              style="margin-top: 8px; color: #ffff"
-              class="menus"
-              to="/after/wallet"
+          <div class="box" id="account">
+            <router-link class="router" id="menus" to="/account"
               >내 지갑</router-link
             >
           </div>
-          <div id="buttons mt-3">
+          <div class="box" id="login">
             <div v-if="isToken">
-              <button class="btn login-button" v-on:click.prevent="deleteToken">
-                Logout
-              </button>
+              <a v-on:click.prevent="deleteToken">로그아웃 </a>
             </div>
             <div v-else>
-              <button class="btn login-button" @click="clickLogin">
-                Login
-              </button>
+              <a @click="clickLogin">로그인 </a>
             </div>
           </div>
-        </div>
+        </ul>
       </div>
     </nav>
   </div>
 </template>
+
 <script>
 import router from '@/router';
 export default {
   data() {
     return {
-      showHome: false,
-      showCheck: false,
-      showCoin: false,
-      showUser: false,
-      effect: 'lni-tada-effect',
       isToken: null,
     };
   },
-  computed: {
-    findClubName() {
-      return (clubId) => {
-        {
-          let name = '이름 미정';
-          this.clubs.forEach((club) => {
-            if (club.id === clubId) {
-              return (name = club.name);
-            }
-          });
-          return name;
-        }
-      };
-    },
+  created() {
+    this.isToken = localStorage.getItem('token');
   },
   methods: {
     clickLogin() {
@@ -145,138 +59,117 @@ export default {
       window.location.reload();
       alert('로그아웃 되었습니다.');
     },
-    focusout() {
-      setTimeout(this.isKeywordNull, 100);
-    },
-    isKeywordNull() {
-      this.keyword = null;
-      this.searchedUsers = null;
-    },
-    scrollToTop() {
-      window.scrollTo(0, 0);
-    },
-  },
-  created() {
-    this.isToken = localStorage.getItem('token');
-    this.fetchUsers();
   },
 };
 </script>
 
-<style>
-.navbar {
-  position: fixed;
-  top: 0;
-  /* width: 100% */
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 60px;
-  background-color: #4e6fc2;
-  position: fixed;
-  box-shadow: 0.1px 0.1px 15px 0.1px #273c75;
-  border-radius: 10px;
-  display: flex;
-}
-#home {
-  margin-left: 0;
-  margin-top: 2px;
-  color: #ffff;
-  transition: width 0.5s, background-color 0.5s, border-radius 0.5s;
-}
-#check {
-  margin-left: 0;
-  margin-top: 2px;
-  color: #ffff;
-  transition: width 0.5s, background-color 0.5s, border-radius 0.5s;
-}
-#coin {
-  margin-left: 0;
-  margin-top: 2px;
-  color: #ffff;
-  transition: width 0.5s, background-color 0.5s, border-radius 0.5s;
-}
-#user {
-  margin-left: 0;
-  color: #ffff;
-  transition: width 0.5s, background-color 0.5s, border-radius 0.5s;
-}
-.colum {
-  display: flex;
-  width: 95%;
-  height: 40px;
-  margin-top: 10px;
-  margin-left: 10px;
-}
-.home {
-  width: 100px;
-  height: 34px;
-  margin-left: 20px;
-  display: flex;
-}
-.check {
-  width: 100px;
-  height: 34px;
-  margin-left: 20px;
-  display: flex;
-}
-.coin {
-  width: 100px;
-  height: 34px;
-  margin-left: 20px;
-  display: flex;
-}
-.user {
-  width: 100px;
-  height: 34px;
-  margin-left: 20px;
-  display: flex;
-}
-.clicked {
-  width: 100px;
-  height: 34px;
-  background-color: #feca57;
-  border-radius: 10px;
-  transition: background-color 0.3s, border-radius 0.5s, width 0.5s;
-}
-.login-button {
-  float: right;
-  color: #fcfcfd;
-}
-
-.login-button:hover {
-  background-color: #0011ff;
-  color: #f8f8f8;
-}
-
-.disabled,
-.disabled:hover {
-  background-color: #3700ff (136, 154, 152, 0.25);
-  color: #f8f8f8;
-  cursor: inherit;
-}
-
-.items:hover {
-  cursor: pointer;
-  color: #3700ff;
-}
-
-.menus {
-  /* position: absolute; */
-
-  text-decoration: none;
-
-  width: 70px;
-  height: 21px;
-  left: 20px;
-  top: 56px;
-
-  font-family: Roboto;
-  font-style: normal;
+<style scope>
+@font-face {
+  font-family: 'account_font';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff')
+    format('woff');
   font-weight: normal;
-  font-size: 1em;
-  line-height: 19px;
+  font-style: normal;
+}
 
-  color: #000000;
+.myNav {
+  position: fixed;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+  z-index: 100;
+}
+nav {
+  height: 65px;
+}
+.box {
+  margin-top: 20px;
+}
+.router {
+  font-family: 'account_font';
+  font-size: xx-large;
+}
+
+#menuToggle {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 25px;
+  left: 25px;
+  z-index: 1;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#menuToggle input {
+  display: flex;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 2;
+}
+
+#menuToggle span {
+  display: flex;
+  width: 29px;
+  height: 2px;
+  margin-bottom: 5px;
+  position: relative;
+  background: #000000;
+  border-radius: 3px;
+  z-index: 1;
+  transform-origin: 5px 0px;
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+}
+
+#menuToggle span:first-child {
+  transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+#menuToggle input:checked ~ span {
+  opacity: 1;
+  transform: rotate(45deg) translate(-3px, -1px);
+  background: #36383f;
+}
+#menuToggle input:checked ~ span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+#menuToggle input:checked ~ span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+#menu {
+  position: absolute;
+  width: 250px;
+  height: 500px;
+  box-shadow: 0 0 10px #85888c;
+  margin: -50px 0 0 -50px;
+  padding: 50px;
+  padding-top: 125px;
+  background-color: #f5f6fa;
+  -webkit-font-smoothing: antialiased;
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
+}
+
+#menu li {
+  padding: 10px 0;
+  transition-delay: 2s;
+}
+
+#menuToggle input:checked ~ ul {
+  transform: none;
 }
 </style>

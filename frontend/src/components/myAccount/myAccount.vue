@@ -1,5 +1,5 @@
 <template>
-  <div class ="marginTop">
+  <div class="marginTop">
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap"
@@ -7,7 +7,7 @@
     />
     <div class="user_Info">
       <b-img
-        v-if="myInfo.profile_img === ''||myInfo.profile_img===null"
+        v-if="myInfo.profile_img === '' || myInfo.profile_img === null"
         class="profile_img"
         v-bind:src="
           'https://www.searchpng.com/wp-content/uploads/2019/02/Profile-PNG-Icon.png'
@@ -117,7 +117,6 @@ export default {
         const response = await axios.get(
           'http://j4b107.p.ssafy.io/api/members/' + userId
         );
-        console.log(response);
         if (response) {
           myInfo.name = response.data.nickname;
           myInfo.nick = response.data.intro;
@@ -150,10 +149,6 @@ export default {
         }
       }
       getMyAccount(this.myInfo);
-      // const apiresponse = axios.get(
-      //   'https://api-ropsten.etherscan.io/api?module=account&action=tokentx&address=0x9dfd19acac0c523d19f9b50b4640a0dd74e092e6&startblock=9903744 &endblock=9903744 &sort=asc&apikey=CKWK2KN8MGRQD6DQ4I39G5NYGPTQFKWGNM'
-      // );
-      // console.log(apiresponse);
     },
 
     GetNewAccount: function() {
@@ -165,24 +160,24 @@ export default {
           dbc: 0,
           key: result.privateKey,
         })
-        .then((response) => {
+        .then(() => {
           this.myInfo.account = result.address;
-          console.log(response);
-          axios.get(
-                'http://j4b107.p.ssafy.io/api/election/EthReward/' + userId +"/33000000"
-              )
-              .then((response) => {
-                console.log(response);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
+          axios
+            .get(
+              'http://j4b107.p.ssafy.io/api/election/EthReward/' +
+                userId +
+                '/33000000'
+            )
+            .then(() => {})
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);
         });
-        alert("개인 키 "+result.privateKey);
-        window.location.reload();
+      alert('개인 키 ' + result.privateKey);
+      window.location.reload();
     },
   },
 };
@@ -196,8 +191,8 @@ export default {
   font-weight: normal;
   font-style: normal;
 }
-.marginTop{
-  margin-top: 30px;
+.marginTop {
+  margin-top: 50px;
 }
 .text {
   font-family: 'account_font';
@@ -259,7 +254,7 @@ export default {
   transform: translateY(-50%);
 }
 .profile_img {
-  width: 20%;
-  height: 10%;
+  width: 30%;
+  height: 30%;
 }
 </style>
