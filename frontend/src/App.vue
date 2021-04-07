@@ -22,6 +22,7 @@
   height: 100vh;
   margin: 0 auto;
   overflow: auto;
+  /* overflow:scroll; */
 }
 
 #nav {
