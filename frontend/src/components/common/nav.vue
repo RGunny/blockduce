@@ -118,6 +118,7 @@ export default {
       showCoin: false,
       showUser: false,
       effect: 'lni-tada-effect',
+      isToken: null,
     };
   },
   computed: {
@@ -156,6 +157,7 @@ export default {
     },
   },
   created() {
+    this.isToken = localStorage.getItem('token');
     this.fetchUsers();
   },
 };

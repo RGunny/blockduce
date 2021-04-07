@@ -26,7 +26,8 @@ export default {
     const tag = document.querySelector(`#${tagName}`);
     tag.classList.toggle('purple');
   },
-  methods: {},
+  methods: {  
+    },
 };
 </script>
 
