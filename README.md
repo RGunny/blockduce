@@ -51,10 +51,9 @@ http://j4b107.p.ssafy.io/login
 
 ---
 
-  ![슬라이드5](https://user-images.githubusercontent.com/70404643/112587245-9db70300-8e40-11eb-9f61-10ca640bd11a.PNG)
   -카카오 로그인 구조-
   ![화면_캡처_2021-04-07_220534](/uploads/70e2cf44475501195e81d0eb65b7616a/화면_캡처_2021-04-07_220534.png)
-<img src="/uploads/70e2cf44475501195e81d0eb65b7616a/화면_캡처_2021-04-07_220534.png"  width="700" height="370">
+<img src="/uploads/70e2cf44475501195e81d0eb65b7616a/화면_캡처_2021-04-07_220534.png"  width="400" height="400">
 
   <details>
       <summary>Front 자세히 살펴보기 🌈</summary>
