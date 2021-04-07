@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Navbar />
     <div class="global-nav-links">
       <a href="" class="global-nav-item"></a>
       <a href="" class="global-nav-item"></a>
@@ -95,9 +96,7 @@
         explicabo animi eos ratione obcaecati.
       </p>
     </section>
-    <footer class="footer">
-      blockduce 황호연, 박상우, 류건희, 최주아, 황영준
-    </footer>
+    <Footer />
   </div>
 
   <!-- 
@@ -111,7 +110,8 @@
 <script>
 // import { mapGetters } from 'vuex';
 // import VueCookies from 'vue-cookies';
-
+import Navbar from '@/components/common/nav.vue';
+import Footer from '@/components/common/footer.vue';
 export default {
   data() {
     return {
@@ -121,6 +121,10 @@ export default {
       prevScrollHeight: 0,
       currentScene: 0,
     };
+  },
+  components: {
+    Navbar,
+    Footer,
   },
   mounted() {
     this.setData();
