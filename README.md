@@ -5,7 +5,7 @@
   ![BLOCKDUCE_LOGO](https://user-images.githubusercontent.com/70404643/112577381-8f181e00-8e37-11eb-86f2-b35b12c89ce6.png)
 
   > [**BLOCKDUCE** **LINK**📌]
-
+http://j4b107.p.ssafy.io/login
 
 ---
 
@@ -48,11 +48,12 @@
 
   ![슬라이드4](https://user-images.githubusercontent.com/70404643/112587237-97c12200-8e40-11eb-8cdc-cf04af3a4216.PNG)
 
-  ![화면_캡처_2021-04-07_220534](/uploads/70e2cf44475501195e81d0eb65b7616a/화면_캡처_2021-04-07_220534.png)
 
 ---
 
   ![슬라이드5](https://user-images.githubusercontent.com/70404643/112587245-9db70300-8e40-11eb-9f61-10ca640bd11a.PNG)
+  -카카오 로그인-
+  ![화면_캡처_2021-04-07_220534](/uploads/70e2cf44475501195e81d0eb65b7616a/화면_캡처_2021-04-07_220534.png)
 
   <details>
       <summary>Front 자세히 살펴보기 🌈</summary>
