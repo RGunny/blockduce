@@ -48,7 +48,7 @@
 
   ![슬라이드4](https://user-images.githubusercontent.com/70404643/112587237-97c12200-8e40-11eb-8cdc-cf04af3a4216.PNG)
 
-  
+  ![화면_캡처_2021-04-07_220534](/uploads/70e2cf44475501195e81d0eb65b7616a/화면_캡처_2021-04-07_220534.png)
 
 ---
 
