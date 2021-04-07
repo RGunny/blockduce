@@ -1,17 +1,17 @@
 <template>
   <div>
     <div>
-      <div class ="reward">
+      <div class="reward">
+        <button id="show-btn" @click="rewardClick()" class="rtext modalButton">
+          오늘의 보상
+        </button>
         <button
-        id="show-btn"
-        @click="rewardClick()"
-        class="rtext modalButton"
-      >오늘의 보상</button>
-      <button
-        id="show-btn"
-        @click="[$bvModal.show('bv-modal-example'), modalClick()]"
-        class="rtext modalButton"
-      >투표 정보</button>
+          id="show-btn"
+          @click="[$bvModal.show('bv-modal-example'), modalClick()]"
+          class="rtext modalButton"
+        >
+          투표 정보
+        </button>
       </div>
       <b-modal id="bv-modal-example" hide-footer>
         <template #modal-title>
@@ -460,9 +460,9 @@ export default {
         } else false;
       }
     },
-    rewardClick : function () {
+    rewardClick: function() {
       var rewardResponse;
-       axios
+      axios
         .get(
           'http://j4b107.p.ssafy.io/api/election/isrewarded/' +
             userId +
@@ -470,17 +470,16 @@ export default {
         )
         .then((response) => {
           rewardResponse = response.data;
-          if(rewardResponse==true){
-          alert("이미 오늘의 보상을 받으셨습니다.");
-        }else{
-          alert("보상이 지급될 때 까지 잠시만 기다려주세요");
-        }
-          })
+          if (rewardResponse == true) {
+            alert('이미 오늘의 보상을 받으셨습니다.');
+          } else {
+            alert('보상이 지급될 때 까지 잠시만 기다려주세요');
+          }
+        })
         .catch((error) => {
           console.log(error);
         });
-        
-    }
+    },
   },
   filters: {
     capitalize: function(value) {
@@ -503,13 +502,12 @@ export default {
   font-family: 'account_font';
   font-size: x-large;
 }
-.rtext{
+.rtext {
   font-family: 'account_font';
   font-size: large;
   border: solid 2px #0c3267;
   border-radius: 20px;
-      margin-left: 10px;
-
+  margin-left: 10px;
 }
 .daytext {
   font-family: 'account_font';
@@ -527,14 +525,13 @@ export default {
   margin-top: 100px;
 }
 .modalButton {
-  width: 10%;
+  width: 30%;
   height: 10%;
   background-color: white;
 }
-.reward{
+.reward {
   display: flex;
-      place-content: center;
-
+  place-content: center;
 }
 .modal-button {
   background-color: rgb(29, 226, 226);
