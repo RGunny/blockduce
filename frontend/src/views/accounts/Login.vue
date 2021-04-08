@@ -48,15 +48,7 @@
         <span class="items" @click="clickSignup">회원가입하기</span>ㆍ
         <span class="items" @click="clickPasswordFind">비밀번호 찾기</span>
       </p>
-      <div id="buttons mt-3">
-        <button
-          class="btn login-button"
-          :class="{ disabled: !isSubmit }"
-          @click="clickLogin"
-        >
-          로그인하기
-        </button>
-      </div>
+    
 
       <hr class="divide" />
 
@@ -91,6 +83,7 @@ export default {
         email: '',
         password: '',
       },
+      memId:'',
       error: {
         email: false,
         password: false,
@@ -115,10 +108,11 @@ export default {
     ...mapActions('accountStore', ['login']),
 
     clickLogin() {
-      if (this.isSubmit) {
+      // if (this.isSubmit) {
         this.login(this.loginData);
+        console.log(this.login);
         localStorage.setItem('token', "loginData");
-      }
+      // }
     },
     kakaoLogin() {
       // window.Kakao.Auth.login({

@@ -5,7 +5,9 @@ import com.special.blockduce.image.service.ImageService;
 import com.special.blockduce.member.domain.Member;
 import com.special.blockduce.member.domain.request.*;
 import com.special.blockduce.member.domain.response.LoginMemberResponse;
+import com.special.blockduce.member.dto.MemberForm;
 import com.special.blockduce.member.service.AuthService;
+import com.special.blockduce.member.service.MemberService;
 import com.special.blockduce.utils.CookieUtil;
 import com.special.blockduce.utils.JwtUtil;
 import com.special.blockduce.utils.RedisUtil;
@@ -38,7 +40,7 @@ public class AuthController {
     private final CookieUtil cookieUtil;
     private final RedisUtil redisUtil;
     private final ImageService imageService;
-
+    private final MemberService memberService;
 
     @PostMapping("/signup")
     @ApiOperation(
@@ -91,7 +93,7 @@ public class AuthController {
             notes = "post로 LoginMemberRequest 형태의 데이터를 받아서 로그인 처리와 토큰을 발급해줍니다.",
             response = Response.class
     )
-    public Object login(@Valid @RequestBody LoginMemberRequest user, HttpServletRequest request, HttpServletResponse response) {
+    public MemberForm login(@Valid @RequestBody LoginMemberRequest user, HttpServletRequest request, HttpServletResponse response) {
         try {
             final Member member = authService.loginMember(user.getEmail(), user.getPassword());
             final String token = jwtUtil.generateToken(member);
@@ -105,9 +107,11 @@ public class AuthController {
             response.addCookie(accessToken);
             response.addCookie(refreshToken);
 
-            return new ResponseEntity<>(new Response("success", "로그인에 성공했습니다.", LoginMemberResponse.of(member, accessToken.getValue())), HttpStatus.OK);
+            MemberForm memId = memberService.findByEmail(user.getEmail());
+
+            return memId;
         } catch (Exception e) {
-            return new ResponseEntity<>(new Response("error", "로그인이 실패하였습니다. 아이디 / 비밀번호 확인해주세요", e.getMessage()), HttpStatus.UNAUTHORIZED);
+            return new MemberForm();
         }
     }
 
