@@ -36,8 +36,9 @@
 ![image](https://user-images.githubusercontent.com/40309812/111106082-ba794e00-8597-11eb-9921-d7b9d01b1127.png)
 
 - $ `git remote add upstream [팀 repository https url]`
-  - 팀 레포지토리의 https url로 upstream remote를 추가한다.
-
+  
+- 팀 레포지토리의 https url로 upstream remote를 추가한다.
+  
 - $ `git remote -v` 명령어로 확인해보면 레포지토리가 연결되었다.
 
   - origin : fork한 레포지토리
@@ -99,10 +100,31 @@
   - 컨벤션에 맞게 커밋 메세지를 작성한다.
   - ex) $ `git commit -m "S04P22B107-56 [feat] : BE - AWS RDS, S3 서버 및 기본환경 세팅"`
 
+```
+** 작업 분류 **
+feat       : 새로운 기능 추가
+fix        : 버그 수정
+refactor   : 코드 리팩토링
+style      : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
+docs       : 문서 수정
+test       : 테스트 코드, 리팩토링 테스트 코드 추가
+chore      : 빌드 업무 수정, 패키지 매니저 수정
+```
+
+- fetch로 최신화 시켜준다
+  - $ `git fetch --all` 로 local을 최신화 시켜준다
+
+
+
 ![image](https://user-images.githubusercontent.com/40309812/111118997-dfc48700-85ac-11eb-98ae-a864f35022a2.png)
 
 - $ `git pull --rebase upstream develop` 
   - 해당 명령어를 통해 upstream 레포지토리의 develop 브랜치의 최신 상태를 pull 하고 작업 분기를 최신 상태로 옮긴다.
+- 필요하면 rebase로 커밋을 줄인다 아래는 2개 합친 것(선택사항)
+  - $ `git rebase -i HEAD~2`
+- 에러가 있을 시, (충돌, conflict)
+  - $ `git status`로 충돌 내역을 확인한 후, 수동으로 고친다.
+  - 수정이 완료되었다면, $ `git add .` 으로 추가 후 $ `git rebase --continue` 로 충돌 리베이스 커밋 분기를 넘긴다.
 
 ![image](https://user-images.githubusercontent.com/40309812/111119190-29ad6d00-85ad-11eb-9f4e-7b2d31eb5078.png)
 

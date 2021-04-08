@@ -9,14 +9,16 @@
 ---
 
 
-  ![슬라이드2](https://user-images.githubusercontent.com/70404643/112589331-3e5af200-8e44-11eb-840e-1d7ab171f4bc.PNG)
+
+![슬라이드2](https://user-images.githubusercontent.com/70404643/112589331-3e5af200-8e44-11eb-840e-1d7ab171f4bc.PNG)
 
 |     Name     |                            황호연                            |                            류건희                            |                            박상우                            |                            최주아                            |                            황영준                            |
 | :----------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| **Profile**  | ![KakaoTalk_20210326_135538764](https://user-images.githubusercontent.com/70404643/112585091-80803580-8e3c-11eb-9d5d-8b5972443cf1.jpg) | ![KakaoTalk_20210326_135652125](https://user-images.githubusercontent.com/70404643/112585083-7d854500-8e3c-11eb-8ed0-45f16d12b940.jpg) | **![A급](https://user-images.githubusercontent.com/70404643/112585018-63e3fd80-8e3c-11eb-98ca-46264e090ef4.jpg)** | ![image](https://user-images.githubusercontent.com/40309812/113977771-0c9f4d80-987e-11eb-8c1a-cccc9125fdec.png) | ![KakaoTalk_20210326_135558007](https://user-images.githubusercontent.com/70404643/112585061-7827fa80-8e3c-11eb-823c-7940cfe1e206.jpg) |
+| **Profile**  | <img src = "https://user-images.githubusercontent.com/70404643/112585091-80803580-8e3c-11eb-9d5d-8b5972443cf1.jpg" width="100px" height="150px"> | <img src = "https://user-images.githubusercontent.com/70404643/112585083-7d854500-8e3c-11eb-8ed0-45f16d12b940.jpg" width="100px" height="150px"> | <img src = "https://user-images.githubusercontent.com/70404643/112585018-63e3fd80-8e3c-11eb-98ca-46264e090ef4.jpg" width="100px" height="150px"> | <img src = "https://user-images.githubusercontent.com/40309812/113977771-0c9f4d80-987e-11eb-8c1a-cccc9125fdec.png" width="100px" height="150px"> | <img src = "https://user-images.githubusercontent.com/70404643/112585061-7827fa80-8e3c-11eb-823c-7940cfe1e206.jpg" width="100px" height="150px"> |
 |   **R&R**    |                           **팀장**                           |                           **팀원**                           |                           **팀원**                           |                           **팀원**                           |                           **팀원**                           |
 |   **Git**    |        [@HoYeonHwang](https://github.com/HoYeonHwang)        |             [@RGunny](https://github.com/RGunny)             |              [@upswp](https://github.com/upswp)              |            [@bourzua](https://github.com/bourzua)            |         [@junjun0905](https://github.com/junjun0905)         |
-| **Position** |       Blockchain,  Backend, Frontend, Project Manager        |                 Backend, CI/CD, Tech Leader                  |                         Backend, QA                          |                           Frontend                           |                    Backend, Frontend, DBA                    |
+| **Position** |       Blockchain, Backend, Frontend, Project Manager        |                 Backend, CI/CD, Tech Leader                  |                         Backend, QA                          |                           Frontend                           |                    Backend, Frontend, DBA                    |
+
 
   ## Team Communication Rule 🤙
 
@@ -73,7 +75,7 @@
 
 - Git Flow 방식 사용
 
-
+![image](https://user-images.githubusercontent.com/40309812/113998382-f8fee180-9893-11eb-9b86-3e67218953a3.png)
 
 
 
@@ -286,4 +288,3 @@
 
 ---
 
-  
