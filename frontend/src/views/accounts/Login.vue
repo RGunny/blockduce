@@ -248,7 +248,7 @@ export default {
 }
 
 .container {
-  width: 60%;
+  width: 80%;
   border-radius: 25px;
 }
 
