@@ -40,7 +40,10 @@
 </template>
 
 <script>
+
 import router from '@/router';
+
+
 export default {
   data() {
     return {
@@ -57,11 +60,19 @@ export default {
     },
     deleteToken() {
       localStorage.clear();
+      // alert(this.$cookies);
+      // this.$cookies.remove("auth-token");
+      deleteCookie('auth-token');
       window.location.href = 'http://j4b107.p.ssafy.io/';
       alert('로그아웃 되었습니다.');
     },
   },
 };
+
+var deleteCookie = function(name) {
+document.cookie = name + '=; expires=Thu, 01 Jan 1999 00:00:10 GMT;';
+}
+
 </script>
 
 <style scope>
