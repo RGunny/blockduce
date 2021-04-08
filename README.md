@@ -1,25 +1,11 @@
-# 특화 Sub2_B107
+- # BLOCKDUCE
 
-## 역할
-| 이름   | 직책 | 역할                             |
-| ------ | ---- | -------------------------------- |
-| 황호연 | 팀장 | Backend, Project Manager         |
-| 류건희 | 팀원 | Backend, Tech Leader, Git Master |
-| 박상우 | 팀원 | Backend, QA                      |
-| 최주아 | 팀원 | Frontend, Tech Leader            |
-| 황영준 | 팀원 | Backend, CI/CD                   |
+  ---
 
----
+  ![BLOCKDUCE_LOGO](https://user-images.githubusercontent.com/70404643/112577381-8f181e00-8e37-11eb-86f2-b35b12c89ce6.png)
 
-# 주제
-
----
-
-# 프로젝트 명
-
----
-
-# 기능
+  > [**BLOCKDUCE** **LINK**📌]
+http://j4b107.p.ssafy.io/login
 
 ---
 
@@ -74,161 +60,105 @@
 
 4. 로컬에서 upstream/feature 자신이 작업할 feature-{작업내용} 를 생성한다. (track은 upstream/feature
 
-    project에 develop에 new branch 형성
+  ![슬라이드2](https://user-images.githubusercontent.com/70404643/112589331-3e5af200-8e44-11eb-840e-1d7ab171f4bc.PNG)
 
-    이후 git fetch —all 로 받아온 후 아래 적용 -v
+|     Name     |                            황호연                            |                            류건희                            |                            박상우                            |                 최주아                 |                            황영준                            |
+| :----------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :------------------------------------: | :----------------------------------------------------------: |
+| **Profile**  | ![KakaoTalk_20210326_135538764](https://user-images.githubusercontent.com/70404643/112585091-80803580-8e3c-11eb-9d5d-8b5972443cf1.jpg) | ![KakaoTalk_20210326_135652125](https://user-images.githubusercontent.com/70404643/112585083-7d854500-8e3c-11eb-8ed0-45f16d12b940.jpg) | **![A급](https://user-images.githubusercontent.com/70404643/112585018-63e3fd80-8e3c-11eb-98ca-46264e090ef4.jpg)** |                                        | ![KakaoTalk_20210326_135558007](https://user-images.githubusercontent.com/70404643/112585061-7827fa80-8e3c-11eb-823c-7940cfe1e206.jpg) |
+|   **R&R**    |                           **팀장**                           |                           **팀원**                           |                           **팀원**                           |                **팀원**                |                           **팀원**                           |
+|   **Git**    |        [@HoYeonHwang](https://github.com/HoYeonHwang)        |             [@RGunny](https://github.com/RGunny)             |              [@upswp](https://github.com/upswp)              | [@bourzua](https://github.com/bourzua) |         [@junjun0905](https://github.com/junjun0905)         |
+| **Position** |                   Backend, Project Manager                   |                     Backend, Tech Leader                     |                         Backend, QA                          |         Frontend, Tech Leader          |                        Backend, CI/CD                        |
 
-    > $ git checkout -b feature-{작업내용} --track upstream/feature
+  ## Team Communication Rule 🤙
 
-### 브랜치 작업하기
+  - Webex는 09:00 - 18:00 까지 항상 Online !
 
-1. 해당 브랜치에서 해당 내용을 작업하고 add 한다
+    - 비대면을 위한 개발환경이지만 모두를 위한 매너는 지킵시다!
 
-    > $ git add .
+  - 질문은 언제나 자유롭게 !
 
-2. commit 한다(양식에 맞춰서)
+    - 프로젝트를 진행하며 책임은 철저히! 고민은 다 같이 !
 
-    > $ git commit -m “이슈번호 [feat] : BE - 로그인 기능 추가”
+  - 약속시간은 모두를 위한 약속 !
 
-    - 아래와 같이 사용
+    - 비대면으로 이뤄지는 모든 환경은 오해를 하기 쉬운 환경이므로 문제가 생기면 항상 사전에 미리미리 말하기!
 
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4fb8bbe-79f9-4fd0-9a4e-30a8e9e9de55/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c4fb8bbe-79f9-4fd0-9a4e-30a8e9e9de55/Untitled.png)
+  - ### [Git Convention🧐](docs/Git Convention.md)
 
-    ```css
-    feat       : 새로운 기능 추가
-    fix        : 버그 수정
-    refactor   : 코드 리팩토링
-    style      : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우
-    docs       : 문서 수정
-    test       : 테스트 코드, 리팩토링 테스트 코드 추가
-    chore      : 빌드 업무 수정, 패키지 매니저 수정
-    ```
-
-3. 필요하면 rebase로 커밋을 줄인다 아래는 2개 합친 것(선택사항)
-
-    > $ git rebase -i HEAD~2
-
-4. fetch로 최신화 시켜준다
-
-    > $ git fetch --all 로 local을 r최신화 시켜준다
-
-5. upstream레포의 해당 브랜치의 최신 작업 내용을 땡겨서 rebase한다.(dev로 합칠경우)
-
-    > $ git pull --rebase upstream develop
-
-    - 오류발생시!!!
-
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cc97f4c7-fb8b-4bb0-8b16-e67403abc3a6/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/cc97f4c7-fb8b-4bb0-8b16-e67403abc3a6/Untitled.png)
-
-    - git status 찍으면 아래와 같이
-
-        Unmerged가 있음(local에서 하나하나 해결해야함)
-
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8f06d20-dd5f-42fc-8d48-12ac286bebb6/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b8f06d20-dd5f-42fc-8d48-12ac286bebb6/Untitled.png)
-
-    - git rebase —continue를 하면 다시 리베이스 진행
-
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/01e8d7a5-80a8-4a45-bf73-a8ba5dc01134/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/01e8d7a5-80a8-4a45-bf73-a8ba5dc01134/Untitled.png)
-
-    - commit이 불필요하게 여러개 있으면
-    - git rebase -i HEAD~{갯수}
-
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d3c7dc8-bda0-4762-bdb5-d16bca6eb46a/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8d3c7dc8-bda0-4762-bdb5-d16bca6eb46a/Untitled.png)
-
-6. origin레포로 push 한다.c
-
-    > $ git push origin 작업브랜치
-
-1. Fork뜬 나의 origin 브랜치를 upstream develop에 merge하는 Pull Request를 생성합니다.
-2. 같은 feature를 개발하는 동료에게 리뷰 승인을 받은 후 자신의 Pull Request를 merge합니다. 만약 혼자 feature를 개발한다면 1~2명의 동료에게 리뷰 승인을 받은 후 Pull Request를 merge합니다.
-
-### Option (작업중 최신화)
-
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/68abae8f-0f00-4ccc-ac62-c1191a744ca5/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/68abae8f-0f00-4ccc-ac62-c1191a744ca5/Untitled.png)
+  - ### [JIRA Convention🤓](docs/JIRA Convention.md) 
 
 ---
 
-## JIRA Convention
+  ![슬라이드3](https://user-images.githubusercontent.com/70404643/112586039-62b3d000-8e3e-11eb-9748-c3430adb1535.PNG)
 
-![https://user-images.githubusercontent.com/70404643/110276541-acb34e00-8016-11eb-9ea3-b079e84405f2.png](https://user-images.githubusercontent.com/70404643/110276541-acb34e00-8016-11eb-9ea3-b079e84405f2.png)
+  - 프로듀스 101 투표조작 사건을 기반으로 올바른 온라인 투표 시스템 문화 정착을 위한 프로젝트입니다.
+  - 블록체인을 이용하여 누구나 믿을 수 있는 온라인 투표 시스템 BLOCKDUCE를 기획했습니다.
 
-### 🚗스프린트
+---
 
-- 각 스프린트는 `1주일`을 기준으로 진행한다.
-- 각 스프린트 기준으로 일인당 40 Point의 스토리 포인트가 부여된다.
-    - 하루에 8포인트 ( 8시간 ) * 5 = 40 Point
+  ![슬라이드4](https://user-images.githubusercontent.com/70404643/112587237-97c12200-8e40-11eb-8cdc-cf04af3a4216.PNG)
 
-### 🚓이슈등록
 
-- 이슈 등록은 개인이 JIRA Convention에 맞추어 등록한다.
-- 이슈 등록 후 해당 이슈에 본인 파트의 팀원을 등록한다.
+---
+  - 어카운트 페이지
+<img src="/uploads/c275149c19f1424518e945b0c5e249c0/화면_캡처_2021-04-02_104718.png"  width="600" height="500">
 
-### 🚕이슈관리
+    - 지갑을 생성한 후 투표횟수 투표에 사용한 DBC, 보상으로 받은 ETH 등을 확인할 수 있습니다.
+    - * DBC는 BLOCK DUCE에서 투표에 사용되는 재화 입니다. ETH는 투표에 대한 보상으로 받는 재화입니다.
 
-- 최초 이슈를 할당 받으면 담당자는 `스토리포인트`를 부여한다.
-- 또한 해당 이슈의 **우선순위**를 설정한다.
-- 작업 들어가기 전 **할일 --> 진행중진행 완료하면 --> 완료**
-상태를 최신화한다.
-- **설명**란에 최대한 자세히 해당 이슈에 있어서 **`담당자`가 작성**한다.
-- 모든 이슈 관련 문의는 **댓글기능을 통해 이뤄지며** SNS/전화는 지향한다.
+  - 카카오 로그인 구조
+<img src="/uploads/70e2cf44475501195e81d0eb65b7616a/화면_캡처_2021-04-07_220534.png"  width="600" height="500">
 
-![https://user-images.githubusercontent.com/70404643/104996677-a6b7dc80-5a6b-11eb-9c4b-53823cc69716.png](https://user-images.githubusercontent.com/70404643/104996677-a6b7dc80-5a6b-11eb-9c4b-53823cc69716.png)
+    - BLOCK DUCE는 소셜 로그인을 지원합니다.
 
-### 🚌작업유형
+   - 일반 로그인
+<img src="/uploads/9ab7525c5e843865357b040b3e7b79a3/화면_캡처_2021-04-07_222524.png"  width="600" height="500">
 
-- 에픽
-    - <img src="[https://user-images.githubusercontent.com/69910544/105794699-e3855580-5fce-11eb-881d-a199b7efa7cd.png](https://user-images.githubusercontent.com/69910544/105794699-e3855580-5fce-11eb-881d-a199b7efa7cd.png)" alt="epic" width="30px"/> <b>`Epic`</b>
-    - 큰 단위의 업무(여러 User Story, Task 등을 묶은 단위)
-    - 매주 월요일 스프린트를 들어가기전에 생성할 Epic에 있어서 이야기한다. **(필요한 Epic 조사)**
-    - 논의한 Epic을 기본으로 해당 Epic에 담당자를 지정하여 생성한다.
-- 스토리
-    - <img src="[https://user-images.githubusercontent.com/69910544/105803455-d96c5280-5fe0-11eb-9cb0-984818a82667.png](https://user-images.githubusercontent.com/69910544/105803455-d96c5280-5fe0-11eb-9cb0-984818a82667.png)" alt="epic" width="30px"/> <b>`Story`</b>
-- 해당 Epic의 하위 단위 작업으로 직접적인 개발과 기능 구현을 기본으로 한다.
-    - **ex ) 최종 고객에게 가치를 제공하는 기능**
-    - 작성 방법 : “I as WHO want to do WHAT, so that WHY”
-        - Tip) User story의 크기는 sprint내에 완료 가능한 단위로 분할 필요
-        - 예) 사용자 관리 개발
-- 부작업
-    - <img src="[https://user-images.githubusercontent.com/69910544/105795094-9c4b9480-5fcf-11eb-8606-1fed5403adcf.png](https://user-images.githubusercontent.com/69910544/105795094-9c4b9480-5fcf-11eb-8606-1fed5403adcf.png)" alt="epic" width="30px"/> <b>`Sub-task`</b>
-    - **Story, Task를 더 작은 단위로 나눈 업무**
-        - 즉, 모든 Sub-Task가 끝나야 해당 업무 종료
-        - 예) 사용자 관리(UI) 개발, 사용자관리(Service) 개발
-- 작업
-    - <img src="[https://user-images.githubusercontent.com/69910544/105795183-b8e7cc80-5fcf-11eb-9b2e-884daef16071.png](https://user-images.githubusercontent.com/69910544/105795183-b8e7cc80-5fcf-11eb-9b2e-884daef16071.png)" alt="epic" width="30px"/> <b>`Task`</b>
-    - 해당 스토리가 필요하기 위한 작업으로 일반적으로 기술적, 관리적 업무를 지칭한다.
-    - **ex ) User Story외의 기술적, 관리적 업무, 서류작업**
-        - 예) 설계, 서버 설치, 클라우드 도입 등
-    - 추가기능 ) 시간설정
-    - 
+    - 이메일 인증을 통한 일반 로그인 또한 지원합니다.
+    
+- 투표 페이지
+<img src="/uploads/147ccc3f0864bdbf21be9a8a166dbea3/화면_캡처_2021-04-07_223033.png"  width="600" height="500">
+    
+    - 오늘의 보상으로 DBC를 받고 지지하는 후보에게 투표할 수 있습니다.
 
-        ![https://user-images.githubusercontent.com/70404643/105811931-ad58cd80-5ff0-11eb-84a0-45aa9cb3d019.png](https://user-images.githubusercontent.com/70404643/105811931-ad58cd80-5ff0-11eb-84a0-45aa9cb3d019.png)
+   - 캘린더 페이지
+<img src="/uploads/e2662807521e098618ea0c4e8fe72b6c/화면_캡처_2021-04-07_223303.png"  width="600" height="500">
 
-    - **작업 > 상세보기 > 더 많은 조치 > 작업로그 > 작업한 시간**
-        - 이용하여 작업 시간 적어주시길 바랍니다.
+    - 캘린더를 통해 자신이 언제 얼마를 어떤 후보자에게 투자했는지 파악할 수 있습니다.
+    
+  <details>
+      <summary>Front 자세히 살펴보기 🌈</summary>
+      <ul>
+          <li>기술스택 ⚙</li>
+      </ul>   
+      <ul>
+          <li>Vue: 2.6.11</li>
+      </ul>
+       <ul>
+          <li>라이브러리 📚</li>
+      </ul>   
+      <ul>
+          <li>Vue: 2.6.11</li>
+      </ul>
+  </details>
 
-참고로, JIRA에서는 Story와 Task를 같은 레벨로 구분하지만, 일반적으로 Story를 더 작게 나눈것을 Task라고 정의하기도 함
 
-<img src="[https://miro.medium.com/max/1220/1*ysJsrjiqP8gWzhuSGv6MOg.png](https://miro.medium.com/max/1220/1*ysJsrjiqP8gWzhuSGv6MOg.png)" alt="Image for post" style="zoom:50%;" />
 
-### 🚑추가 기능 ) 이슈 연결 관리
+  <details>
+      <summary>Back 자세히 살펴보기 🔥</summary>
+      <ul>
+          <li>Swagger: 2.9.2</li>
+          <li>Spring Boot</li>
+          <li>Spring Security</li>
+          <li>Spring Jenkins</li>
+          <li>E2C</li>
+      </ul>
+  </details>
 
-<img src="[https://user-images.githubusercontent.com/70404643/105857713-e3687280-602d-11eb-85c4-2c5406e029f5.png](https://user-images.githubusercontent.com/70404643/105857713-e3687280-602d-11eb-85c4-2c5406e029f5.png)" alt="image" style="zoom:50%;" />
 
-### cause vs block
 
-- `A causes B`: A가 B의 원인이다.
-    - 예시) 파티를 준비해야해서, 요리를 한다.
-- `A blocks B`: A를 끝내야 B를 할 수 있다.
-    - 예시) 손을 씻고, 요리를 한다.
+  <br>
 
-### clone vs duplicate
+---
 
-- `clone`: 복사, 기존 이슈를 복사하고 싶을 때 clone 사용
-- `duplicate`: 중복, 실수로 같은 이슈를 2개 이상 올렸을 때 duplicate 로 처리
-
-### etc
-
-지라 이슈 링킹에서는 하나의 관계에 `자동태`와 `수동태`로 상관 관계를 정할 수 있다.
-
-- 분리 : (`split to`, `split from`)
-- 연관 : `relates to`
+  
