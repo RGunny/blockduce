@@ -155,6 +155,7 @@ const routes = [
     path: '/election',
     name: 'election',
     component: Election,
+    beforeEnter: requireAuth()
   },
   {
     path: '/information',
@@ -165,6 +166,7 @@ const routes = [
     path: '/statistic',
     name: 'statistic',
     component: Statistics,
+    beforeEnter: requireAuth()
   },
   // {
   //   path: '/after/wallet',
