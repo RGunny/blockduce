@@ -57,7 +57,7 @@ export default {
     },
     deleteToken() {
       localStorage.clear();
-      window.location.reload();
+      window.location.href = 'http://j4b107.p.ssafy.io/';
       alert('로그아웃 되었습니다.');
     },
   },

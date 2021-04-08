@@ -8,8 +8,8 @@
     <div class="wrapper__content">
       <ul>
         <li v-for="c in candidates" :key="c.id" v-show="c.id != 1">
-          {{ c.rank }}.
-          <div class="graphic">
+          <div>{{ c.rank }}.</div>
+          <div class="graphic" :style="{ background: c.color }">
             <a v-bind:href="c.href"><img :src="c.img" alt=""/></a>
           </div>
           <div class="name">
@@ -35,7 +35,6 @@ export default {
       .get('http://j4b107.p.ssafy.io/api/candidates')
       .then((response) => {
         this.candidates = response.data.data;
-
         this.candidates.sort(function(a, b) {
           return parseFloat(b.account.dbc) - parseFloat(a.account.dbc);
         });
@@ -45,6 +44,13 @@ export default {
               'https://ropsten.etherscan.io/address/' +
               this.candidates[d].account.account;
             this.candidates[d].rank = d;
+          }
+          if (this.candidates[d].rank == 1) {
+            this.candidates[d].color = '#ffd700';
+          } else if (this.candidates[d].rank == 2) {
+            this.candidates[d].color = '#c0c0c0';
+          } else if (this.candidates[d].rank == 3) {
+            this.candidates[d].color = '#a0522d';
           }
         }
       })
@@ -94,7 +100,6 @@ export default {
 .wrapper .wrapper__content {
   background: #fff;
   padding: 10px;
-  margin-top: 30px;
   margin-left: 40px;
   width: 85%;
   height: 100%;
@@ -102,6 +107,7 @@ export default {
 .wrapper .wrapper__content ul {
   list-style: none;
 }
+
 .wrapper .wrapper__content ul li {
   height: 100px;
   cursor: pointer;
@@ -114,6 +120,15 @@ export default {
   align-items: center;
   transition: transform 0.1s ease-in-out;
   z-index: 4;
+}
+.one {
+  background: #daa520;
+}
+.two {
+  background: #c0c0c0;
+}
+.three {
+  background: #8b4513;
 }
 .wrapper .wrapper__content ul li:hover {
   z-index: 5;

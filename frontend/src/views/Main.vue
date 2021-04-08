@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar />
-    <div class="text">
+    <div>
       <div class="section1 purpleline">
         <img
           class="picture1"
@@ -81,17 +81,6 @@ export default {
 </script>
 
 <style scoped>
-@font-face {
-  font-family: 'account_font';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff')
-    format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-.text {
-  font-family: 'account_font';
-  font-size: x-large;
-}
 .blockduce {
   margin-top: 200px;
   margin-bottom: 200px;
@@ -155,7 +144,7 @@ export default {
 .description3 {
   text-align: left;
   position: absolute;
-  margin-left: 190px;
+  margin-left: 200px;
   margin-top: 50px;
   font-size: 20px;
   font-weight: 500;
@@ -176,7 +165,7 @@ export default {
 .description4 {
   text-align: left;
   position: absolute;
-  margin-top: 60px;
+  margin-top: 80px;
   margin-left: 30px;
   font-size: 20px;
   font-weight: 500;

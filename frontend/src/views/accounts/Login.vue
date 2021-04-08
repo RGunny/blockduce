@@ -1,5 +1,6 @@
 <template>
   <div class="background">
+    <Navbar />
     <div class="container p-3 mt-5 bg-light-ivory login-form">
       <h3 class="login-title">
         <strong>로그인</strong>
@@ -77,9 +78,13 @@ import { mapActions, mapMutations } from 'vuex';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import SERVER from '@/api/api';
+import Navbar from '@/components/common/nav.vue';
 
 export default {
   name: 'Login',
+  components: {
+    Navbar,
+  },
   data() {
     return {
       loginData: {
@@ -243,7 +248,7 @@ export default {
 }
 
 .container {
-  width: 30%;
+  width: 60%;
   border-radius: 25px;
 }
 
@@ -256,7 +261,7 @@ h3 {
   border-style: none;
   border-bottom: 1px solid #000000;
   background-color: transparent;
-  width: 80%;
+  width: 100%;
   padding: 10px;
   padding-left: 10px;
   padding-right: 10px;
@@ -266,7 +271,7 @@ h3 {
 .login-button {
   background-color: #3743ac;
   color: #f8f8f8;
-  width: 80%;
+  width: 100%;
 }
 
 .divide {
@@ -279,7 +284,7 @@ h3 {
 .kakao {
   background-color: #ffe812;
   border-radius: 5px;
-  width: 80%;
+  width: 100%;
 }
 
 .inputs:focus {
