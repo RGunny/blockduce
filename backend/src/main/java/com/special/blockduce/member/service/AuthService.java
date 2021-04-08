@@ -1,36 +1,36 @@
 package com.special.blockduce.member.service;
 
+import com.special.blockduce.config.UserRole;
 import com.special.blockduce.member.domain.Member;
-import com.special.blockduce.member.domain.Salt;
-import com.special.blockduce.member.repository.MemberRepository;
-import com.special.blockduce.utils.SaltUtil;
-import org.springframework.stereotype.Service;
+import com.special.blockduce.member.domain.request.SignupMemberRequest;
+import javassist.NotFoundException;
 
-@Service
-public class AuthService {
-    private MemberRepository memberRepository;
+public interface AuthService {
+    final String REDIS_CHANGE_PASSWORD_PREFIX="CPW";
 
-    public AuthService (MemberRepository memberRepository){
-        this.memberRepository = memberRepository;
-    }
+    Member signUpMember(SignupMemberRequest signupMemberRequest);
 
-    public void signUpMember(Member member){
-        String password = member.getPassword();
-        String salt = SaltUtil.genSalt();
-        member.setSalt(new Salt(salt));
-        member.setPassword(SaltUtil.encodePassword(salt,password));
-        memberRepository.save(member);
-    }
+    Member loginMember(String id, String password) throws Exception;
 
-    public Member loginMember(String id, String password)throws Exception{
-        Member memeber = memberRepository.findMemberByname(id);
-        if(memeber == null) throw new Exception("멤버가 조회 되지 않습니다.");
-        String salt = memeber.getSalt().getSalt();
-        password = SaltUtil.encodePassword(salt,password);
-        if(!memeber.getPassword().equals(password)){
-            throw new Exception("비밀번호가 일치하지 않습니다.");
-        }
-        return memeber;
-    }
+    boolean existsByEmail(String email);
+
+    void verifyEmail(String key) throws NotFoundException;
+
+    void sendVerificationMail(Member member) throws NotFoundException;
+
+    void resendVerificationMail(Member member) throws NotFoundException;
+
+    void modifyUserRole(Member member, UserRole userRole);
+
+    boolean isPasswordUuidValidate(String key);
+
+    void changePassword(Member member, String password) throws NotFoundException;
+
+    void requestChangePassword(Member member) throws NotFoundException;
+
+    Member findMemberByName(String name);
+
+    Member findMemberByEmail(String email);
+
 
 }

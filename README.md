@@ -9,6 +9,56 @@ http://j4b107.p.ssafy.io/login
 
 ---
 
+# 기술 스택
+
+---
+
+# Convention
+
+## Git Convention
+## Git flow 규약
+
+### 우아한 형제들 기술 블로그d
+
+[우린 Git-flow를 사용하고 있어요 - 우아한형제들 기술 블로그](https://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)
+
+### 브랜치 네이밍
+
+- Backend : master → develop → feature-(JIRA에픽 name) → JIRA이슈번호_BE
+- Frontend : master → develop → feature-(JIRA에픽 name) → JIRA이슈번호_FE
+    - master : 제품으로 출시될 수 있는 브랜치
+    - develop : 다음 출시 버전을 개발하는 브랜치
+
+                     (기능이 완성되면 feature를 develop에 merge 시킴)
+
+    - feature : 기능을 개발하는 브랜치(JIRA 에픽 네임으로 설정 ex)Login)
+
+                     (JIRA 이슈가 해결되면 이슈를 feature에 merge시킴)
+
+    - JIRA-BE : JIRA에 등록된 이슈 대로 브랜치를 만들어 기능을 만듦
+
+### Merge 규칙
+
+- 작업을 시작하기 전에 JIRA 이슈를 생성한다.
+- 이슈는 되도록 하나의 커밋으로 한다.
+- 커밋 그래프는 최대한 단순하게 한다.
+- 서로 공유하는 브랜치의 커밋 그래프는 함부로 변경하지 않는다.
+- merge 를 하기 전 적어도 1명의 팀원에게 코드 리뷰 후 merge를 시킴
+- 자신의 Pull Request는 스스로 merge를 한다.
+
+### 브랜치 Fork하기
+
+1. 프로젝트(upstream)에서 fork를 떠서 나의 레포(origin)를 생성한다
+2. 나의 레포(origin)에서 나의 컴퓨터(local)에 git clone 을 받는다
+3. 로컬에서 upstream을 추가해준다.
+
+    > $ git remote add upstream [https://lab.ssafy.com/s04-webmobile2-sub3/s04p13b204.git](https://lab.ssafy.com/s04-webmobile2-sub3/s04p13b204.git)
+
+    > $ git remote [-](https://lab.ssafy.com/s04-webmobile2-sub2/s04p12b204.git)v 로 확인
+
+    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b36e72b0-2051-46a3-851f-a74f7ffa751e/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b36e72b0-2051-46a3-851f-a74f7ffa751e/Untitled.png)
+
+4. 로컬에서 upstream/feature 자신이 작업할 feature-{작업내용} 를 생성한다. (track은 upstream/feature
 
   ![슬라이드2](https://user-images.githubusercontent.com/70404643/112589331-3e5af200-8e44-11eb-840e-1d7ab171f4bc.PNG)
 

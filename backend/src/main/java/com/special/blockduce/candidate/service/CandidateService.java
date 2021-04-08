@@ -1,23 +1,49 @@
 package com.special.blockduce.candidate.service;
 
 import com.special.blockduce.candidate.domain.Candidate;
-import com.special.blockduce.candidate.dto.ReadCandidatesResponse;
+import com.special.blockduce.candidate.dto.CandidateDto;
 import com.special.blockduce.candidate.repository.CandidateRepository;
+import com.special.blockduce.member.domain.Member;
+import com.special.blockduce.member.dto.MemberForm;
+import com.special.blockduce.utils.SaltUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class CandidateService {
 
     private final CandidateRepository candidateRepository;
 
-    public List<ReadCandidatesResponse> findCandidates(){
-        return candidateRepository.findReadCandidatesResponse();
+//    public List<ReadCandidatesResponse> findCandidates(){
+//        return candidateRepository.findReadCandidatesResponse();
+//    }
+
+    public List<CandidateDto> findAll() {
+        return (List) candidateRepository.findAll();
+    }
+
+    public void join(CandidateDto form) {
+
+        String key = form.getKey();
+        String salt = SaltUtil.genSalt();
+
+        Candidate candidate = Candidate.builder().
+                age(form.getAge()).
+                agency(form.getAgency()).
+                img(form.getImg()).
+                name(form.getName()).
+                account1(form.getAccount()).
+                dbc1(form.getDbc()).
+                eth1(form.getEth()).
+                intro(form.getIntro()).
+                key1(SaltUtil.encodePassword(salt,key)).
+                build();
+
+        candidateRepository.save(candidate);
     }
 }

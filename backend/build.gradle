@@ -19,6 +19,8 @@ repositories {
 }
 
 dependencies {
+    implementation group: 'org.web3j', name: 'core', version: '4.6.3'
+    implementation 'com.squareup.okhttp3:okhttp:4.8.0'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -26,8 +28,13 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-mail'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis'
     implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.6.2'
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.1'
     runtimeOnly 'com.h2database:h2'

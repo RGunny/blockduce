@@ -1,14 +1,44 @@
 package com.special.blockduce.member.dto;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
-
-import javax.validation.constraints.NotEmpty;
+import lombok.RequiredArgsConstructor;
 
 @Getter
-@Setter
+@RequiredArgsConstructor
 public class MemberForm {
+    private Long id;
     private String email;
     private String password;
-    private String memberName;
+    private String name;
+    private String img;
+    private String token;
+    private String kid;
+    private String account;
+    private Double eth;
+    private Double dbc;
+    private Boolean ismem;
+    private String nickname;
+    private String intro;
+//    private String key;
+
+    @Builder
+    public MemberForm(Long id,String email,String password,String name,String img,String token,
+                      String kid, String account,Double eth,Double dbc,Boolean ismem,String nickname,
+                      String intro) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.img = img;
+        this.token = token;
+        this.kid = kid;
+        this.account = account;
+        this.eth = eth;
+        this.dbc = dbc;
+        this.ismem = ismem;
+        this.nickname = nickname;
+        this.intro = intro;
+//        this.key = key;
+    }
 }
