@@ -307,7 +307,7 @@ export default {
 
 <style scoped>
 .container {
-  width: 80%;
+  width: 30%;
   border-radius: 25px;
 }
 

@@ -16,13 +16,13 @@
     <div class="img">
           <img v-bind:src="form.img"/>
     </div>
-
+    <div class = "content">
         <vs-input
                   type="text"
                   v-text="form.name"
                   v-model="form.name"
                   placeholder="Password"
-                  class="form-control"
+                  class="form-control input"
                   required
                   disabled>
         </vs-input>
@@ -32,20 +32,18 @@
                   v-text="form.email"
                   v-model="form.email"
                   placeholder="form.name"
-                  class="form-control"
+                  class="form-control input"
                   required
                   disabled>
         </vs-input>
+        <vs-input class="interval input" type="nickname" v-model="form.nickname" placeholder="닉네임">
+        </vs-input>
 
-        <vs-input class="interval" type="nickname" v-model="form.nickname" placeholder="닉네임">
+        <vs-input class="interval input" type="intro" v-model="form.intro" placeholder="자기소개">
           
         </vs-input>
 
-        <vs-input class="interval" type="intro" v-model="form.intro" placeholder="자기소개">
-          
-        </vs-input>
-
-        <vs-input class="interval" type="password" v-model="form.password" placeholder="비밀번호">
+        <vs-input class="interval input" type="password" v-model="form.password" placeholder="비밀번호">
           <template v-if="validPassword" #message-success>
             안전한 비밀번호입니다!
           </template>
@@ -55,7 +53,7 @@
           </template>
         </vs-input>
 
-        <vs-input class="interval" type="password" v-model="form.passwordValid" placeholder="비밀번호 확인">
+        <vs-input class="interval input" type="password" v-model="form.passwordValid" placeholder="비밀번호 확인">
           <template v-if="!same" #message-danger>
             비밀번호가 일치하지 않습니다.
           </template>
@@ -64,9 +62,10 @@
         <vs-button type="submit" class="intervalForButton" color="#7d33ff" flat>
           회원가입
         </vs-button>
+        </div>
+    </div>
 </div>
 
-       </div>
     </div>
     </b-form>
   </div>
@@ -203,6 +202,17 @@ export default {
 }
 
 </script>
-<style >
+<style scoped>
+.content{
+  text-align: -webkit-center;
+}
 
+.vs-input-content{
+  align-self: center;
+}
+.input{
+  width: 80%;
+  align-self: center;
+  align-items: center;
+}
 </style>
