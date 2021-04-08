@@ -48,6 +48,15 @@ Vue.use(VueToastr, {
 });
 Vue.use(VueRouter);
 
+const requireAuth = () => (to, from, next) => {
+  if (localStorage.getItem('token') !== null) {
+    return next();
+  }
+  alert("로그인하세요!")
+  next('/');
+};
+
+
 const routes = [
   {
     path: '/home',
@@ -140,6 +149,7 @@ const routes = [
     path: '/account',
     name: 'account',
     component: Account,
+    beforeEnter: requireAuth()
   },
   {
     path: '/election',

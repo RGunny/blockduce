@@ -51,6 +51,7 @@ export default {
     this.isToken = localStorage.getItem('token');
   },
   methods: {
+
     clickLogin() {
       router.push({ name: 'Login' });
     },
