@@ -117,6 +117,7 @@ export default {
     clickLogin() {
       if (this.isSubmit) {
         this.login(this.loginData);
+        localStorage.setItem('token', "loginData");
       }
     },
     kakaoLogin() {

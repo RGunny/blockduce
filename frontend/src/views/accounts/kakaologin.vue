@@ -197,7 +197,6 @@ export default {
         this.login();
       });
     },
-
   },
 }
 
