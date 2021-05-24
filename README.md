@@ -4,70 +4,21 @@
 
   ![BLOCKDUCE_LOGO](https://user-images.githubusercontent.com/70404643/112577381-8f181e00-8e37-11eb-86f2-b35b12c89ce6.png)
 
-  > [**BLOCKDUCE** **LINK**📌]
-http://j4b107.p.ssafy.io/login
+  > [**BLOCKDUCE** **LINK**📌](http://j4b107.p.ssafy.io/))
 
 ---
 
-# 기술 스택
 
----
 
-# Convention
+![슬라이드2](https://user-images.githubusercontent.com/70404643/112589331-3e5af200-8e44-11eb-840e-1d7ab171f4bc.PNG)
 
-## Git Convention
-## Git flow 규약
+|     Name     |                            황호연                            |                            류건희                            |                            박상우                            |                            최주아                            |                            황영준                            |
+| :----------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
+| **Profile**  | <img src = "https://user-images.githubusercontent.com/70404643/112585091-80803580-8e3c-11eb-9d5d-8b5972443cf1.jpg" width="100px" height="150px"> | <img src = "https://user-images.githubusercontent.com/70404643/112585083-7d854500-8e3c-11eb-8ed0-45f16d12b940.jpg" width="100px" height="150px"> | <img src = "https://user-images.githubusercontent.com/70404643/112585018-63e3fd80-8e3c-11eb-98ca-46264e090ef4.jpg" width="100px" height="150px"> | <img src = "https://user-images.githubusercontent.com/40309812/113977771-0c9f4d80-987e-11eb-8c1a-cccc9125fdec.png" width="100px" height="150px"> | <img src = "https://user-images.githubusercontent.com/70404643/112585061-7827fa80-8e3c-11eb-823c-7940cfe1e206.jpg" width="100px" height="150px"> |
+|   **R&R**    |                           **팀장**                           |                           **팀원**                           |                           **팀원**                           |                           **팀원**                           |                           **팀원**                           |
+|   **Git**    |        [@HoYeonHwang](https://github.com/HoYeonHwang)        |             [@RGunny](https://github.com/RGunny)             |              [@upswp](https://github.com/upswp)              |            [@bourzua](https://github.com/bourzua)            |         [@junjun0905](https://github.com/junjun0905)         |
+| **Position** |       Blockchain, Backend, Frontend, Project Manager        |                 Backend, CI/CD, Tech Leader                  |                         Backend, QA                          |                           Frontend                           |                    Backend, Frontend, DBA                    |
 
-### 우아한 형제들 기술 블로그d
-
-[우린 Git-flow를 사용하고 있어요 - 우아한형제들 기술 블로그](https://woowabros.github.io/experience/2017/10/30/baemin-mobile-git-branch-strategy.html)
-
-### 브랜치 네이밍
-
-- Backend : master → develop → feature-(JIRA에픽 name) → JIRA이슈번호_BE
-- Frontend : master → develop → feature-(JIRA에픽 name) → JIRA이슈번호_FE
-    - master : 제품으로 출시될 수 있는 브랜치
-    - develop : 다음 출시 버전을 개발하는 브랜치
-
-                     (기능이 완성되면 feature를 develop에 merge 시킴)
-
-    - feature : 기능을 개발하는 브랜치(JIRA 에픽 네임으로 설정 ex)Login)
-
-                     (JIRA 이슈가 해결되면 이슈를 feature에 merge시킴)
-
-    - JIRA-BE : JIRA에 등록된 이슈 대로 브랜치를 만들어 기능을 만듦
-
-### Merge 규칙
-
-- 작업을 시작하기 전에 JIRA 이슈를 생성한다.
-- 이슈는 되도록 하나의 커밋으로 한다.
-- 커밋 그래프는 최대한 단순하게 한다.
-- 서로 공유하는 브랜치의 커밋 그래프는 함부로 변경하지 않는다.
-- merge 를 하기 전 적어도 1명의 팀원에게 코드 리뷰 후 merge를 시킴
-- 자신의 Pull Request는 스스로 merge를 한다.
-
-### 브랜치 Fork하기
-
-1. 프로젝트(upstream)에서 fork를 떠서 나의 레포(origin)를 생성한다
-2. 나의 레포(origin)에서 나의 컴퓨터(local)에 git clone 을 받는다
-3. 로컬에서 upstream을 추가해준다.
-
-    > $ git remote add upstream [https://lab.ssafy.com/s04-webmobile2-sub3/s04p13b204.git](https://lab.ssafy.com/s04-webmobile2-sub3/s04p13b204.git)
-
-    > $ git remote [-](https://lab.ssafy.com/s04-webmobile2-sub2/s04p12b204.git)v 로 확인
-
-    ![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b36e72b0-2051-46a3-851f-a74f7ffa751e/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b36e72b0-2051-46a3-851f-a74f7ffa751e/Untitled.png)
-
-4. 로컬에서 upstream/feature 자신이 작업할 feature-{작업내용} 를 생성한다. (track은 upstream/feature
-
-  ![슬라이드2](https://user-images.githubusercontent.com/70404643/112589331-3e5af200-8e44-11eb-840e-1d7ab171f4bc.PNG)
-
-|     Name     |                            황호연                            |                            류건희                            |                            박상우                            |                 최주아                 |                            황영준                            |
-| :----------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :------------------------------------: | :----------------------------------------------------------: |
-| **Profile**  | ![KakaoTalk_20210326_135538764](https://user-images.githubusercontent.com/70404643/112585091-80803580-8e3c-11eb-9d5d-8b5972443cf1.jpg) | ![KakaoTalk_20210326_135652125](https://user-images.githubusercontent.com/70404643/112585083-7d854500-8e3c-11eb-8ed0-45f16d12b940.jpg) | **![A급](https://user-images.githubusercontent.com/70404643/112585018-63e3fd80-8e3c-11eb-98ca-46264e090ef4.jpg)** |                                        | ![KakaoTalk_20210326_135558007](https://user-images.githubusercontent.com/70404643/112585061-7827fa80-8e3c-11eb-823c-7940cfe1e206.jpg) |
-|   **R&R**    |                           **팀장**                           |                           **팀원**                           |                           **팀원**                           |                **팀원**                |                           **팀원**                           |
-|   **Git**    |        [@HoYeonHwang](https://github.com/HoYeonHwang)        |             [@RGunny](https://github.com/RGunny)             |              [@upswp](https://github.com/upswp)              | [@bourzua](https://github.com/bourzua) |         [@junjun0905](https://github.com/junjun0905)         |
-| **Position** |                   Backend, Project Manager                   |                     Backend, Tech Leader                     |                         Backend, QA                          |         Frontend, Tech Leader          |                        Backend, CI/CD                        |
 
   ## Team Communication Rule 🤙
 
@@ -83,7 +34,7 @@ http://j4b107.p.ssafy.io/login
 
     - 비대면으로 이뤄지는 모든 환경은 오해를 하기 쉬운 환경이므로 문제가 생기면 항상 사전에 미리미리 말하기!
 
-  - ### [Git Convention🧐](docs/Git Convention.md)
+  - ### [Git Convention🧐](docs/Git Setting.md)
 
   - ### [JIRA Convention🤓](docs/JIRA Convention.md) 
 
@@ -100,65 +51,240 @@ http://j4b107.p.ssafy.io/login
 
 
 ---
-  - 어카운트 페이지
-<img src="/uploads/c275149c19f1424518e945b0c5e249c0/화면_캡처_2021-04-02_104718.png"  width="600" height="500">
+## Pipeline
 
-    - 지갑을 생성한 후 투표횟수 투표에 사용한 DBC, 보상으로 받은 ETH 등을 확인할 수 있습니다.
-    - * DBC는 BLOCK DUCE에서 투표에 사용되는 재화 입니다. ETH는 투표에 대한 보상으로 받는 재화입니다.
+### 1. System
 
-  - 카카오 로그인 구조
-<img src="/uploads/70e2cf44475501195e81d0eb65b7616a/화면_캡처_2021-04-07_220534.png"  width="600" height="500">
-
-    - BLOCK DUCE는 소셜 로그인을 지원합니다.
-
-   - 일반 로그인
-<img src="/uploads/9ab7525c5e843865357b040b3e7b79a3/화면_캡처_2021-04-07_222524.png"  width="600" height="500">
-
-    - 이메일 인증을 통한 일반 로그인 또한 지원합니다.
-    
-- 투표 페이지
-<img src="/uploads/147ccc3f0864bdbf21be9a8a166dbea3/화면_캡처_2021-04-07_223033.png"  width="600" height="500">
-    
-    - 오늘의 보상으로 DBC를 받고 지지하는 후보에게 투표할 수 있습니다.
-
-   - 캘린더 페이지
-<img src="/uploads/e2662807521e098618ea0c4e8fe72b6c/화면_캡처_2021-04-07_223303.png"  width="600" height="500">
-
-    - 캘린더를 통해 자신이 언제 얼마를 어떤 후보자에게 투자했는지 파악할 수 있습니다.
-    
-  <details>
-      <summary>Front 자세히 살펴보기 🌈</summary>
-      <ul>
-          <li>기술스택 ⚙</li>
-      </ul>   
-      <ul>
-          <li>Vue: 2.6.11</li>
-      </ul>
-       <ul>
-          <li>라이브러리 📚</li>
-      </ul>   
-      <ul>
-          <li>Vue: 2.6.11</li>
-      </ul>
-  </details>
+![image](https://user-images.githubusercontent.com/40309812/113986849-ad930600-9888-11eb-80e1-7d07857dbff5.png)
 
 
+
+### 2. Develop
+
+![image](https://user-images.githubusercontent.com/40309812/113986669-758bc300-9888-11eb-98d2-72550dee98f1.png)
+
+### 3. 카카오 로그인 구조
+
+![image](https://user-images.githubusercontent.com/40309812/113989474-6d815280-988b-11eb-8038-11c41886d6ba.png)
+
+
+
+
+
+## Git Graph
+
+- Git Flow 방식 사용
+
+![image](https://user-images.githubusercontent.com/40309812/113998382-f8fee180-9893-11eb-9b86-3e67218953a3.png)
+
+
+
+
+
+## Service Page
+
+### 1.1 로그인
+
+- 일반 로그인 / 카카오 로그인 기능
+
+![로그인1](./docs/page/01_로그인.png)
+
+
+
+
+
+### 1.2. 카카오 로그인(카카오 계정 연동)
+
+![로그인2](./docs/page/02_로그인2.png)
+
+
+
+### 1.3 일반 회원가입
+
+- 일반 회원가입 기능
+  - 프로필 이미지, 이름, 닉네임, 자기소개, 이메일, 비밀번호
+
+![일반회원가입](./docs/page/02_일반로그인.png)
+
+### 1.4 메일 인증
+
+- 회원가입한 이메일로 SMTP를 이용하여 인증 메일 요청
+
+![메일인증](./docs/page/02_메일인증.png)
+
+
+
+
+
+### 2. 메인 페이지
+
+![메인1](./docs/page/03_메인.png)
+
+
+
+
+
+
+
+![메인2](./docs/page/04_메인2.png)
+
+
+
+
+
+### 3.1 계정 페이지
+
+- 계정의 정보를 확인할 수 있습니다.
+  - 이름, 자기소개, 지갑 주소(이더리움), DBC 보유량, ETH(이더리움) 보유량
+
+![계정페이지1](./docs/page/05_계정페이지.png)
+
+
+
+### 3.2 계정 생성 페이지 (이더리움 지갑)
+
+- 사용자의 이더리움 지갑을 생성
+  - 생성시,  이더리움 퍼블릭 네트워크에 연동되는 계정 지급
+    - 지갑 주소(Ethereum Account), 비밀 키(Private Key)
+
+![계정페이지_계정생성](./docs/page/05-1_계정페이지_계정생성.png)
+
+
+
+### 3.3 계정 통계 페이지
+
+- 사용자의 투표 및 보상 정보 확인
+  - 투표 횟수, DBC 받은 횟수, 투표한 DBC 양, 지급받은 DBC 양, ETH(이더리움) 받은 횟수
+    - DBC는 BLOCK DUCE에서 투표에 사용되는 재화 입니다. ETH는 투표에 대한 보상으로 받는 재화
+
+![계정페이지_통계](./docs/page/06_계정페이지_통계.png)
+
+
+
+
+
+### 4.1 투표 페이지
+
+- 사용자가 후보들에게 투표하는 페이지
+  - 사용자의 DBC 보유량 확인(내 DBC 확인)
+  - 투표가능한 일일 DBC 지급(오늘의 보상)
+  - 사용자가 투표한 정보(투표 정보)
+  - 후보자 정보 확인
+  - 원하는 DBC 양만큼 후보자에게 투표 (블록체인 저장)
+    - 원활한 서비스 이용을 위하여 사용자 대신, 서비스에서 투표 정보에 서명 후 컨트랙트 발생
+
+![투표페이지1](./docs/page/07_투표페이지.png)
+
+
+
+![투표페이지2](./docs/page/08_투표페이지2.png)
+
+
+
+### 4.2 나의 투표 정보(Month)
+
+- 월별 사용자의 투표 정보 확인
+  - 투표한 기록이 있는 날짜에 표시
+  - 해당 날 클릭 시, 상세보기 지원
+
+![나의투표정보](./docs/page/09_나의투표정보.png)
+
+
+
+### 4.3 나의 투표 상세 내역(Day)
+
+- 사용자의 특정 날 투표 정보 내역 표시
+  - 날짜, 투표 대상, 투표한 DBC 양, 해당 날 투표한 DBC 총량
+  - 투표한 후보자 클릭 시, 이더리움 퍼블릭 네트워크로 연동(블록체인 트랜잭션 내역 확인)
+
+![투표내역](./docs/page/10_투표내역.png)
+
+
+
+### 5. 투표 현황 페이지
+
+- 현재 투표 순위 표시
+
+  - 후보자 클릭 시, 이더리움 퍼블릭 네트워크로 연동(블록체인 트랜잭션 내역 확인)
+
+  
+
+![투표현황페이지](./docs/page/11_투표현황페이지.png)
+
+
+
+### 6.1 이더리움 퍼블릭 네트워크 연동
+
+- 퍼블릭 네트워크에 올라간 투표 내역(트랜잭션) 확인
+
+![롭슨](./docs/page/12_롭슨.png)
+
+
+
+### 6.2 ERC20 토큰 컨트렉트
+
+- 이더리움 퍼블릭 네트워크에서 투표 내역(DBC)에 대한 컨트렉트 확인
+
+![롭슨_토큰컨트렉트](./docs/page/13_롭슨_토큰컨트렉트.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+## 기술 스택
+
+<details>
+    <summary>Front 자세히 살펴보기 🌈</summary>
+    <ul>
+        <li>기술스택 ⚙</li>
+    </ul>   
+    <ul>
+        <li>Vue: 2.6.11</li>
+    </ul>
+     <ul>
+        <li>라이브러리 📚</li>
+    </ul>   
+    <ul>
+        <li>Vue: 2.6.11</li>
+    </ul>
+</details>
 
   <details>
       <summary>Back 자세히 살펴보기 🔥</summary>
       <ul>
           <li>Swagger: 2.9.2</li>
           <li>Spring Boot</li>
+          <li>Spring Data JPA</li>
           <li>Spring Security</li>
-          <li>Spring Jenkins</li>
-          <li>E2C</li>
+          <li>Gradle</li>
+          <li>SMTP</li>
+          <li>MySQL 8.0.21</li>
+          <li>Redis</li>
       </ul>
   </details>
 
+  <details>
+      <summary>개발, CI/CD 자세히 살펴보기 🔥</summary>
+      <ul>
+          <li>AWS EC2 - Deploy Server</li>
+          <li>AWS S3 - Image(File) Server</li>
+          <li>AWS RDS - DB Server</li>
+          <li>Jenkins </li>
+          <li>GitLab</li>
+          <li>Docker Compose</li>
+      </ul>
+  </details>
 
 
   <br>
 
 ---
 
-  
